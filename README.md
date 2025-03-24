@@ -15,3 +15,5 @@ Next Steps:
 3) output the results into Excel and summary output and logs
 4) review with shane
 
+Overleaf Paper Draft \
+https://www.overleaf.com/read/pfrfjjqybcwk#0b7e84
