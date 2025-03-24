@@ -1,0 +1,20 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="discord">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="team_domain" type="xs:string"/>
+                <xs:element name="channel_name" type="xs:string"/>
+                <xs:element name="message" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ts" type="xs:dateTime" minOccurs="0"/>
+                            <xs:element name="user" type="xs:string" minOccurs="0"/>
+                            <xs:element name="text" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:attribute name="conversation_id" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
