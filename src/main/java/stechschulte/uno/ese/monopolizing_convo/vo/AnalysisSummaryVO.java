@@ -16,4 +16,6 @@ public class AnalysisSummaryVO {
     Integer totalUsers;
     HashMap<String, Integer> userMessageCountMap;
 
+    Integer groupSize;
+
 }

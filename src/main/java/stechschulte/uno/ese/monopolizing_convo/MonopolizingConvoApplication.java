@@ -6,11 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import stechschulte.uno.ese.monopolizing_convo.bindings.Discord;
-import stechschulte.uno.ese.monopolizing_convo.file.util.DataTransformer;
-import stechschulte.uno.ese.monopolizing_convo.file.util.FormatUtil;
-import stechschulte.uno.ese.monopolizing_convo.file.util.MonopolizingCalculator;
-import stechschulte.uno.ese.monopolizing_convo.file.util.XMLFileImport;
+import stechschulte.uno.ese.monopolizing_convo.file.util.*;
 import stechschulte.uno.ese.monopolizing_convo.vo.MessageAnalysisVO;
+import stechschulte.uno.ese.monopolizing_convo.vo.MessageConvoLengthResultsVO;
 import stechschulte.uno.ese.monopolizing_convo.vo.MonopolizedConvoVO;
 
 import java.util.List;
@@ -27,7 +25,8 @@ public class MonopolizingConvoApplication {
 
 			//Step1a - Import XML file (may have different formats if from diff sources)
 			XMLFileImport xmlFileImport = new XMLFileImport();
-			Discord loadedObject = xmlFileImport.loadDiscordFromFileName("input/reduced-pythongeneralApr2020.xml.out");
+			//Discord loadedObject = xmlFileImport.loadDiscordFromFileName("input/reduced-pythongeneralApr2020.xml.out");
+			Discord loadedObject = xmlFileImport.loadDiscordFromFileName("input/pythongeneralApr2020.xml.out");
 
 			//Step2a - Transform to Standard Object (incase input changes)
 			DataTransformer transformer = new DataTransformer();
@@ -39,20 +38,36 @@ public class MonopolizingConvoApplication {
 
 			//Step4 - Logical Validation
 
+			//Step5 - Analyze the Monopolized Conversations to break into metrics
+			AnalysisProcessor analysisProcessor = new AnalysisProcessor();
+			List<MessageConvoLengthResultsVO> msgConvoLengthList = analysisProcessor.processMonopolizedConversations(monoConvoList);
+
 			//StepX - Output
 
+			boolean isConvoBreakdownOutputEnabled = true;
 			for(MonopolizedConvoVO convo : monoConvoList){
-				System.out.println("--------------------------------------------------");
-				System.out.println("Group Size: " + convo.getGroupSize());
-				System.out.println("Group Users: " + convo.getGroupUserList());
-				System.out.println("Messages Size: " + convo.getMonopolizedConversationList().size());
-				System.out.println("Duration of Monopolized Convo: " + FormatUtil.formatDuration(convo.getDurationOfMonopolizedConversation()));
-				System.out.println("Duration Until Next User Added: " + FormatUtil.formatDuration(convo.getDurationUntilNextUserAdded()));
-				System.out.println("Char Length of Text Msg Before New User Added: " + convo.getLengthOfTextMsgBeforeNewUserAdded());
-				for(MessageAnalysisVO msg : convo.getMonopolizedConversationList()){
-					System.out.println("\t Msg: " + msg);
+				if(convo.getMonopolizedConversationList().size() >= 39 && isConvoBreakdownOutputEnabled) {
+					System.out.println("--------------------------------------------------");
+					System.out.println("Group Size: " + convo.getGroupSize());
+					System.out.println("Group Users: " + convo.getGroupUserList());
+					System.out.println("Messages Size: " + convo.getMonopolizedConversationList().size());
+					System.out.println("Duration of Monopolized Convo: " + FormatUtil.formatDuration(convo.getDurationOfMonopolizedConversation()));
+					System.out.println("Duration Until Next User Added: " + FormatUtil.formatDuration(convo.getDurationUntilNextUserAdded()));
+					System.out.println("Char Length of Text Msg Before New User Added: " + convo.getLengthOfTextMsgBeforeNewUserAdded());
+					int i = 1;
+					for (MessageAnalysisVO msg : convo.getMonopolizedConversationList()) {
+						System.out.println("\t " + i + " Msg: " + msg);
+						i++;
+					}
+					System.out.println("--------------------------------------------------");
 				}
-				System.out.println("--------------------------------------------------");
+			}
+
+			boolean isAnalysisSummaryOutputEnabled = true;
+			if (isAnalysisSummaryOutputEnabled){
+				for(MessageConvoLengthResultsVO msgLengthAnalysis : msgConvoLengthList){
+					System.out.println(msgLengthAnalysis);
+				}
 			}
 
 		};
