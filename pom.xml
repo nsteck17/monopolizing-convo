@@ -35,6 +35,12 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>openxml4j</artifactId>
 			<version>1.0-beta</version>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -63,6 +69,7 @@
 			<artifactId>jaxb-runtime</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

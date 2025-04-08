@@ -1,0 +1,4 @@
+Program Type: Clojurians
+Output Folder: output/Clojurians_20250406_183020
+Total Messages: 1577
+Group Size: 2

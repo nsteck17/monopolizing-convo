@@ -14,7 +14,6 @@ Next Steps:
 1) SKIPPED: logical validation of the data
 2) output the results into Excel and summary output and logs
 2b) Enhance some AnalysisSummary outputs
-3) review with shane
 4) Run for many different data sets? Or combine into one? 
 
 Other Ideas:
@@ -24,6 +23,9 @@ C) Analyze "density" of conversation
     if X msg in Y min
 D) Loop in chatgpt toxicity analysis
 E) Using disentanglement ids - how many "concurrent" conversations are happening/overlapping
+F) Users spamming the same message over and over
+  SEE PYTHON GENERAL DATASET SEPT - USER SPAM "LOL JS ON TOP"
+G) Changing of "group size"
 
 Overleaf Paper Draft \
 https://www.overleaf.com/read/pfrfjjqybcwk#0b7e84

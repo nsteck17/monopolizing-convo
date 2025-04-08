@@ -1,0 +1,980 @@
+--------------------------------------------------
+Group Size: 2
+Group Users: [Suleiman, Amri]
+Messages Size: 47
+Duration of Monopolized Convo: 1 days, 5 hours, 36 minutes, 50 seconds
+Duration Until Next User Added: 0 days, 6 hours, 28 minutes, 44 seconds
+Char Length of Text Msg Before New User Added: 33
+	 1 Msg: MessageAnalysisVO{disentangledId=85, text='@notjack Okay so I think the main thing here is establishing the design goals and in particular what the use case is. The API you have is similar to Guava so I'm familiar with it in that regard.My primary design goal is to have short clear and consistent syntax for creating ranges. I see there being two primary use cases  one as a precursor for iteration and the other as being a container for predicates.One thing that consistently bothers me about many functional languages is the lack of namespacing on things. Things like `(atmost 5)` leave a bit to be desired in that regard and it seems like Racket is lacking polymorphism (or at least easy polymorphism) to improve the situation there. Elixir does both of these quite well.One of the goals that both of us shared was the case of dealing with inclusivity as an input parameter. In my opinion this problem still exists because you have to do `(if inclusive (inclusivebound value) (exclusivebound value)`. This is one of the reasons I decided to avoid making these singleton types as inclusivity is naturally true/false and I see this as overengineering.I think the core thing is to decide what this is supposed to do and get on the same page with that before anything else.', sender='Amri', sentTime=Sun Dec 29 23:19:48 CST 2019}
+	 2 Msg: MessageAnalysisVO{disentangledId=85, text='@WillBAnders My goals mostly center around using ranges to build other APIs like range collections and query DSLs.I hear you about the namespacing and inclusivityasaninputparameter. For the namespacing I think the `atmost` `atleast` `greaterthan` and `lessthan` names ought to be changed. Simplest change would be to add the `range` suffix to them like the `closedrange` `openrange` etc. constructors.For inclusivity what about adding a range bound constructor like `(rangebound [value any/c] [type rangeboundtype?])`? So instead of this:```(define (buildrange) (if (computeshouldbeinclusive?) (inclusivebound v) (exclusivebound v)))```You'd do this:```(define (buildrange) (rangebound v (computeboundtype)))(define (computeboundtype) (if (shouldbeinclusive?) inclusive exclusive))```I don't think booleans fit well here because boolean input parameters are hard to read without context. `(rangebound v #t)` doesn't clearly communicate that it's an inclusive bound. Normally I fix that problem with keyword parameters like `(rangebound v #:inclusive? #t)` but that's overly awkward for _required_ parameters. If the inclusivity were an optional parameter it'd have to default one way or the other but there isn't an obvious default so any choice would be arbitrary and make it hard to tell what `(rangebound v)` means.', sender='Suleiman', sentTime=Mon Dec 30 00:02:04 CST 2019}
+	 3 Msg: MessageAnalysisVO{disentangledId=85, text='I personally don't think bounds should be exposed in the API.Something like `(rangebound v #t)` is only awkward if you're providing a literal. If it's a variable then you end up with `(rangebound v lowerinclusive)` or whatever. If it is a literal then use one of the other default forms.', sender='Amri', sentTime=Mon Dec 30 00:06:17 CST 2019}
+	 4 Msg: MessageAnalysisVO{disentangledId=85, text='If it's a variable it's still awkward because you have to remember whether true or false means inclusive or exclusive when you're _producing_ the value.', sender='Suleiman', sentTime=Mon Dec 30 00:07:17 CST 2019}
+	 5 Msg: MessageAnalysisVO{disentangledId=85, text='True is always inclusive. There's plenty of other places to go wrong and somewhere along the line it's a boolean. Treating it as anything other than a boolean makes no sense to me.', sender='Amri', sentTime=Mon Dec 30 00:09:08 CST 2019}
+	 6 Msg: MessageAnalysisVO{disentangledId=85, text='I don't really see why true would always be inclusive. That doesn't seem obvious to me.', sender='Suleiman', sentTime=Mon Dec 30 00:09:58 CST 2019}
+	 7 Msg: MessageAnalysisVO{disentangledId=85, text='Always form the question as isInclusive', sender='Amri', sentTime=Mon Dec 30 00:10:26 CST 2019}
+	 8 Msg: MessageAnalysisVO{disentangledId=85, text='I don't see why that's the default decision. I could certainly _choose_ to do that but I'd have to remember that choice and remember to always be consistent with it. The point of an enum is to use names so I don't have to remember things like that.', sender='Suleiman', sentTime=Mon Dec 30 00:11:48 CST 2019}
+	 9 Msg: MessageAnalysisVO{disentangledId=85, text='I'd be more comfortable with that if enums were easy to work with but they're not. Ultimately I don't use Racket though so it's whatever.', sender='Amri', sentTime=Mon Dec 30 00:12:38 CST 2019}
+	 10 Msg: MessageAnalysisVO{disentangledId=85, text='Dynamic typing and me do not get along in the slightest and no namespacing makes it significantly worse.', sender='Amri', sentTime=Mon Dec 30 00:12:59 CST 2019}
+	 11 Msg: MessageAnalysisVO{disentangledId=85, text='I did just add enum types to rebellion last night so you don't have to make a singleton for each case does that help?', sender='Suleiman', sentTime=Mon Dec 30 00:13:08 CST 2019}
+	 12 Msg: MessageAnalysisVO{disentangledId=85, text='i.e. instead of this:```(definesingletontype inclusive)(definesingletontype exclusive)(define (rangeboundtype? v) (or (inclusive? v) (exclusive? v)))```You can now write this:```(defineenumtype rangeboundtype (inclusive exclusive))```', sender='Suleiman', sentTime=Mon Dec 30 00:14:05 CST 2019}
+	 13 Msg: MessageAnalysisVO{disentangledId=85, text='I saw. I would end up with something like this myself:```(enumcase x [up (...)] [down (...)] [left (...)] [right (...)] #:else (...))```', sender='Amri', sentTime=Mon Dec 30 00:14:40 CST 2019}
+	 14 Msg: MessageAnalysisVO{disentangledId=85, text='At the same time I would personally always end up in the mindset of isItInclusive true/false.', sender='Amri', sentTime=Mon Dec 30 00:15:11 CST 2019}
+	 15 Msg: MessageAnalysisVO{disentangledId=85, text='Because there's only ever two possibilities.', sender='Amri', sentTime=Mon Dec 30 00:15:27 CST 2019}
+	 16 Msg: MessageAnalysisVO{disentangledId=85, text='That's a totally reasonable mindset. I merely would like to be considerate of those (such as myself) who have trouble being so consistent with decisions like that. I've got adhd so I tend to forget which way I did something the last time I did it.', sender='Suleiman', sentTime=Mon Dec 30 00:17:13 CST 2019}
+	 17 Msg: MessageAnalysisVO{disentangledId=85, text='It's a valid concern and one of the reasons I've grown fond of Elixir's atoms.', sender='Amri', sentTime=Mon Dec 30 00:18:35 CST 2019}
+	 18 Msg: MessageAnalysisVO{disentangledId=85, text='Ultimately the questions that are going to be asked are is it bounded or unbounded followed by is the bound inclusive or exclusive. Those are definitely boolean results there. Having to span out to an enumcase can get to be a mess at that point.', sender='Amri', sentTime=Mon Dec 30 00:19:57 CST 2019}
+	 19 Msg: MessageAnalysisVO{disentangledId=85, text='I mostly ended up with cond trees that looked like this:```(define bound (rangeupperbound range))(cond [(unbounded? bound) ...] [(inclusivebound? bound) ...] [else ...]))```', sender='Suleiman', sentTime=Mon Dec 30 00:22:05 CST 2019}
+	 20 Msg: MessageAnalysisVO{disentangledId=85, text='¯\\_(ツ)_/¯', sender='Amri', sentTime=Mon Dec 30 00:24:43 CST 2019}
+	 21 Msg: MessageAnalysisVO{disentangledId=85, text='Ultimately I feel like there's a things happening with types and other stuff that is adding unneeded complexity into things. Exposing bounds is not the way I would go with this as I don't think it's too helpful at that level.', sender='Amri', sentTime=Mon Dec 30 00:27:01 CST 2019}
+	 22 Msg: MessageAnalysisVO{disentangledId=86, text='Which level?', sender='Suleiman', sentTime=Mon Dec 30 00:30:49 CST 2019}
+	 23 Msg: MessageAnalysisVO{disentangledId=85, text='API level.', sender='Amri', sentTime=Mon Dec 30 00:31:45 CST 2019}
+	 24 Msg: MessageAnalysisVO{disentangledId=85, text='Implementation can make some use of things but ultimately in order to use the bound you need to know whether it's a lower bound or upper bound which is encapsulated at the range level.', sender='Amri', sentTime=Mon Dec 30 00:32:31 CST 2019}
+	 25 Msg: MessageAnalysisVO{disentangledId=85, text='I think the API has two levels to it: the surface level and the data model. The latter needs to be exposed so you can convert ranges to and from other things like strings of the form 5 < x <=8 or database queries. I fully expect most users won\'t need or care about that level but anyone who wants to build _libraries_ that incorporate ranges (like a SQL query builder) will need access to the data model. Everyone else will probably use only the smart constructors the query functions like `rangecontains?` and `rangeencloses?` and the operators like `rangespan`. In that case they never need to deal with the complexity of the range bound data model at all.', sender='Suleiman', sentTime=Mon Dec 30 00:37:50 CST 2019}
+	 26 Msg: MessageAnalysisVO{disentangledId=85, text='Most of my use cases are dynamic so I have more experience at that level that hardcoding things. I'll pull something.', sender='Amri', sentTime=Mon Dec 30 00:40:36 CST 2019}
+	 27 Msg: MessageAnalysisVO{disentangledId=85, text='```Range<Integer> range = Range.range( matcher.group(2).equals("") ? Integer.MIN_VALUE : Integer.parseInt(matcher.group(2)), matcher.group(1).equals("(") ? BoundType.OPEN : BoundType.CLOSED, matcher.group(3).equals("") ? Integer.MAX_VALUE : Integer.parseInt(matcher.group(3)), matcher.group(4).equals(")") ? BoundType.OPEN : BoundType.CLOSED)```', sender='Amri', sentTime=Mon Dec 30 00:43:52 CST 2019}
+	 28 Msg: MessageAnalysisVO{disentangledId=85, text='Which uses Guava's range API. Working with that is one of the main reasons I wanted to redesign things because it's a pain.', sender='Amri', sentTime=Mon Dec 30 00:45:45 CST 2019}
+	 29 Msg: MessageAnalysisVO{disentangledId=85, text='Hmm. What if the range API just provided some parsing utils?```Range<Integer> range = Range.parser("[ ) ").parse(str);```', sender='Suleiman', sentTime=Mon Dec 30 00:47:33 CST 2019}
+	 30 Msg: MessageAnalysisVO{disentangledId=85, text='It's too specific.', sender='Amri', sentTime=Mon Dec 30 00:47:46 CST 2019}
+	 31 Msg: MessageAnalysisVO{disentangledId=85, text='`5 < x <= 7` couldn't be modeled in that way.', sender='Amri', sentTime=Mon Dec 30 00:47:57 CST 2019}
+	 32 Msg: MessageAnalysisVO{disentangledId=85, text='Ultimately what you have is you have a bound which could be a value or identifier for unbounded and some type of representation of whether that's inclusive or not.', sender='Amri', sentTime=Mon Dec 30 00:48:33 CST 2019}
+	 33 Msg: MessageAnalysisVO{disentangledId=85, text='What about `[5 ]` v.s. `[5 )`?', sender='Suleiman', sentTime=Mon Dec 30 00:49:11 CST 2019}
+	 34 Msg: MessageAnalysisVO{disentangledId=85, text='Really I think the reason that code is a pain is because you're being forced to write a parser for an adhoc string format. That's always tricker than dealing with data already in known formats.', sender='Suleiman', sentTime=Mon Dec 30 00:49:56 CST 2019}
+	 35 Msg: MessageAnalysisVO{disentangledId=85, text='It's from user input. No alternative.', sender='Amri', sentTime=Mon Dec 30 00:50:42 CST 2019}
+	 36 Msg: MessageAnalysisVO{disentangledId=85, text='In that case the system overwrites it to handle as need be. Unbounded is always exclusive.', sender='Amri', sentTime=Mon Dec 30 00:51:15 CST 2019}
+	 37 Msg: MessageAnalysisVO{disentangledId=85, text='Not an error?', sender='Suleiman', sentTime=Mon Dec 30 00:51:54 CST 2019}
+	 38 Msg: MessageAnalysisVO{disentangledId=85, text='No. This can have some consequences but there's a number of ways to handle them.', sender='Amri', sentTime=Mon Dec 30 00:55:37 CST 2019}
+	 39 Msg: MessageAnalysisVO{disentangledId=85, text='Ultimately an unbounded range does not have inclusivity which is the advantage that having a bound type has.', sender='Amri', sentTime=Mon Dec 30 00:56:17 CST 2019}
+	 40 Msg: MessageAnalysisVO{disentangledId=85, text='Alternatively you can define inclusivity for bounded types which is particularly interesting given that `inf.0` and `inf.0` exist.', sender='Amri', sentTime=Mon Dec 30 00:57:14 CST 2019}
+	 41 Msg: MessageAnalysisVO{disentangledId=85, text='Which gives you a concept of all real numbers.', sender='Amri', sentTime=Mon Dec 30 00:57:38 CST 2019}
+	 42 Msg: MessageAnalysisVO{disentangledId=85, text='right that's part of what the `Range.canonicalize(DiscreteDomain)` method does in Guava', sender='Suleiman', sentTime=Mon Dec 30 00:57:56 CST 2019}
+	 43 Msg: MessageAnalysisVO{disentangledId=85, text='normalize representation of unboundedness for bounded types', sender='Suleiman', sentTime=Mon Dec 30 00:58:08 CST 2019}
+	 44 Msg: MessageAnalysisVO{disentangledId=85, text='Right.', sender='Amri', sentTime=Mon Dec 30 00:58:23 CST 2019}
+	 45 Msg: MessageAnalysisVO{disentangledId=85, text='I believe this was roughly the approach I used however I don't recall if exclusive took unbounded things into account. I know the underlying inclusivity was kept.', sender='Amri', sentTime=Mon Dec 30 00:59:41 CST 2019}
+	 46 Msg: MessageAnalysisVO{disentangledId=85, text='fyi I just wrote this: https://github.com/jackfirth/rebellion/pull/375', sender='Suleiman', sentTime=Mon Dec 30 01:01:59 CST 2019}
+	 47 Msg: MessageAnalysisVO{disentangledId=85, text='pattern matching for tuple types!', sender='Suleiman', sentTime=Tue Dec 31 04:56:39 CST 2019}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Twyla, Jla]
+Messages Size: 50
+Duration of Monopolized Convo: 1 days, 1 hours, 1 minutes, 17 seconds
+Duration Until Next User Added: 0 days, 0 hours, 26 minutes, 37 seconds
+Char Length of Text Msg Before New User Added: 20
+	 1 Msg: MessageAnalysisVO{disentangledId=112, text='I should get around to reading that book myself.', sender='Twyla', sentTime=Mon Jan 13 18:39:37 CST 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=112, text='Have you peeps seen this? https://github.com/exercism/racket/issues/150', sender='Twyla', sentTime=Tue Jan 14 19:11:04 CST 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=112, text='square this function is not defined?', sender='Jla', sentTime=Tue Jan 14 19:11:44 CST 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=112, text='help!', sender='Jla', sentTime=Tue Jan 14 19:11:46 CST 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=112, text='Hm?', sender='Twyla', sentTime=Tue Jan 14 19:11:52 CST 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=112, text='in the drracket', sender='Jla', sentTime=Tue Jan 14 19:11:52 CST 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=112, text='iide', sender='Jla', sentTime=Tue Jan 14 19:11:53 CST 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=112, text='Can you be more specific?', sender='Twyla', sentTime=Tue Jan 14 19:12:08 CST 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=112, text='the intrepreter in drRacket ide shows an error', sender='Jla', sentTime=Tue Jan 14 19:12:41 CST 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=112, text='square : this function is not defined', sender='Jla', sentTime=Tue Jan 14 19:12:55 CST 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=112, text='What are you trying to do?', sender='Twyla', sentTime=Tue Jan 14 19:13:04 CST 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=112, text='(square 10 solid red")', sender='Jla', sentTime=Tue Jan 14 19:13:40 CST 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=112, text='Is that all?', sender='Twyla', sentTime=Tue Jan 14 19:14:00 CST 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=112, text='yes lul', sender='Jla', sentTime=Tue Jan 14 19:14:06 CST 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=112, text='If so you need to import the image library.', sender='Twyla', sentTime=Tue Jan 14 19:14:11 CST 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=112, text='i did', sender='Jla', sentTime=Tue Jan 14 19:14:18 CST 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=112, text='circle /rectangle do work', sender='Jla', sentTime=Tue Jan 14 19:14:32 CST 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=112, text='Well then that's not all. ;p', sender='Twyla', sentTime=Tue Jan 14 19:14:38 CST 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=112, text='im starting off with the htdp', sender='Jla', sentTime=Tue Jan 14 19:14:52 CST 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=112, text='the second version's better than the first right? for beginners', sender='Jla', sentTime=Tue Jan 14 19:15:11 CST 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=112, text='I recommend the second version yeah.', sender='Twyla', sentTime=Tue Jan 14 19:15:25 CST 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=112, text='And if you're following the second version don't forget that the library name is `2htdp` not `htdp`.', sender='Twyla', sentTime=Tue Jan 14 19:15:54 CST 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=112, text='yeah', sender='Jla', sentTime=Tue Jan 14 19:16:21 CST 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=112, text='but isnt it in the language<teachpacks thing?', sender='Jla', sentTime=Tue Jan 14 19:16:35 CST 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=112, text='Honestly I have no idea since I don't use DrRacket.', sender='Twyla', sentTime=Tue Jan 14 19:17:23 CST 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=112, text='But you need `2htdp/image`.', sender='Twyla', sentTime=Tue Jan 14 19:17:37 CST 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=112, text='oh :c', sender='Jla', sentTime=Tue Jan 14 19:17:43 CST 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=112, text='Pick HtDP/2e from the menu instead of HtDP.', sender='Twyla', sentTime=Tue Jan 14 19:19:42 CST 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=112, text='ive done it  ty for the help tho!', sender='Jla', sentTime=Tue Jan 14 19:19:58 CST 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=112, text='Does it work now?', sender='Twyla', sentTime=Tue Jan 14 19:20:19 CST 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=112, text='yay', sender='Jla', sentTime=Tue Jan 14 19:20:53 CST 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=112, text=':p', sender='Jla', sentTime=Tue Jan 14 19:20:54 CST 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=112, text='👍', sender='Twyla', sentTime=Tue Jan 14 19:21:00 CST 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=112, text='why does this thing take much time for giving the output :c', sender='Jla', sentTime=Tue Jan 14 19:21:32 CST 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=112, text='How long does it take?', sender='Twyla', sentTime=Tue Jan 14 19:21:49 CST 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=112, text='45 secs lul', sender='Jla', sentTime=Tue Jan 14 19:22:14 CST 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=112, text='DrRacket is a tad slow unfortunately.', sender='Twyla', sentTime=Tue Jan 14 19:22:16 CST 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=112, text='oh', sender='Jla', sentTime=Tue Jan 14 19:22:20 CST 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=112, text='That's the price to pay for extensibility.', sender='Twyla', sentTime=Tue Jan 14 19:22:33 CST 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=112, text='ouii', sender='Jla', sentTime=Tue Jan 14 19:22:40 CST 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=112, text='any racket app', sender='Jla', sentTime=Tue Jan 14 19:23:15 CST 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=112, text='for android!?', sender='Jla', sentTime=Tue Jan 14 19:23:22 CST 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=112, text='Racket works on Android but I don't think anyone's ported a development environment to it.', sender='Twyla', sentTime=Tue Jan 14 19:24:07 CST 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=112, text='oh :(', sender='Jla', sentTime=Tue Jan 14 19:24:30 CST 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=112, text='I would try my hand at it if I knew anything about mobile development.', sender='Twyla', sentTime=Tue Jan 14 19:25:21 CST 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=112, text='Haha', sender='Twyla', sentTime=Tue Jan 14 19:25:23 CST 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=112, text='Oh I remember now. Racket is in Termux's repos.', sender='Twyla', sentTime=Tue Jan 14 19:36:59 CST 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=112, text='I don't know if it comes with the GUI portions though.', sender='Twyla', sentTime=Tue Jan 14 19:37:10 CST 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=112, text='Ah no it doesn't.', sender='Twyla', sentTime=Tue Jan 14 19:38:47 CST 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=113, text='Better than nothing.', sender='Twyla', sentTime=Tue Jan 14 19:40:55 CST 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Suleiman, Zeplyn]
+Messages Size: 50
+Duration of Monopolized Convo: 0 days, 3 hours, 6 minutes, 23 seconds
+Duration Until Next User Added: 0 days, 8 hours, 8 minutes, 54 seconds
+Char Length of Text Msg Before New User Added: 13
+	 1 Msg: MessageAnalysisVO{disentangledId=123, text='darn lazy racket is not the fast one', sender='Zeplyn', sentTime=Sat Jan 18 03:08:14 CST 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=122, text='makes sense under the hood it's creating a promise for every single expression (including subexpressions)', sender='Suleiman', sentTime=Sat Jan 18 03:49:59 CST 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=123, text='oh geez', sender='Zeplyn', sentTime=Sat Jan 18 05:02:24 CST 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=122, text='yeah', sender='Suleiman', sentTime=Sat Jan 18 05:02:47 CST 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=123, text='9535ms vs 164ms', sender='Zeplyn', sentTime=Sat Jan 18 05:04:13 CST 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=123, text='_ouch_', sender='Suleiman', sentTime=Sat Jan 18 05:06:48 CST 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=123, text='my language is slow', sender='Zeplyn', sentTime=Sat Jan 18 05:10:03 CST 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=123, text='sorry the implementation', sender='Zeplyn', sentTime=Sat Jan 18 05:10:17 CST 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=123, text='there are plenty of fast interpreters', sender='Zeplyn', sentTime=Sat Jan 18 05:10:25 CST 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=123, text='def gonna pay for beautyful racket soon if i dont see a reason not to within the next week or so', sender='Zeplyn', sentTime=Sat Jan 18 05:47:28 CST 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=124, text='what sort of language are you making?', sender='Suleiman', sentTime=Sat Jan 18 05:49:06 CST 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=123, text='lua', sender='Zeplyn', sentTime=Sat Jan 18 05:50:32 CST 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=123, text='i could not find an implementation for racket', sender='Zeplyn', sentTime=Sat Jan 18 05:50:56 CST 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=123, text='and i figure that any so called language oriented programming is valid without a lua implenetation', sender='Zeplyn', sentTime=Sat Jan 18 05:51:22 CST 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=123, text='like geez there are like 4 for java and one for python i think', sender='Zeplyn', sentTime=Sat Jan 18 05:51:53 CST 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=123, text='hell yeah I'm all for a `#lang lua` implementation', sender='Suleiman', sentTime=Sat Jan 18 05:52:24 CST 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=123, text='i mean', sender='Zeplyn', sentTime=Sat Jan 18 05:52:35 CST 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=123, text='i figured out how to `#lang lua`', sender='Zeplyn', sentTime=Sat Jan 18 05:52:44 CST 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=123, text='but actually getting it to work is hard', sender='Zeplyn', sentTime=Sat Jan 18 05:52:50 CST 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=123, text='because the lua library does some funky things', sender='Zeplyn', sentTime=Sat Jan 18 05:52:58 CST 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=123, text='I bet', sender='Suleiman', sentTime=Sat Jan 18 05:53:03 CST 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=123, text='is your code online somewhere?', sender='Suleiman', sentTime=Sat Jan 18 05:53:13 CST 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=123, text='soon', sender='Zeplyn', sentTime=Sat Jan 18 05:53:16 CST 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=123, text='actually', sender='Zeplyn', sentTime=Sat Jan 18 05:53:18 CST 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=123, text='within 5 minutes', sender='Zeplyn', sentTime=Sat Jan 18 05:53:22 CST 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=123, text='gimmie a sec', sender='Zeplyn', sentTime=Sat Jan 18 05:53:24 CST 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=123, text='yay!', sender='Suleiman', sentTime=Sat Jan 18 05:53:34 CST 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=123, text='sorry both my wifi and dog decided to stop working for a bit', sender='Zeplyn', sentTime=Sat Jan 18 06:07:22 CST 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=123, text='https://github.com/ShawSumma/lure', sender='Zeplyn', sentTime=Sat Jan 18 06:07:59 CST 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=123, text='note that it is a BIG mess', sender='Zeplyn', sentTime=Sat Jan 18 06:08:06 CST 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=123, text='it kinda takes some of the code from megaparsack', sender='Zeplyn', sentTime=Sat Jan 18 06:08:22 CST 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=123, text='but not that much', sender='Zeplyn', sentTime=Sat Jan 18 06:08:32 CST 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=123, text='worry not you are allowed to make messes', sender='Suleiman', sentTime=Sat Jan 18 06:08:48 CST 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=123, text='learning and trying are good things to do', sender='Suleiman', sentTime=Sat Jan 18 06:09:15 CST 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=123, text='this sounds very true', sender='Zeplyn', sentTime=Sat Jan 18 06:09:37 CST 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=123, text='wait its broken!?', sender='Zeplyn', sentTime=Sat Jan 18 06:10:40 CST 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=123, text='broken how?', sender='Suleiman', sentTime=Sat Jan 18 06:11:54 CST 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=123, text='i commented out a line accedently', sender='Zeplyn', sentTime=Sat Jan 18 06:12:06 CST 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=123, text='fixed', sender='Zeplyn', sentTime=Sat Jan 18 06:12:08 CST 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=123, text='😦', sender='Zeplyn', sentTime=Sat Jan 18 06:12:10 CST 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=123, text='😮', sender='Suleiman', sentTime=Sat Jan 18 06:12:17 CST 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=123, text='```lua#lang lualocal function fib(n) if n < 2 then return n else return fib(n2) + fib(n1) endendprint(fib(30))```', sender='Zeplyn', sentTime=Sat Jan 18 06:12:27 CST 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=123, text='luckily lua only supports 1 `#` comment', sender='Zeplyn', sentTime=Sat Jan 18 06:12:37 CST 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=123, text='but does not require a shebang', sender='Zeplyn', sentTime=Sat Jan 18 06:12:44 CST 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=123, text='Would you be interested in putting it on the package catalog too?', sender='Suleiman', sentTime=Sat Jan 18 06:13:16 CST 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=123, text='when it is a bit less incomplete yes', sender='Zeplyn', sentTime=Sat Jan 18 06:13:36 CST 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=123, text='wonderful 🙂', sender='Suleiman', sentTime=Sat Jan 18 06:13:47 CST 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=123, text='i hope to start writing lua in lua', sender='Zeplyn', sentTime=Sat Jan 18 06:14:19 CST 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=123, text='but like the whole time being on racket', sender='Zeplyn', sentTime=Sat Jan 18 06:14:26 CST 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=123, text='thats far off', sender='Zeplyn', sentTime=Sat Jan 18 06:14:37 CST 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Temperance, Macia]
+Messages Size: 176
+Duration of Monopolized Convo: 0 days, 5 hours, 46 minutes, 46 seconds
+Duration Until Next User Added: 0 days, 5 hours, 30 minutes, 3 seconds
+Char Length of Text Msg Before New User Added: 16
+	 1 Msg: MessageAnalysisVO{disentangledId=60, text='> Put two execuable files together@Deleted User do you mean a linker?(Edit)My mistake there are tools that do that but not in Racket.', sender='Macia', sentTime=Thu Apr 02 16:16:02 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=62, text='i wanted to make a DAW proof of concept and i made minor progress in that but i kind of want to put that on hold and make a music control DSL or soemthing', sender='Temperance', sentTime=Thu Apr 02 20:44:11 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=62, text='I want to explore some concepts in just intonation', sender='Temperance', sentTime=Thu Apr 02 20:44:38 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=62, text='in the past i used a parser and created a grammar that handled divisive rhythm and interpreting the symbols however i wanted (so i made different interpretations one being a pitch notation for equal temperemant another being a pitch notation for just intonation etc)', sender='Temperance', sentTime=Thu Apr 02 20:45:01 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=62, text='and then i would make functions that worked with those parsed units allowing me to combine them and operate on them but i remember it felt clunky and wrong', sender='Temperance', sentTime=Thu Apr 02 20:47:13 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=62, text='Sounds good (sorry bad pun)', sender='Macia', sentTime=Thu Apr 02 20:47:53 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=62, text='i'm wondering now if i could just make the language part more powerful', sender='Temperance', sentTime=Thu Apr 02 20:48:03 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=62, text='but i'm not sure how', sender='Temperance', sentTime=Thu Apr 02 20:48:07 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=62, text='something's telling me to just have some sort of symbol naming strategy so i can abstract entire chunks of music and then use that symbol but i feel like that's similar to what i was already doing.', sender='Temperance', sentTime=Thu Apr 02 20:48:50 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=62, text='i really hate that my hard drive broke and i lost all my work', sender='Temperance', sentTime=Thu Apr 02 20:49:29 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=62, text='and i'm an idiot i just never put the effort into learning how to use git properly', sender='Temperance', sentTime=Thu Apr 02 20:49:40 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=62, text='i used git but in this weird way where only when i was sure i liked what i had would i upload it so the stuff i have on there is grossly outdated', sender='Temperance', sentTime=Thu Apr 02 20:50:03 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=62, text='but anyways that's the past. I remember the problem being that i always felt like i had to define a new function brute force in order to handle new concepts.', sender='Temperance', sentTime=Thu Apr 02 20:51:03 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=62, text='for example appending one chunk to another was easy but what if i wanted to stretch times exponentially or something', sender='Temperance', sentTime=Thu Apr 02 20:51:37 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=62, text='Make your life easier and just start off with the GitHub desktop software and github  at least you won’t lose your work', sender='Macia', sentTime=Thu Apr 02 20:51:50 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=62, text='yes i learned my mistake haha', sender='Temperance', sentTime=Thu Apr 02 20:52:12 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=62, text='can i get normal programming amidst the music notation 🤔', sender='Temperance', sentTime=Thu Apr 02 20:53:12 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=62, text='There are some music packages https://pkgd.racketlang.org/pkgn/search?q=Music', sender='Macia', sentTime=Thu Apr 02 20:53:53 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=62, text='unlikely they will help', sender='Temperance', sentTime=Thu Apr 02 20:54:08 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=62, text='unless by some chance someone else is as esoteric as me', sender='Temperance', sentTime=Thu Apr 02 20:54:14 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=62, text='but i will check it out', sender='Temperance', sentTime=Thu Apr 02 20:54:17 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=62, text='I’ve been playing a little with puredata', sender='Macia', sentTime=Thu Apr 02 20:54:40 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=62, text='i used puredata for a long time', sender='Temperance', sentTime=Thu Apr 02 20:54:46 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=62, text='save yourself the pain buy Max it's just 10$ a month', sender='Temperance', sentTime=Thu Apr 02 20:55:01 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=62, text='you can subscribe and unscubsribe at will', sender='Temperance', sentTime=Thu Apr 02 20:55:08 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=62, text='I have an Organelle', sender='Macia', sentTime=Thu Apr 02 20:55:29 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=62, text='M', sender='Macia', sentTime=Thu Apr 02 20:55:33 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=62, text='what's that now?', sender='Temperance', sentTime=Thu Apr 02 20:56:24 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=62, text='damn', sender='Temperance', sentTime=Thu Apr 02 20:57:18 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=62, text='come to think about it what i had in the past was essentially complete nowadays i'd remake in racket and have the parsing more integrated', sender='Temperance', sentTime=Thu Apr 02 20:57:50 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=62, text='am i wrong to think that?', sender='Temperance', sentTime=Thu Apr 02 20:57:53 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=62, text='being able to delineate the music parsing at any given point in the code and have it work would be ideal', sender='Temperance', sentTime=Thu Apr 02 20:58:34 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=62, text='hmm but also ways of deconstructing those musical objects 😩', sender='Temperance', sentTime=Thu Apr 02 20:58:51 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=62, text='this is going to be a lot of work 😔', sender='Temperance', sentTime=Thu Apr 02 20:58:57 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=62, text='idk if it's worth it', sender='Temperance', sentTime=Thu Apr 02 20:59:03 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=62, text='maybe i'm making it out to be more work than it really is i think i'm gonna go for it', sender='Temperance', sentTime=Thu Apr 02 20:59:15 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=62, text='so i guess my real first question though google probably will suffice: where do i turn for Racket parsing?', sender='Temperance', sentTime=Thu Apr 02 20:59:47 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=62, text='aha before i go any further to what extent can i have analysis built in? it would be awesome if while i'm coding i can check the values of certain things or listen to musical chunk is that an impossibility?', sender='Temperance', sentTime=Thu Apr 02 21:05:48 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=62, text='There is the REPL', sender='Macia', sentTime=Thu Apr 02 21:08:14 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=62, text='that works. is that my only option?', sender='Temperance', sentTime=Thu Apr 02 21:09:24 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=62, text='https://github.com/racket/racket/wiki/CreatingLanguages', sender='Macia', sentTime=Thu Apr 02 21:09:24 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=62, text='thanks', sender='Temperance', sentTime=Thu Apr 02 21:09:32 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=62, text='many times i can't tell if it's my own stupidity or if the tools just don't work with me,in the past i found myself getting lost in the REPL all the time. it always felt disorganized. but i'm sure i only felt that way becuase i never learned REPL functions/commands for figuring out what variables you have stored or whatever other functions that helps you stay grounded and organized', sender='Temperance', sentTime=Thu Apr 02 21:12:03 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=62, text='or is it that i should get better at quickly integrated text and REPL?', sender='Temperance', sentTime=Thu Apr 02 21:12:29 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=62, text='tbh one text file and one REPL with the file opened would probably suffice for a single musical work or experiment', sender='Temperance', sentTime=Thu Apr 02 21:12:54 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=62, text='i'm so dumb', sender='Temperance', sentTime=Thu Apr 02 21:12:58 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=62, text='in the past i caused my own pain i'm done with that now', sender='Temperance', sentTime=Thu Apr 02 21:13:10 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=62, text='this should be easy', sender='Temperance', sentTime=Thu Apr 02 21:13:12 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=62, text='I jsut need to parse something like [ [ a a ] a a ] as a tree with \'a\ just as a placeholder symbol but there are also questions of efficiency.So the tree ultimately represents divisions of rhythm but in the past I would parse the entire tree then run a function that traverses the tree and essentially counts the branches and applies rhythmic values to the symbols within the tree.but i\'m thinking it would be more efficient that as it parses out the tree itself it keeps track of the numbers and applies them correctly', sender='Temperance', sentTime=Thu Apr 02 21:16:07 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=62, text='o wait that can't work', sender='Temperance', sentTime=Thu Apr 02 21:16:11 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=62, text='anyway let me not spam in here', sender='Temperance', sentTime=Thu Apr 02 21:16:15 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=62, text='> I jsut need to parse something like [ [ a a ] a a ] as a tree,Using racket lists will do that', sender='Macia', sentTime=Thu Apr 02 21:22:15 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=62, text='No need for a parser just plain racket', sender='Macia', sentTime=Thu Apr 02 21:24:17 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=62, text='I think the pattern matching functionality will do what you need : https://docs.racketlang.org/reference/match.html', sender='Macia', sentTime=Thu Apr 02 21:26:33 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=62, text='This is just plain racket  no need for a parser  it is part of rackets own parser', sender='Macia', sentTime=Thu Apr 02 21:27:26 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=62, text='hmmm', sender='Temperance', sentTime=Thu Apr 02 21:27:50 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=62, text='not sure how to accomplish what i want', sender='Temperance', sentTime=Thu Apr 02 21:27:58 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=62, text='Start simple', sender='Macia', sentTime=Thu Apr 02 21:28:09 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=62, text='can i count the number of open parenthesis and count the number of symbols within a parenthesized group?', sender='Temperance', sentTime=Thu Apr 02 21:28:22 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=62, text='Building blocks first', sender='Macia', sentTime=Thu Apr 02 21:28:22 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=62, text='Yes', sender='Macia', sentTime=Thu Apr 02 21:28:38 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=62, text='The data structure is called ‘list’ but it is a poor name because it is a syntax for building trees', sender='Macia', sentTime=Thu Apr 02 21:30:16 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=62, text='true', sender='Temperance', sentTime=Thu Apr 02 21:30:51 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=62, text='so i just run recursive length functions', sender='Temperance', sentTime=Thu Apr 02 21:30:57 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=62, text='kek this will be easy', sender='Temperance', sentTime=Thu Apr 02 21:31:04 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=62, text='can i have my symbols unquoted inside?', sender='Temperance', sentTime=Thu Apr 02 21:31:35 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=62, text='agh what does quote mean again', sender='Temperance', sentTime=Thu Apr 02 21:32:01 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=62, text='quote is the symbol itself', sender='Temperance', sentTime=Thu Apr 02 21:32:05 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=62, text='not quoted is it evaluated', sender='Temperance', sentTime=Thu Apr 02 21:32:16 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=62, text='?', sender='Temperance', sentTime=Thu Apr 02 21:32:19 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=62, text='> can i have my symbols unquoted inside?@giftfromgod yes it’s called quasiquote`\\`', sender='Macia', sentTime=Thu Apr 02 21:33:16 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=62, text='quasiquote o yes', sender='Temperance', sentTime=Thu Apr 02 21:33:25 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=62, text='i remember reading but didnt get the usage so it didnt stick', sender='Temperance', sentTime=Thu Apr 02 21:33:38 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=62, text='now i understand', sender='Temperance', sentTime=Thu Apr 02 21:33:41 CDT 2020}
+	 75 Msg: MessageAnalysisVO{disentangledId=62, text='Backtick is the shorthand', sender='Macia', sentTime=Thu Apr 02 21:33:53 CDT 2020}
+	 76 Msg: MessageAnalysisVO{disentangledId=62, text='bruh', sender='Temperance', sentTime=Thu Apr 02 21:34:23 CDT 2020}
+	 77 Msg: MessageAnalysisVO{disentangledId=62, text='Then commas to unquote', sender='Macia', sentTime=Thu Apr 02 21:34:27 CDT 2020}
+	 78 Msg: MessageAnalysisVO{disentangledId=62, text='racket is awesome', sender='Temperance', sentTime=Thu Apr 02 21:34:30 CDT 2020}
+	 79 Msg: MessageAnalysisVO{disentangledId=62, text='or lisp', sender='Temperance', sentTime=Thu Apr 02 21:34:36 CDT 2020}
+	 80 Msg: MessageAnalysisVO{disentangledId=62, text='or whatever whoever thought of that', sender='Temperance', sentTime=Thu Apr 02 21:34:42 CDT 2020}
+	 81 Msg: MessageAnalysisVO{disentangledId=62, text='theyre a genius', sender='Temperance', sentTime=Thu Apr 02 21:34:44 CDT 2020}
+	 82 Msg: MessageAnalysisVO{disentangledId=62, text='Lisp can do that too as can Scheme', sender='Macia', sentTime=Thu Apr 02 21:35:00 CDT 2020}
+	 83 Msg: MessageAnalysisVO{disentangledId=62, text='I don’t know who invented quasiquote', sender='Macia', sentTime=Thu Apr 02 21:35:26 CDT 2020}
+	 84 Msg: MessageAnalysisVO{disentangledId=62, text='Sounds like you have a good understanding of what you want to achieve and Racket has some helpful features. Do you have a plan?', sender='Macia', sentTime=Thu Apr 02 21:37:06 CDT 2020}
+	 85 Msg: MessageAnalysisVO{disentangledId=62, text='i think so.', sender='Temperance', sentTime=Thu Apr 02 21:37:48 CDT 2020}
+	 86 Msg: MessageAnalysisVO{disentangledId=62, text='not the details just yet', sender='Temperance', sentTime=Thu Apr 02 21:37:52 CDT 2020}
+	 87 Msg: MessageAnalysisVO{disentangledId=62, text='like when i get what i want out of the list it should be remembered', sender='Temperance', sentTime=Thu Apr 02 21:38:35 CDT 2020}
+	 88 Msg: MessageAnalysisVO{disentangledId=62, text='Maybe start with some small things and build up?', sender='Macia', sentTime=Thu Apr 02 21:39:30 CDT 2020}
+	 89 Msg: MessageAnalysisVO{disentangledId=62, text='yes', sender='Temperance', sentTime=Thu Apr 02 21:39:49 CDT 2020}
+	 90 Msg: MessageAnalysisVO{disentangledId=62, text='What are the first three things you want to do?', sender='Macia', sentTime=Thu Apr 02 21:40:11 CDT 2020}
+	 91 Msg: MessageAnalysisVO{disentangledId=62, text='but i’m thinking about when all is said and done the rhythm and notes are decoded from the list representation do i make a datatype to store them', sender='Temperance', sentTime=Thu Apr 02 21:40:46 CDT 2020}
+	 92 Msg: MessageAnalysisVO{disentangledId=62, text='i like to see big picture before i start that way i realize stupid things earlier on so i dont waste time', sender='Temperance', sentTime=Thu Apr 02 21:41:32 CDT 2020}
+	 93 Msg: MessageAnalysisVO{disentangledId=62, text='How will you specify rhythm ?', sender='Macia', sentTime=Thu Apr 02 21:41:51 CDT 2020}
+	 94 Msg: MessageAnalysisVO{disentangledId=62, text='the tree', sender='Temperance', sentTime=Thu Apr 02 21:41:57 CDT 2020}
+	 95 Msg: MessageAnalysisVO{disentangledId=62, text='the tree is the rhythm lol', sender='Temperance', sentTime=Thu Apr 02 21:42:09 CDT 2020}
+	 96 Msg: MessageAnalysisVO{disentangledId=62, text='`(1/4 1/4 1/2)`?', sender='Macia', sentTime=Thu Apr 02 21:42:45 CDT 2020}
+	 97 Msg: MessageAnalysisVO{disentangledId=62, text='what is that', sender='Temperance', sentTime=Thu Apr 02 21:42:55 CDT 2020}
+	 98 Msg: MessageAnalysisVO{disentangledId=62, text='so for like (a a)each a is 1/2', sender='Temperance', sentTime=Thu Apr 02 21:43:23 CDT 2020}
+	 99 Msg: MessageAnalysisVO{disentangledId=62, text='(a a a) each one is 1/3', sender='Temperance', sentTime=Thu Apr 02 21:43:32 CDT 2020}
+	 100 Msg: MessageAnalysisVO{disentangledId=62, text='((a a) a a)the first two are each halves of a third or in other words 1/6th each,then the two remaining a’s are 1/3', sender='Temperance', sentTime=Thu Apr 02 21:44:14 CDT 2020}
+	 101 Msg: MessageAnalysisVO{disentangledId=62, text='and so on and so forth', sender='Temperance', sentTime=Thu Apr 02 21:44:18 CDT 2020}
+	 102 Msg: MessageAnalysisVO{disentangledId=62, text='I see', sender='Macia', sentTime=Thu Apr 02 21:45:54 CDT 2020}
+	 103 Msg: MessageAnalysisVO{disentangledId=62, text='yup', sender='Temperance', sentTime=Thu Apr 02 21:45:57 CDT 2020}
+	 104 Msg: MessageAnalysisVO{disentangledId=62, text='there are arbitrary choices involved im pretty aware of them', sender='Temperance', sentTime=Thu Apr 02 21:46:12 CDT 2020}
+	 105 Msg: MessageAnalysisVO{disentangledId=62, text='like i can store them as consecutive intervals or i can store them as relative to the first element of the chunk,that choice determines how other functions work to concatenate and whatnot', sender='Temperance', sentTime=Thu Apr 02 21:46:56 CDT 2020}
+	 106 Msg: MessageAnalysisVO{disentangledId=62, text='im worried', sender='Temperance', sentTime=Thu Apr 02 21:47:25 CDT 2020}
+	 107 Msg: MessageAnalysisVO{disentangledId=62, text='( 2 (c b a))(((a a a)(b b b)(c c c)))', sender='Macia', sentTime=Thu Apr 02 21:48:08 CDT 2020}
+	 108 Msg: MessageAnalysisVO{disentangledId=62, text='im worried this isnt good enough. something about the rigidity of the divisions rubs me the wrong way,even if i have functions to loosen it up (a function to introduce random deviations for example)', sender='Temperance', sentTime=Thu Apr 02 21:48:13 CDT 2020}
+	 109 Msg: MessageAnalysisVO{disentangledId=62, text='@StephenD whats that?', sender='Temperance', sentTime=Thu Apr 02 21:48:44 CDT 2020}
+	 110 Msg: MessageAnalysisVO{disentangledId=62, text='Repeat ( c b a ) twice', sender='Macia', sentTime=Thu Apr 02 21:48:44 CDT 2020}
+	 111 Msg: MessageAnalysisVO{disentangledId=62, text='I’m not a musician but your description is hood', sender='Macia', sentTime=Thu Apr 02 21:49:21 CDT 2020}
+	 112 Msg: MessageAnalysisVO{disentangledId=62, text='Good', sender='Macia', sentTime=Thu Apr 02 21:49:28 CDT 2020}
+	 113 Msg: MessageAnalysisVO{disentangledId=62, text='its good', sender='Temperance', sentTime=Thu Apr 02 21:49:34 CDT 2020}
+	 114 Msg: MessageAnalysisVO{disentangledId=62, text='but like', sender='Temperance', sentTime=Thu Apr 02 21:49:36 CDT 2020}
+	 115 Msg: MessageAnalysisVO{disentangledId=62, text='i also worry about parameters', sender='Temperance', sentTime=Thu Apr 02 21:49:42 CDT 2020}
+	 116 Msg: MessageAnalysisVO{disentangledId=62, text='at somepoint you just want knobs and sliders', sender='Temperance', sentTime=Thu Apr 02 21:49:54 CDT 2020}
+	 117 Msg: MessageAnalysisVO{disentangledId=62, text='or other means of gui control', sender='Temperance', sentTime=Thu Apr 02 21:50:15 CDT 2020}
+	 118 Msg: MessageAnalysisVO{disentangledId=62, text='but i dont want to overwhelm myself', sender='Temperance', sentTime=Thu Apr 02 21:50:21 CDT 2020}
+	 119 Msg: MessageAnalysisVO{disentangledId=62, text='but idk what if theres a smarter way of accomplishing what i want to accomplish', sender='Temperance', sentTime=Thu Apr 02 21:50:31 CDT 2020}
+	 120 Msg: MessageAnalysisVO{disentangledId=62, text='There is a gui toolkit', sender='Macia', sentTime=Thu Apr 02 21:50:35 CDT 2020}
+	 121 Msg: MessageAnalysisVO{disentangledId=62, text='yes', sender='Temperance', sentTime=Thu Apr 02 21:50:40 CDT 2020}
+	 122 Msg: MessageAnalysisVO{disentangledId=62, text='i got fairly good at it already 😂', sender='Temperance', sentTime=Thu Apr 02 21:50:49 CDT 2020}
+	 123 Msg: MessageAnalysisVO{disentangledId=62, text='its pretty awesome and straightforward', sender='Temperance', sentTime=Thu Apr 02 21:50:55 CDT 2020}
+	 124 Msg: MessageAnalysisVO{disentangledId=62, text='the docs are fantastic with how they show you the layout of the', sender='Temperance', sentTime=Thu Apr 02 21:51:09 CDT 2020}
+	 125 Msg: MessageAnalysisVO{disentangledId=62, text='idk what word to use', sender='Temperance', sentTime=Thu Apr 02 21:51:13 CDT 2020}
+	 126 Msg: MessageAnalysisVO{disentangledId=62, text='How do you generate the sound? Supercollider ?', sender='Macia', sentTime=Thu Apr 02 21:51:14 CDT 2020}
+	 127 Msg: MessageAnalysisVO{disentangledId=62, text='doesnt matter', sender='Temperance', sentTime=Thu Apr 02 21:51:25 CDT 2020}
+	 128 Msg: MessageAnalysisVO{disentangledId=62, text='even outputting midi could work 🤷\u200d♀️', sender='Temperance', sentTime=Thu Apr 02 21:51:32 CDT 2020}
+	 129 Msg: MessageAnalysisVO{disentangledId=62, text='rsound seemed cool 🤷\u200d♀️', sender='Temperance', sentTime=Thu Apr 02 21:51:37 CDT 2020}
+	 130 Msg: MessageAnalysisVO{disentangledId=62, text='actually outputting midi couldnt really work 😔', sender='Temperance', sentTime=Thu Apr 02 21:51:48 CDT 2020}
+	 131 Msg: MessageAnalysisVO{disentangledId=62, text='> even outputting midi could work 🤷\u200d♀️@giftfromgod OSC better', sender='Macia', sentTime=Thu Apr 02 21:51:58 CDT 2020}
+	 132 Msg: MessageAnalysisVO{disentangledId=62, text='OSC is a lot better but barely anything accepts it', sender='Temperance', sentTime=Thu Apr 02 21:52:13 CDT 2020}
+	 133 Msg: MessageAnalysisVO{disentangledId=62, text='at that point i should just generate the sound myself', sender='Temperance', sentTime=Thu Apr 02 21:52:21 CDT 2020}
+	 134 Msg: MessageAnalysisVO{disentangledId=62, text='rsound supercollider csound anything like that', sender='Temperance', sentTime=Thu Apr 02 21:52:33 CDT 2020}
+	 135 Msg: MessageAnalysisVO{disentangledId=62, text='I think there already bindings', sender='Macia', sentTime=Thu Apr 02 21:52:58 CDT 2020}
+	 136 Msg: MessageAnalysisVO{disentangledId=62, text='and since i want to work with just intonation thats looking like what i’ll have to do but no worries', sender='Temperance', sentTime=Thu Apr 02 21:53:00 CDT 2020}
+	 137 Msg: MessageAnalysisVO{disentangledId=62, text='ye that doesnt scare me', sender='Temperance', sentTime=Thu Apr 02 21:53:11 CDT 2020}
+	 138 Msg: MessageAnalysisVO{disentangledId=62, text='i do basic modal synthesis instruments everytime 😂', sender='Temperance', sentTime=Thu Apr 02 21:53:22 CDT 2020}
+	 139 Msg: MessageAnalysisVO{disentangledId=62, text='i need to learn how to make sophisticated resonators 🤔', sender='Temperance', sentTime=Thu Apr 02 21:53:33 CDT 2020}
+	 140 Msg: MessageAnalysisVO{disentangledId=62, text='(I’m out if my depth here(', sender='Macia', sentTime=Thu Apr 02 21:53:49 CDT 2020}
+	 141 Msg: MessageAnalysisVO{disentangledId=62, text='idk if i should just fuck with delays until i intuitively figure it out', sender='Temperance', sentTime=Thu Apr 02 21:53:50 CDT 2020}
+	 142 Msg: MessageAnalysisVO{disentangledId=62, text='ye lol ur good', sender='Temperance', sentTime=Thu Apr 02 21:53:55 CDT 2020}
+	 143 Msg: MessageAnalysisVO{disentangledId=62, text='so whats my plan', sender='Temperance', sentTime=Thu Apr 02 21:54:06 CDT 2020}
+	 144 Msg: MessageAnalysisVO{disentangledId=62, text='i gotta go soon', sender='Temperance', sentTime=Thu Apr 02 21:54:10 CDT 2020}
+	 145 Msg: MessageAnalysisVO{disentangledId=62, text='Good luck', sender='Macia', sentTime=Thu Apr 02 21:54:23 CDT 2020}
+	 146 Msg: MessageAnalysisVO{disentangledId=62, text='& welcome to racket discord come back any time', sender='Macia', sentTime=Thu Apr 02 21:54:47 CDT 2020}
+	 147 Msg: MessageAnalysisVO{disentangledId=62, text='😁', sender='Macia', sentTime=Thu Apr 02 21:54:56 CDT 2020}
+	 148 Msg: MessageAnalysisVO{disentangledId=62, text='plan:1. make functions to figure out the rhythm from the list2. figure out a pitch representation for the kind of just intonation work i want to do3. make a shitton of helper functions for working with the pitch and rhythm4. think about the big picture again', sender='Temperance', sentTime=Thu Apr 02 21:55:48 CDT 2020}
+	 149 Msg: MessageAnalysisVO{disentangledId=62, text='something tells me i should start with 4 and just keep thinking. rigidity hurts. but like there is no continuum with programming right?', sender='Temperance', sentTime=Thu Apr 02 21:56:35 CDT 2020}
+	 150 Msg: MessageAnalysisVO{disentangledId=62, text='approximating a continuum 🤷\u200d♀️', sender='Temperance', sentTime=Thu Apr 02 21:57:01 CDT 2020}
+	 151 Msg: MessageAnalysisVO{disentangledId=62, text='i think i really just want to make the DAW 😂😂😂', sender='Temperance', sentTime=Thu Apr 02 21:57:14 CDT 2020}
+	 152 Msg: MessageAnalysisVO{disentangledId=62, text='♫', sender='Macia', sentTime=Thu Apr 02 21:57:25 CDT 2020}
+	 153 Msg: MessageAnalysisVO{disentangledId=62, text='i could never make it more than a proof of concept though 😔', sender='Temperance', sentTime=Thu Apr 02 21:57:31 CDT 2020}
+	 154 Msg: MessageAnalysisVO{disentangledId=62, text='not by myself. i would need a team or help otherwise', sender='Temperance', sentTime=Thu Apr 02 21:57:42 CDT 2020}
+	 155 Msg: MessageAnalysisVO{disentangledId=62, text='Everything started as a prototype', sender='Macia', sentTime=Thu Apr 02 21:57:53 CDT 2020}
+	 156 Msg: MessageAnalysisVO{disentangledId=62, text='With a working prototype you might be able to attract a team', sender='Macia', sentTime=Thu Apr 02 21:58:25 CDT 2020}
+	 157 Msg: MessageAnalysisVO{disentangledId=62, text='OSS', sender='Macia', sentTime=Thu Apr 02 21:58:30 CDT 2020}
+	 158 Msg: MessageAnalysisVO{disentangledId=62, text='that was my original plan 😂i’d love to have a visual approximation of continuum and then have a lot of freedom power and control with overlaying grids.', sender='Temperance', sentTime=Thu Apr 02 21:58:51 CDT 2020}
+	 159 Msg: MessageAnalysisVO{disentangledId=62, text='But racketeers like to help  here(discord) Racket users mailing list/google group & the racket slack', sender='Macia', sentTime=Thu Apr 02 21:59:32 CDT 2020}
+	 160 Msg: MessageAnalysisVO{disentangledId=62, text='but since i want to rxperiment with just intonation now i wanted to take an easy route out but the mathematician and programmer within me wanta me to keep generalizing and actually get the tool that i want', sender='Temperance', sentTime=Thu Apr 02 21:59:33 CDT 2020}
+	 161 Msg: MessageAnalysisVO{disentangledId=62, text='which requires more work', sender='Temperance', sentTime=Thu Apr 02 21:59:47 CDT 2020}
+	 162 Msg: MessageAnalysisVO{disentangledId=62, text='i guess i’ll keep wrestling with what i want to work on first 🤷\u200d♀️', sender='Temperance', sentTime=Thu Apr 02 22:00:00 CDT 2020}
+	 163 Msg: MessageAnalysisVO{disentangledId=62, text='thansk so much and goodbye', sender='Temperance', sentTime=Thu Apr 02 22:00:09 CDT 2020}
+	 164 Msg: MessageAnalysisVO{disentangledId=62, text='Have you seen the new sonic pi yet?', sender='Macia', sentTime=Thu Apr 02 22:00:23 CDT 2020}
+	 165 Msg: MessageAnalysisVO{disentangledId=62, text='no whats that', sender='Temperance', sentTime=Thu Apr 02 22:00:29 CDT 2020}
+	 166 Msg: MessageAnalysisVO{disentangledId=62, text='♫bye', sender='Macia', sentTime=Thu Apr 02 22:00:31 CDT 2020}
+	 167 Msg: MessageAnalysisVO{disentangledId=62, text='Programmatic DAW for education /live coding', sender='Macia', sentTime=Thu Apr 02 22:00:58 CDT 2020}
+	 168 Msg: MessageAnalysisVO{disentangledId=62, text='OMG', sender='Temperance', sentTime=Thu Apr 02 22:00:59 CDT 2020}
+	 169 Msg: MessageAnalysisVO{disentangledId=62, text='OMGGG', sender='Temperance', sentTime=Thu Apr 02 22:01:03 CDT 2020}
+	 170 Msg: MessageAnalysisVO{disentangledId=62, text='Good fun! I recommend', sender='Macia', sentTime=Thu Apr 02 22:01:23 CDT 2020}
+	 171 Msg: MessageAnalysisVO{disentangledId=62, text='dude that looks amazing', sender='Temperance', sentTime=Thu Apr 02 22:01:26 CDT 2020}
+	 172 Msg: MessageAnalysisVO{disentangledId=62, text='it just came out', sender='Temperance', sentTime=Thu Apr 02 22:01:31 CDT 2020}
+	 173 Msg: MessageAnalysisVO{disentangledId=62, text='wow', sender='Temperance', sentTime=Thu Apr 02 22:01:33 CDT 2020}
+	 174 Msg: MessageAnalysisVO{disentangledId=62, text='Have a good evening', sender='Macia', sentTime=Thu Apr 02 22:02:41 CDT 2020}
+	 175 Msg: MessageAnalysisVO{disentangledId=62, text='same', sender='Temperance', sentTime=Thu Apr 02 22:02:43 CDT 2020}
+	 176 Msg: MessageAnalysisVO{disentangledId=62, text='Come back soon😁', sender='Macia', sentTime=Thu Apr 02 22:02:49 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Thaleia, Dominik]
+Messages Size: 146
+Duration of Monopolized Convo: 0 days, 0 hours, 51 minutes, 58 seconds
+Duration Until Next User Added: 0 days, 0 hours, 1 minutes, 1 seconds
+Char Length of Text Msg Before New User Added: 41
+	 1 Msg: MessageAnalysisVO{disentangledId=81, text='> I doubt it’s possible in racket@sarna I don't see why not.', sender='Thaleia', sentTime=Tue Apr 21 12:51:50 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=81, text='You can embed assembly into Racket code.', sender='Thaleia', sentTime=Tue Apr 21 12:52:16 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=81, text='yeah but there are a lot of sbclspecific features used there', sender='Dominik', sentTime=Tue Apr 21 12:53:19 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=81, text='they hook everything up to sbcl's virtual machine', sender='Dominik', sentTime=Tue Apr 21 12:54:02 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=81, text='maybe chez has something similar  but I'm sure it won't be documented', sender='Dominik', sentTime=Tue Apr 21 12:54:24 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=81, text='Yeah you can reach into the guts of Chez but they don't want you to do that unless you know what you're doing.', sender='Thaleia', sentTime=Tue Apr 21 12:55:10 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=81, text='that's understandable  that's why these features are undocumented', sender='Dominik', sentTime=Tue Apr 21 12:55:41 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=81, text='does racket have anything like the `disassemble` function?', sender='Dominik', sentTime=Tue Apr 21 12:58:16 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=81, text='Oh wow it's not documented at all.', sender='Thaleia', sentTime=Tue Apr 21 12:58:42 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=81, text='https://www.reddit.com/r/scheme/comments/4j2gyr/how_to_inspect_generated_machine_code_in_chez/', sender='Dominik', sentTime=Tue Apr 21 12:58:56 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=81, text='9 points no answers', sender='Dominik', sentTime=Tue Apr 21 12:59:02 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=81, text='yes that's what I meant by undocumented', sender='Dominik', sentTime=Tue Apr 21 12:59:13 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=81, text='`ffi/unsafe` is fairly well documented but `ffi/unsafe/vm` isn't mentioned once.', sender='Thaleia', sentTime=Tue Apr 21 12:59:15 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=81, text='I thought they'd at least list it there.', sender='Thaleia', sentTime=Tue Apr 21 12:59:27 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=81, text=':^)', sender='Dominik', sentTime=Tue Apr 21 12:59:34 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=81, text='https://github.com/samth/disassemble/blob/master/README.md there's this but I don't think it works on the chez backend', sender='Dominik', sentTime=Tue Apr 21 13:01:05 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=81, text='> for JITed functionsafaik chez isn't jited', sender='Dominik', sentTime=Tue Apr 21 13:01:35 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=81, text='https://github.com/samth/disassemble/blob/2bf2d8c5dc07ec535ba008c7585c6d5cb12d10e6/disassemble/vm.rkt#L12', sender='Thaleia', sentTime=Tue Apr 21 13:01:52 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=81, text='uwu', sender='Dominik', sentTime=Tue Apr 21 13:02:19 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=81, text='that's neat', sender='Dominik', sentTime=Tue Apr 21 13:02:22 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=81, text='now we only need a mutable repl and a condition system', sender='Dominik', sentTime=Tue Apr 21 13:02:57 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=81, text='The former is easy.', sender='Thaleia', sentTime=Tue Apr 21 13:05:49 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=81, text='I mean don't get me wrong I think racket is a better language than CL', sender='Dominik', sentTime=Tue Apr 21 13:05:51 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=81, text='but if you're after THE ABSOLUTE POWER common lisp is the way', sender='Dominik', sentTime=Tue Apr 21 13:06:01 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=81, text='It's frowned upon in Racket but `(compileenforcemoduleconstants #f)`', sender='Thaleia', sentTime=Tue Apr 21 13:06:21 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=81, text='yeah I tried that still couldn't modify the gui on the fly like in CL :(', sender='Dominik', sentTime=Tue Apr 21 13:06:55 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=81, text='Hmm', sender='Thaleia', sentTime=Tue Apr 21 13:07:08 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=81, text='Do you remember what went wrong?', sender='Thaleia', sentTime=Tue Apr 21 13:07:20 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=81, text='I think the closures are compiled and not replaced', sender='Dominik', sentTime=Tue Apr 21 13:07:23 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=81, text='Ah', sender='Thaleia', sentTime=Tue Apr 21 13:07:27 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=81, text='not sure though', sender='Dominik', sentTime=Tue Apr 21 13:07:33 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=81, text='I'm still a racket noob and idk how to debug this', sender='Dominik', sentTime=Tue Apr 21 13:07:47 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=81, text='On RacketBC right?', sender='Thaleia', sentTime=Tue Apr 21 13:07:56 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=81, text='yeah', sender='Dominik', sentTime=Tue Apr 21 13:08:01 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=81, text='I mean I was only able to send messages to the gui in the repl', sender='Dominik', sentTime=Tue Apr 21 13:08:26 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=81, text='but I couldn't for example replace the callback that's run after a button is pressed', sender='Dominik', sentTime=Tue Apr 21 13:08:50 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=81, text='I think when I recompiled the button it referred to another brand new button :( not to the first one', sender='Dominik', sentTime=Tue Apr 21 13:09:18 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=81, text='it's probably better default behavior but yeah', sender='Dominik', sentTime=Tue Apr 21 13:09:41 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=81, text='Also I think you can implement conditions in Racket with few lines of code using continuations but it'd be really expensive probably.', sender='Thaleia', sentTime=Tue Apr 21 13:12:13 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=81, text='yeah I thought about doing that when I finally grok continuations', sender='Dominik', sentTime=Tue Apr 21 13:14:03 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=81, text='on chez continuations are pretty cheap', sender='Dominik', sentTime=Tue Apr 21 13:14:16 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=81, text='They're practically free on CHICKEN so I'm surprised nobody implemented them there.', sender='Thaleia', sentTime=Tue Apr 21 13:15:23 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=81, text='Especially considering how CLlike CHICKEN is.', sender='Thaleia', sentTime=Tue Apr 21 13:15:38 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=81, text='MIT scheme has conditions but they're really buggy', sender='Dominik', sentTime=Tue Apr 21 13:15:43 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=81, text='after aborting 25% of my CPU continues being eaten', sender='Dominik', sentTime=Tue Apr 21 13:16:07 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=81, text='And nobody uses them according to devs.', sender='Thaleia', sentTime=Tue Apr 21 13:16:07 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=81, text='oh well', sender='Dominik', sentTime=Tue Apr 21 13:16:17 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=81, text='btw in which aspect is chicken cllike?', sender='Dominik', sentTime=Tue Apr 21 13:16:45 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=81, text='I didn't find it more clish than other schemes I tried', sender='Dominik', sentTime=Tue Apr 21 13:17:06 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=81, text='It has very strong CL influences in the way it does things.', sender='Thaleia', sentTime=Tue Apr 21 13:17:26 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=81, text='For instance it's got read macros and compiler macros.', sender='Thaleia', sentTime=Tue Apr 21 13:17:37 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=81, text='It has a version of `defsystem`.', sender='Thaleia', sentTime=Tue Apr 21 13:17:56 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=81, text='It likes unhygienic macros and encourages the use of auto`gensym` (implicit renaming) in macros.', sender='Thaleia', sentTime=Tue Apr 21 13:18:28 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=81, text='It has quite a few builtin read macros like `#+` (expands to `condexpand`).', sender='Thaleia', sentTime=Tue Apr 21 13:19:14 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=81, text='The internal code style is also reminiscent.', sender='Thaleia', sentTime=Tue Apr 21 13:19:33 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=81, text='oh didn't know it had unhygienic macros', sender='Dominik', sentTime=Tue Apr 21 13:19:35 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=81, text='Check out explicit renaming macros. It's like a step up from `defmacro`.', sender='Thaleia', sentTime=Tue Apr 21 13:20:03 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=81, text='👀', sender='Dominik', sentTime=Tue Apr 21 13:20:14 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=81, text='It doesn't attempt to be very functional. It does things imperatively and mutatively.', sender='Thaleia', sentTime=Tue Apr 21 13:20:22 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=81, text='chicken is pretty slow though no?', sender='Dominik', sentTime=Tue Apr 21 13:20:22 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=81, text='Well comparatively.', sender='Thaleia', sentTime=Tue Apr 21 13:20:32 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=81, text='to other schemes at least', sender='Dominik', sentTime=Tue Apr 21 13:20:39 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=81, text='It's still pretty fast for most tasks.', sender='Thaleia', sentTime=Tue Apr 21 13:20:41 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=81, text='faster than python :GWcmeisterPeepoEZ:', sender='Dominik', sentTime=Tue Apr 21 13:20:50 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=81, text='Its greatest performance advantage is that continuations are practically free thanks to Cheney on the MTA.', sender='Thaleia', sentTime=Tue Apr 21 13:21:10 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=81, text='otoh I heard that if you use continuations liberally you'll run into weird problems', sender='Dominik', sentTime=Tue Apr 21 13:21:38 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=81, text='eh so many schemes so little time', sender='Dominik', sentTime=Tue Apr 21 13:22:28 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=81, text='CHICKEN was my first Scheme!', sender='Thaleia', sentTime=Tue Apr 21 13:23:04 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=81, text='I eventually switched to Racket because I'm a functional programmer at heart.', sender='Thaleia', sentTime=Tue Apr 21 13:23:21 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=81, text='even if I pick a scheme I can't stick to one because they don't have the libs for most of the useful stuff :GWsetmyxPeepoCry: so now I'm making a thing in reasonml', sender='Dominik', sentTime=Tue Apr 21 13:23:31 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=81, text='CHICKEN has some really strong points such as the capability of trivially inlining C. You can even import C headers willy nilly.', sender='Thaleia', sentTime=Tue Apr 21 13:23:59 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=81, text='Yeah I profess to be a Clojure programmer professionally.', sender='Thaleia', sentTime=Tue Apr 21 13:24:27 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=81, text='how's functional programming in dynamic langs? I've mostly programmed in statically typed ones and my racket experience is writing like three programs lol', sender='Dominik', sentTime=Tue Apr 21 13:24:47 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=81, text='ew clojure', sender='Dominik', sentTime=Tue Apr 21 13:24:59 CDT 2020}
+	 75 Msg: MessageAnalysisVO{disentangledId=81, text='typo in a hashmap 300line stack trace day ruined', sender='Dominik', sentTime=Tue Apr 21 13:25:14 CDT 2020}
+	 76 Msg: MessageAnalysisVO{disentangledId=81, text='Oh and CHICKEN does firstclass keywords.', sender='Thaleia', sentTime=Tue Apr 21 13:25:45 CDT 2020}
+	 77 Msg: MessageAnalysisVO{disentangledId=81, text='Instead of using quoted symbols for everything.', sender='Thaleia', sentTime=Tue Apr 21 13:25:59 CDT 2020}
+	 78 Msg: MessageAnalysisVO{disentangledId=81, text='doesn't racket have firstclass keywords?', sender='Dominik', sentTime=Tue Apr 21 13:26:15 CDT 2020}
+	 79 Msg: MessageAnalysisVO{disentangledId=81, text='And it lets you use plists and symbol tables.', sender='Thaleia', sentTime=Tue Apr 21 13:26:15 CDT 2020}
+	 80 Msg: MessageAnalysisVO{disentangledId=81, text='Nope.', sender='Thaleia', sentTime=Tue Apr 21 13:26:19 CDT 2020}
+	 81 Msg: MessageAnalysisVO{disentangledId=81, text='You can't use keywords as values.', sender='Thaleia', sentTime=Tue Apr 21 13:26:26 CDT 2020}
+	 82 Msg: MessageAnalysisVO{disentangledId=81, text='what are those then? #:something', sender='Dominik', sentTime=Tue Apr 21 13:26:27 CDT 2020}
+	 83 Msg: MessageAnalysisVO{disentangledId=81, text='ah', sender='Dominik', sentTime=Tue Apr 21 13:26:29 CDT 2020}
+	 84 Msg: MessageAnalysisVO{disentangledId=81, text='right', sender='Dominik', sentTime=Tue Apr 21 13:26:32 CDT 2020}
+	 85 Msg: MessageAnalysisVO{disentangledId=81, text='They're only for kwargs in funcalls.', sender='Thaleia', sentTime=Tue Apr 21 13:26:43 CDT 2020}
+	 86 Msg: MessageAnalysisVO{disentangledId=81, text='confused about the definition of firstclass 🤦\u200d♂️', sender='Dominik', sentTime=Tue Apr 21 13:27:00 CDT 2020}
+	 87 Msg: MessageAnalysisVO{disentangledId=81, text='No worries haha', sender='Thaleia', sentTime=Tue Apr 21 13:27:10 CDT 2020}
+	 88 Msg: MessageAnalysisVO{disentangledId=81, text='WRT FP in dynlangs honestly there are only two schools of thought here.', sender='Thaleia', sentTime=Tue Apr 21 13:27:24 CDT 2020}
+	 89 Msg: MessageAnalysisVO{disentangledId=81, text='Lisp and Erlang', sender='Thaleia', sentTime=Tue Apr 21 13:27:33 CDT 2020}
+	 90 Msg: MessageAnalysisVO{disentangledId=81, text='I do Clojure and Scheme and I'm learning Elixir.', sender='Thaleia', sentTime=Tue Apr 21 13:27:52 CDT 2020}
+	 91 Msg: MessageAnalysisVO{disentangledId=81, text='elixir is pretty lispy isn't itthough it's good at hiding it', sender='Dominik', sentTime=Tue Apr 21 13:28:28 CDT 2020}
+	 92 Msg: MessageAnalysisVO{disentangledId=81, text='I find this approach of FP to be very flexible and expressive.', sender='Thaleia', sentTime=Tue Apr 21 13:28:31 CDT 2020}
+	 93 Msg: MessageAnalysisVO{disentangledId=81, text='Yeah haha. I like how it's got atoms.', sender='Thaleia', sentTime=Tue Apr 21 13:29:02 CDT 2020}
+	 94 Msg: MessageAnalysisVO{disentangledId=81, text='Err', sender='Thaleia', sentTime=Tue Apr 21 13:29:06 CDT 2020}
+	 95 Msg: MessageAnalysisVO{disentangledId=81, text='I should clarify that in Erlang atoms are symbols (interned immutable strings).', sender='Thaleia', sentTime=Tue Apr 21 13:29:26 CDT 2020}
+	 96 Msg: MessageAnalysisVO{disentangledId=81, text='What other languages call symbols or keywords.', sender='Thaleia', sentTime=Tue Apr 21 13:29:40 CDT 2020}
+	 97 Msg: MessageAnalysisVO{disentangledId=81, text='Confusingly enough Clojure uses atoms to mean boxes.', sender='Thaleia', sentTime=Tue Apr 21 13:30:00 CDT 2020}
+	 98 Msg: MessageAnalysisVO{disentangledId=81, text='Instead of the traditional Lisp meaning of nonpair.', sender='Thaleia', sentTime=Tue Apr 21 13:30:25 CDT 2020}
+	 99 Msg: MessageAnalysisVO{disentangledId=81, text='to me dynamic typing kinda feels like something which only creates problems giving you practically nothing', sender='Dominik', sentTime=Tue Apr 21 13:30:29 CDT 2020}
+	 100 Msg: MessageAnalysisVO{disentangledId=81, text='yeah atoms in clojure are mutable refs right?', sender='Dominik', sentTime=Tue Apr 21 13:30:37 CDT 2020}
+	 101 Msg: MessageAnalysisVO{disentangledId=81, text='iirc', sender='Dominik', sentTime=Tue Apr 21 13:30:38 CDT 2020}
+	 102 Msg: MessageAnalysisVO{disentangledId=81, text='Yeah', sender='Thaleia', sentTime=Tue Apr 21 13:30:43 CDT 2020}
+	 103 Msg: MessageAnalysisVO{disentangledId=81, text='dynamic typing  worse editor support worse docs (usually) easily avoided runtime errorsbenefits  ?????', sender='Dominik', sentTime=Tue Apr 21 13:31:20 CDT 2020}
+	 104 Msg: MessageAnalysisVO{disentangledId=81, text='that's how it looks for meand idk how to get out of that mindset lol', sender='Dominik', sentTime=Tue Apr 21 13:31:33 CDT 2020}
+	 105 Msg: MessageAnalysisVO{disentangledId=81, text='I think the benefits of static typing are way overblown. I don't deny that they're useful not only for modelling the language but also for static analysis.', sender='Thaleia', sentTime=Tue Apr 21 13:31:48 CDT 2020}
+	 106 Msg: MessageAnalysisVO{disentangledId=81, text='But that's it. You need to use other things for those things as well. It's not a golden hammer but people sure love treating it as one.', sender='Thaleia', sentTime=Tue Apr 21 13:32:19 CDT 2020}
+	 107 Msg: MessageAnalysisVO{disentangledId=81, text='now it's very fashionable to bash dynamically typed langs that doesn't help either', sender='Dominik', sentTime=Tue Apr 21 13:33:13 CDT 2020}
+	 108 Msg: MessageAnalysisVO{disentangledId=81, text='It also gets in your way of expressiveness and you often need to work around the restrictions. I found that a good portion of programming in Haskell was just working around the language getting in your way.', sender='Thaleia', sentTime=Tue Apr 21 13:33:52 CDT 2020}
+	 109 Msg: MessageAnalysisVO{disentangledId=81, text='maybe I should stop reading HN :GWseremePeepoThink: would be a good choice for my overall mental health', sender='Dominik', sentTime=Tue Apr 21 13:33:55 CDT 2020}
+	 110 Msg: MessageAnalysisVO{disentangledId=81, text='(I like OCaml better.)', sender='Thaleia', sentTime=Tue Apr 21 13:34:01 CDT 2020}
+	 111 Msg: MessageAnalysisVO{disentangledId=81, text='yep ocaml is pretty sweet', sender='Dominik', sentTime=Tue Apr 21 13:34:10 CDT 2020}
+	 112 Msg: MessageAnalysisVO{disentangledId=81, text='> now it's very fashionable to bash dynamically typed langs that doesn't help eitherI think that's reminiscent of how people used to love to hate on garbage collected languages because the only ones they used were garbage.', sender='Thaleia', sentTime=Tue Apr 21 13:34:38 CDT 2020}
+	 113 Msg: MessageAnalysisVO{disentangledId=81, text='(couldn't help it sorry)', sender='Thaleia', sentTime=Tue Apr 21 13:34:59 CDT 2020}
+	 114 Msg: MessageAnalysisVO{disentangledId=81, text='And yes Orange Website bad.', sender='Thaleia', sentTime=Tue Apr 21 13:35:13 CDT 2020}
+	 115 Msg: MessageAnalysisVO{disentangledId=81, text='My quality of life improved ever since I stopped reading that wobsite and started reading ngate instead.', sender='Thaleia', sentTime=Tue Apr 21 13:35:38 CDT 2020}
+	 116 Msg: MessageAnalysisVO{disentangledId=81, text='what's ngate?', sender='Dominik', sentTime=Tue Apr 21 13:35:49 CDT 2020}
+	 117 Msg: MessageAnalysisVO{disentangledId=81, text='Weekly summary of top Hacker News posts.', sender='Thaleia', sentTime=Tue Apr 21 13:36:05 CDT 2020}
+	 118 Msg: MessageAnalysisVO{disentangledId=81, text='http://ngate.com', sender='Thaleia', sentTime=Tue Apr 21 13:36:12 CDT 2020}
+	 119 Msg: MessageAnalysisVO{disentangledId=81, text='lol', sender='Dominik', sentTime=Tue Apr 21 13:36:35 CDT 2020}
+	 120 Msg: MessageAnalysisVO{disentangledId=81, text='neat', sender='Dominik', sentTime=Tue Apr 21 13:36:36 CDT 2020}
+	 121 Msg: MessageAnalysisVO{disentangledId=81, text='btw thanks for talking to me I was having a pretty shitty day and now I’m a bit better 🙇\u200d♂️', sender='Dominik', sentTime=Tue Apr 21 13:36:56 CDT 2020}
+	 122 Msg: MessageAnalysisVO{disentangledId=81, text='Aww happy to hear that.', sender='Thaleia', sentTime=Tue Apr 21 13:37:16 CDT 2020}
+	 123 Msg: MessageAnalysisVO{disentangledId=81, text='it’s quarantine and I don’t have frickin have running water', sender='Dominik', sentTime=Tue Apr 21 13:37:35 CDT 2020}
+	 124 Msg: MessageAnalysisVO{disentangledId=81, text='Ouch', sender='Thaleia', sentTime=Tue Apr 21 13:37:46 CDT 2020}
+	 125 Msg: MessageAnalysisVO{disentangledId=81, text='That sucks.', sender='Thaleia', sentTime=Tue Apr 21 13:37:48 CDT 2020}
+	 126 Msg: MessageAnalysisVO{disentangledId=81, text='yeah idk who thought maintenance works at this point in time would be a good idea', sender='Dominik', sentTime=Tue Apr 21 13:38:09 CDT 2020}
+	 127 Msg: MessageAnalysisVO{disentangledId=81, text='so the only things I ate today are toast and some takeout :GWvertiPeepoSadMan:', sender='Dominik', sentTime=Tue Apr 21 13:38:37 CDT 2020}
+	 128 Msg: MessageAnalysisVO{disentangledId=81, text='😔', sender='Thaleia', sentTime=Tue Apr 21 13:38:48 CDT 2020}
+	 129 Msg: MessageAnalysisVO{disentangledId=81, text='btw is there any scheme that can compile to JS nicely?', sender='Dominik', sentTime=Tue Apr 21 13:39:07 CDT 2020}
+	 130 Msg: MessageAnalysisVO{disentangledId=81, text='except clojurescript', sender='Dominik', sentTime=Tue Apr 21 13:39:18 CDT 2020}
+	 131 Msg: MessageAnalysisVO{disentangledId=81, text='That's no Scheme!', sender='Thaleia', sentTime=Tue Apr 21 13:39:27 CDT 2020}
+	 132 Msg: MessageAnalysisVO{disentangledId=81, text='There are a few but none of them are popular.', sender='Thaleia', sentTime=Tue Apr 21 13:39:38 CDT 2020}
+	 133 Msg: MessageAnalysisVO{disentangledId=81, text='racket>JS would be ideal tbh', sender='Dominik', sentTime=Tue Apr 21 13:39:39 CDT 2020}
+	 134 Msg: MessageAnalysisVO{disentangledId=81, text='ah 😔', sender='Dominik', sentTime=Tue Apr 21 13:39:44 CDT 2020}
+	 135 Msg: MessageAnalysisVO{disentangledId=81, text='Schemers don't seem to like JS.', sender='Thaleia', sentTime=Tue Apr 21 13:39:46 CDT 2020}
+	 136 Msg: MessageAnalysisVO{disentangledId=81, text='idk what people even use lisp for', sender='Dominik', sentTime=Tue Apr 21 13:40:02 CDT 2020}
+	 137 Msg: MessageAnalysisVO{disentangledId=81, text='nobody does web dev nobody does GUIs nobody does mobile dev', sender='Dominik', sentTime=Tue Apr 21 13:40:14 CDT 2020}
+	 138 Msg: MessageAnalysisVO{disentangledId=81, text='Have you tried RacketScript?', sender='Thaleia', sentTime=Tue Apr 21 13:40:15 CDT 2020}
+	 139 Msg: MessageAnalysisVO{disentangledId=81, text='what are they doing?', sender='Dominik', sentTime=Tue Apr 21 13:40:18 CDT 2020}
+	 140 Msg: MessageAnalysisVO{disentangledId=81, text='I think it’s still in alpha no?', sender='Dominik', sentTime=Tue Apr 21 13:40:30 CDT 2020}
+	 141 Msg: MessageAnalysisVO{disentangledId=81, text='BRB', sender='Thaleia', sentTime=Tue Apr 21 13:40:44 CDT 2020}
+	 142 Msg: MessageAnalysisVO{disentangledId=81, text='o7', sender='Dominik', sentTime=Tue Apr 21 13:41:29 CDT 2020}
+	 143 Msg: MessageAnalysisVO{disentangledId=81, text='> RacketScript doesn't support Racket features which are expensive for example proper tail calls and continuations.:GWvertiPeepoSadMan:', sender='Dominik', sentTime=Tue Apr 21 13:42:06 CDT 2020}
+	 144 Msg: MessageAnalysisVO{disentangledId=81, text='how to do loops in scheme without tail calls lol', sender='Dominik', sentTime=Tue Apr 21 13:42:21 CDT 2020}
+	 145 Msg: MessageAnalysisVO{disentangledId=81, text='Back', sender='Thaleia', sentTime=Tue Apr 21 13:43:32 CDT 2020}
+	 146 Msg: MessageAnalysisVO{disentangledId=81, text='I think it converts `for` to JS directly.', sender='Thaleia', sentTime=Tue Apr 21 13:43:49 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Thaleia, Dominik]
+Messages Size: 85
+Duration of Monopolized Convo: 0 days, 20 hours, 55 minutes, 37 seconds
+Duration Until Next User Added: 0 days, 0 hours, 3 minutes, 44 seconds
+Char Length of Text Msg Before New User Added: 24
+	 1 Msg: MessageAnalysisVO{disentangledId=81, text='yeah but when I talk to ocaml devs I often get “not many people do web dev in ocaml” as a justification of not having good web libraries', sender='Dominik', sentTime=Tue Apr 21 13:45:54 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=81, text='there’s a lot of compiler nerds in the ocaml community', sender='Dominik', sentTime=Tue Apr 21 13:46:06 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=81, text='there aren’t many compiler jobs out there though sadly', sender='Dominik', sentTime=Tue Apr 21 13:46:28 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=81, text='It's often used in stock trading companies.', sender='Thaleia', sentTime=Tue Apr 21 13:46:54 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=81, text='Cljs is a solid choice for JS btw', sender='Thaleia', sentTime=Tue Apr 21 13:46:59 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=81, text='in one :^)', sender='Dominik', sentTime=Tue Apr 21 13:47:01 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=81, text='Well I met someone who used OCaml in one such company that wasn't Jane Street.', sender='Thaleia', sentTime=Tue Apr 21 13:47:28 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=81, text='So that makes it two.', sender='Thaleia', sentTime=Tue Apr 21 13:47:34 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=81, text='oh', sender='Dominik', sentTime=Tue Apr 21 13:47:36 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=81, text='that’s not one!', sender='Dominik', sentTime=Tue Apr 21 13:47:40 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=81, text='Sample bias tho', sender='Thaleia', sentTime=Tue Apr 21 13:47:46 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=81, text='Either way I found mobile dev in Scheme to be very easy with LambdaNative.', sender='Thaleia', sentTime=Tue Apr 21 13:48:29 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=81, text='But it quickly gets complicated when you want to do more than simple stuff.', sender='Thaleia', sentTime=Tue Apr 21 13:48:48 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=81, text='there’s a guy on #ocaml who moved to ocaml from clojure bc at his clojure work he was getting gored by regressions it’s still at the back of my head somehow :GWsetmyxPeepoSad:', sender='Dominik', sentTime=Tue Apr 21 13:49:05 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=81, text='yeah on gambit right?', sender='Dominik', sentTime=Tue Apr 21 13:49:17 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=81, text='Yeah', sender='Thaleia', sentTime=Tue Apr 21 13:49:20 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=81, text='there’s a very nice scheme on top of gambit called gerbil', sender='Dominik', sentTime=Tue Apr 21 13:49:31 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=81, text='but they don’t support lambda native yet', sender='Dominik', sentTime=Tue Apr 21 13:49:43 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=81, text='I made this in less than an hour with zero prior mobile dev experience.', sender='Thaleia', sentTime=Tue Apr 21 13:50:34 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=81, text='it was built by a guy who liked racket’s module system but didn’t like there were no escape hatches for performance at the time', sender='Dominik', sentTime=Tue Apr 21 13:50:47 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=81, text='Most of that time went to installing Android NDK though.', sender='Thaleia', sentTime=Tue Apr 21 13:50:51 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=81, text='YEET', sender='Dominik', sentTime=Tue Apr 21 13:51:05 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=81, text='lol', sender='Dominik', sentTime=Tue Apr 21 13:51:08 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=81, text='I thought Lisps sucked because everything felt incomplete then I realised all software sucks because everything ever is incomplete.', sender='Thaleia', sentTime=Tue Apr 21 13:52:28 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=81, text='true', sender='Dominik', sentTime=Tue Apr 21 13:53:07 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=81, text='I thought emacs sucked but then I tried the alternatives', sender='Dominik', sentTime=Tue Apr 21 13:53:22 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=81, text='same', sender='Thaleia', sentTime=Tue Apr 21 13:53:35 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=81, text='which lisp would you use instead of python? I mostly make scripts at work now I need something low friction', sender='Dominik', sentTime=Tue Apr 21 13:54:43 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=81, text='racket sounds good for this tbh', sender='Dominik', sentTime=Tue Apr 21 13:54:51 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=81, text='good docs', sender='Dominik', sentTime=Tue Apr 21 13:54:55 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=81, text='Racket.', sender='Thaleia', sentTime=Tue Apr 21 13:54:55 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=81, text=':meow:', sender='Thaleia', sentTime=Tue Apr 21 13:54:59 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=81, text=':meowmas:', sender='Dominik', sentTime=Tue Apr 21 13:55:11 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=81, text='It's a great sysprog language.', sender='Thaleia', sentTime=Tue Apr 21 13:55:22 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=81, text='omw to make a dsl for every little task', sender='Dominik', sentTime=Tue Apr 21 13:55:34 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=81, text='hell yeah', sender='Thaleia', sentTime=Tue Apr 21 13:55:43 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=81, text='But isn't that with Unix does too though?', sender='Thaleia', sentTime=Tue Apr 21 13:55:54 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=81, text='Write DSLs for everything in C', sender='Thaleia', sentTime=Tue Apr 21 13:56:07 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=81, text='also most frameworks are DSLs but awkward', sender='Dominik', sentTime=Tue Apr 21 13:56:19 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=81, text='Why not make them Less Awkward while at it?', sender='Thaleia', sentTime=Tue Apr 21 13:56:34 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=81, text='right?', sender='Dominik', sentTime=Tue Apr 21 13:56:43 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=81, text='Honestly I love Racket to bits. Easily my favourite language despite the bumps and nicks here and there.', sender='Thaleia', sentTime=Tue Apr 21 13:57:17 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=81, text='I gained a new appreciation for it after having to write lots of Python.', sender='Thaleia', sentTime=Tue Apr 21 13:57:46 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=81, text='Even if you avoid LOP it's great for everyday tasks with its included batteries.', sender='Thaleia', sentTime=Tue Apr 21 13:58:57 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=81, text='thoa heavy framework: uses some obscure syntax featuresmy superior: ohh there you go. sweet beautifula DSL: is simple and expressive afmy superior: you fucking donkey who will learn that syntax? we have work to do', sender='Dominik', sentTime=Tue Apr 21 13:59:17 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=81, text='The secret is showing to your workmates that you can trivially achieve something with that DSL instead of having to churn out lower level code for every little task.', sender='Thaleia', sentTime=Tue Apr 21 14:00:21 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=81, text='Unless you get paid by line or something. :meow:', sender='Thaleia', sentTime=Tue Apr 21 14:01:00 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=81, text='I do hear tales of people getting fired for reducing the size of code in projects.', sender='Thaleia', sentTime=Tue Apr 21 14:01:24 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=81, text=':meow: thank god I don’t', sender='Dominik', sentTime=Tue Apr 21 14:01:28 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=81, text='we have open space office though', sender='Dominik', sentTime=Tue Apr 21 14:01:41 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=81, text='gotta have one bad thing', sender='Dominik', sentTime=Tue Apr 21 14:01:53 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=81, text='we don’t have managers though? that’s pretty nice', sender='Dominik', sentTime=Tue Apr 21 14:02:06 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=81, text='Nice', sender='Thaleia', sentTime=Tue Apr 21 14:02:11 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=81, text='Autonomy ftw', sender='Thaleia', sentTime=Tue Apr 21 14:02:16 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=81, text='only team leadersbut they’re coders too and don’t watch you from behind your back', sender='Dominik', sentTime=Tue Apr 21 14:02:47 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=81, text='relevant btw', sender='Thaleia', sentTime=Tue Apr 21 14:03:10 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=81, text='I once deployed a small statically linked CHICKEN program for something but I don't remember what exactly. It wasn't in prod though just an inhouse utility that works behind the scenes.', sender='Thaleia', sentTime=Tue Apr 21 14:04:43 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=81, text='actually a thing i’ve never seen in other companies: we work 8 hour workdays right? but our “availability” (can’t find a better word) is 6 hoursyou get two hours for meetings having lunch administrative stuffI think that’s pretty sweet', sender='Dominik', sentTime=Tue Apr 21 14:05:08 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=81, text='I now realise they never asked me anything about that so chances are that it's still running with no one having noticed it.', sender='Thaleia', sentTime=Tue Apr 21 14:05:26 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=81, text='you can go out to have lunch for an hour and nobody bats an eye', sender='Dominik', sentTime=Tue Apr 21 14:05:34 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=81, text='Oh that's nice.', sender='Thaleia', sentTime=Tue Apr 21 14:05:39 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=81, text='lol', sender='Dominik', sentTime=Tue Apr 21 14:05:52 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=81, text='I wanted to push reasonml once to have a simpler stack for front end', sender='Dominik', sentTime=Tue Apr 21 14:06:20 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=81, text='i’m just a junior so my team leader called for a meeting with a senior front end dev', sender='Dominik', sentTime=Tue Apr 21 14:06:44 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=81, text='he said no don’t use reason it’s too complicated', sender='Dominik', sentTime=Tue Apr 21 14:06:55 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=81, text='but he insisted I needed to use redux sagas immutable.js and all that zoo', sender='Dominik', sentTime=Tue Apr 21 14:07:13 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=81, text='rip [x2]', sender='Thaleia', sentTime=Tue Apr 21 14:07:13 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=81, text='it was a simple thing so I spent two weeks just learning these then working for a week then the client bailed lol', sender='Dominik', sentTime=Tue Apr 21 14:07:47 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=81, text='in reason I’d be done already 😔', sender='Dominik', sentTime=Tue Apr 21 14:07:58 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=81, text='fuck sagas tbh XHR is where it’s at', sender='Dominik', sentTime=Tue Apr 21 14:08:33 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=81, text='😔', sender='Thaleia', sentTime=Tue Apr 21 14:08:35 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=81, text='I have absolutely zero experience with frontend dev I should warn you.', sender='Thaleia', sentTime=Tue Apr 21 14:09:04 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=81, text='the water is back but it’s orange :GWvertiPeepoSadMan:', sender='Dominik', sentTime=Tue Apr 21 14:09:06 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=81, text='oh', sender='Dominik', sentTime=Tue Apr 21 14:09:12 CDT 2020}
+	 75 Msg: MessageAnalysisVO{disentangledId=81, text='My website is handwritten HTML and CSS.', sender='Thaleia', sentTime=Tue Apr 21 14:09:28 CDT 2020}
+	 76 Msg: MessageAnalysisVO{disentangledId=81, text='well the gist is he pushed a stack you should use only if your app is so large you cant manage with the simple tools', sender='Dominik', sentTime=Tue Apr 21 14:09:48 CDT 2020}
+	 77 Msg: MessageAnalysisVO{disentangledId=81, text='like I wanna chop a carrot what should I use?a flaming chainsaw', sender='Dominik', sentTime=Tue Apr 21 14:10:31 CDT 2020}
+	 78 Msg: MessageAnalysisVO{disentangledId=81, text='None', sender='Thaleia', sentTime=Tue Apr 21 14:12:50 CDT 2020}
+	 79 Msg: MessageAnalysisVO{disentangledId=81, text='lol', sender='Dominik', sentTime=Tue Apr 21 14:39:12 CDT 2020}
+	 80 Msg: MessageAnalysisVO{disentangledId=81, text='how did you get this theme @Deleted User?', sender='Dominik', sentTime=Tue Apr 21 14:39:56 CDT 2020}
+	 81 Msg: MessageAnalysisVO{disentangledId=81, text='is this a custom browser or a stylus thing or', sender='Dominik', sentTime=Tue Apr 21 14:40:12 CDT 2020}
+	 82 Msg: MessageAnalysisVO{disentangledId=81, text='oh it’s a prepared image :meow:', sender='Dominik', sentTime=Tue Apr 21 14:40:32 CDT 2020}
+	 83 Msg: MessageAnalysisVO{disentangledId=82, text='It's the old style of SO.', sender='Thaleia', sentTime=Tue Apr 21 15:06:51 CDT 2020}
+	 84 Msg: MessageAnalysisVO{disentangledId=81, text='really? I’m too young', sender='Dominik', sentTime=Tue Apr 21 15:15:58 CDT 2020}
+	 85 Msg: MessageAnalysisVO{disentangledId=81, text='does racket work on ARM?', sender='Dominik', sentTime=Wed Apr 22 10:41:32 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Treyton, Macia]
+Messages Size: 52
+Duration of Monopolized Convo: 0 days, 0 hours, 43 minutes, 44 seconds
+Duration Until Next User Added: 0 days, 0 hours, 0 minutes, 20 seconds
+Char Length of Text Msg Before New User Added: 76
+	 1 Msg: MessageAnalysisVO{disentangledId=94, text='Hi there!As I use Termux (because I have not had a PC for 2 years) and I use an x11 system inside my mobile which doesn't have many apps I was thinking of making some using Racket (with `racket/gui` lib). So a question came up to me and I want to know if it is possible to make a deb package with Racket (using some library or something to export)', sender='Treyton', sentTime=Tue Apr 28 20:41:31 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=95, text='HI @NTBBloodbath are your running racket in your phone?', sender='Macia', sentTime=Tue Apr 28 20:57:24 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=95, text='Yeah I'm using it on Termux', sender='Treyton', sentTime=Tue Apr 28 20:57:47 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=95, text='None', sender='Treyton', sentTime=Tue Apr 28 20:59:59 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=95, text='nice', sender='Macia', sentTime=Tue Apr 28 21:00:10 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=95, text='(Set alias for racket ... It is a little more comfortable to run using `rkt` instead of `racket`)', sender='Treyton', sentTime=Tue Apr 28 21:00:49 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=95, text='It works very well', sender='Treyton', sentTime=Tue Apr 28 21:01:05 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=95, text='racket gui expects gnome I think to run gui apps', sender='Macia', sentTime=Tue Apr 28 21:01:17 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=95, text='And since Termux has x11 support I got to experimenting a bit with GUI lol', sender='Treyton', sentTime=Tue Apr 28 21:01:49 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=95, text='Rlly? It works with Xfce4 on mobile 🤔', sender='Treyton', sentTime=Tue Apr 28 21:02:05 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=95, text='will racket run with just x111?', sender='Macia', sentTime=Tue Apr 28 21:02:07 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=95, text='Yeah', sender='Treyton', sentTime=Tue Apr 28 21:02:14 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=95, text='gracket that is', sender='Macia', sentTime=Tue Apr 28 21:02:18 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=95, text='wow', sender='Macia', sentTime=Tue Apr 28 21:02:19 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=95, text='Gimme a moment I'll show it to you', sender='Treyton', sentTime=Tue Apr 28 21:02:32 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=95, text='(If you screenshare from your phone to discord my head will explode)', sender='Macia', sentTime=Tue Apr 28 21:03:13 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=95, text='Hahaha I think that is not possible at the moment', sender='Treyton', sentTime=Tue Apr 28 21:07:11 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=95, text='I was just lookign at the termux website', sender='Macia', sentTime=Tue Apr 28 21:07:29 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=95, text='None', sender='Treyton', sentTime=Tue Apr 28 21:08:24 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=95, text='that is really cool.', sender='Macia', sentTime=Tue Apr 28 21:09:25 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=95, text='do you have a hdmi adaptor and a keyborad', sender='Macia', sentTime=Tue Apr 28 21:09:44 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=95, text='Yes this opens up a lot of possibilities', sender='Treyton', sentTime=Tue Apr 28 21:09:56 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=95, text='No the x11 system runs directly inside the mobile and I connect to VNC. And yeah I have a external keyboard', sender='Treyton', sentTime=Tue Apr 28 21:10:36 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=95, text='that looks like its bigger than a phone screen', sender='Macia', sentTime=Tue Apr 28 21:11:07 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=95, text='so drracket? or is that pushing things too far?', sender='Macia', sentTime=Tue Apr 28 21:11:30 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=95, text='It is a little more comfortable than the Android keyboard ... Sometimes I have very long codes and with the mobile keyboard it is a bit uncomfortable haha', sender='Treyton', sentTime=Tue Apr 28 21:11:45 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=95, text='Ahh yes the x11 screen size can be configured', sender='Treyton', sentTime=Tue Apr 28 21:12:06 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=95, text='I notice you are on 7.4? I'm guessing that is because 7.6 is too big?', sender='Macia', sentTime=Tue Apr 28 21:12:27 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=95, text='I think DrRacket isn't available for Termux at the moment... So I'm using Vim with some plugins', sender='Treyton', sentTime=Tue Apr 28 21:13:07 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=95, text='i'm amazed.', sender='Macia', sentTime=Tue Apr 28 21:13:50 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=95, text='Is there a newer version? NiceI may have to wait for the Termux team to compile it for Android and my architecture to update', sender='Treyton', sentTime=Tue Apr 28 21:14:01 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=95, text='have you tried `raco distribute`', sender='Macia', sentTime=Tue Apr 28 21:14:03 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=95, text='No I know very little about Racket yet I'm learning 🙂 Anyway what it does?', sender='Treyton', sentTime=Tue Apr 28 21:14:40 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=95, text='7.7 due to be released soon. probably early may.', sender='Macia', sentTime=Tue Apr 28 21:14:41 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=95, text='raco distribute produces standalone executables', sender='Macia', sentTime=Tue Apr 28 21:15:04 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=95, text='> 7.7 due to be released soon. probably early may.Wow and what's new?', sender='Treyton', sentTime=Tue Apr 28 21:15:27 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=95, text='> raco distribute produces standalone executablesOh I'll see it thanks!', sender='Treyton', sentTime=Tue Apr 28 21:15:45 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=95, text='I've not been following the release testing.', sender='Macia', sentTime=Tue Apr 28 21:16:37 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=95, text='I expect racket(cs) will just keep getting better (faster).', sender='Macia', sentTime=Tue Apr 28 21:17:04 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=95, text='That's nice :o', sender='Treyton', sentTime=Tue Apr 28 21:18:00 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=95, text='> I want to know if it is possible to make a deb package with Racket', sender='Macia', sentTime=Tue Apr 28 21:18:25 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=95, text='At first with Racket I was a bit confused by the syntax (I come from other languages \u200b\u200blike Ruby and JavaScript) however I adapted quickly and am comfortable using the parentheses 🙂', sender='Treyton', sentTime=Tue Apr 28 21:19:08 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=95, text='is `raco distribute` and `raco exe` what you were lookign for? I know it doesn't answer the deb package but maybe a start?', sender='Macia', sentTime=Tue Apr 28 21:19:19 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=95, text='```Unrecognized command: distribute```I got that maybe I need to execute `raco setup` first?', sender='Treyton', sentTime=Tue Apr 28 21:20:38 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=95, text='wow! you have the three big syntax traditons!smalltalk>rubyc>javascriptlisp>racket', sender='Macia', sentTime=Tue Apr 28 21:20:46 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=95, text='> The raco distribute command combines a standalone executable created by raco exe with all of the shared libraries that are needed to run it along with any runtime files declared via defineruntimepath. The resulting package can be moved to other machines that run the same operating system.', sender='Macia', sentTime=Tue Apr 28 21:21:38 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=96, text='> the command> > `raco exe gui hello.rkt`> > produces either hello.exe (Windows) hello.app (Mac OS) or hello (Unix) which runs the same as running the hello.rkt module in gracket.', sender='Macia', sentTime=Tue Apr 28 21:22:22 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=95, text='Wow I had not noticed that until now', sender='Treyton', sentTime=Tue Apr 28 21:23:14 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=95, text='```% raco distributeraco distribute: expects <destdir> [<executable>] ... on the command line given 0 arguments% raco hUsage: raco <command> <option> ... <arg> ...```', sender='Macia', sentTime=Tue Apr 28 21:23:35 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=95, text='Ruby's syntax seemed very nice ... However the racket syntax does not stay behind. Despite not being what I'm used to it's very interesting', sender='Treyton', sentTime=Tue Apr 28 21:24:05 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=95, text='Hmmm there are bad news for me... I can't use `distribute` or `exe`', sender='Treyton', sentTime=Tue Apr 28 21:25:02 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=95, text='I got `Unrecognized command`... So I think I'll create executables by myself', sender='Treyton', sentTime=Tue Apr 28 21:25:15 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Dejuan, Yamato]
+Messages Size: 49
+Duration of Monopolized Convo: 0 days, 2 hours, 41 minutes, 29 seconds
+Duration Until Next User Added: 0 days, 2 hours, 55 minutes, 53 seconds
+Char Length of Text Msg Before New User Added: 1
+	 1 Msg: MessageAnalysisVO{disentangledId=69, text='hello i need help for exercice on scheme', sender='Yamato', sentTime=Tue Jun 30 13:08:47 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=69, text='please', sender='Yamato', sentTime=Tue Jun 30 13:08:51 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=69, text='I’ll try to helpWhich scheme are you using ?A racket teaching language ?', sender='Dejuan', sentTime=Tue Jun 30 13:17:46 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=69, text='yes', sender='Yamato', sentTime=Tue Jun 30 13:32:04 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=69, text='Which teaching language?', sender='Dejuan', sentTime=Tue Jun 30 13:32:31 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=69, text='An association organized a stage race for its members. It is a question of establishing thisfinal classification of the race.The result of a participant in the race is represented by a list of 2 elements the first of which is a chainof characters corresponding to the name of the participant and the second a list of times achieved expressed in seconds at the different stages of the race that he has completed. In the rest of this exercise we call this type of dataresult.Define a result function? which takes any type parameter and returns true if and onlythis parameter is of the result type that is to say that it is indeed a list of 2 elements of which the first is astring and the second a list of strictly positive integers.', sender='Yamato', sentTime=Tue Jun 30 13:33:18 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=69, text='(define (résultat? ch L)(if (string? ch) (if (number? L) #t)#f))(résultat? Pierre 200)', sender='Yamato', sentTime=Tue Jun 30 13:33:38 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=69, text='I have make this but i dont know in list', sender='Yamato', sentTime=Tue Jun 30 13:33:54 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=69, text='make list', sender='Yamato', sentTime=Tue Jun 30 13:34:05 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=69, text='so a \'result is something like this; `(("Stephen (2.34 2.20 2.22) ("AZIZ (1.99 1.92 1.90) ...)`', sender='Dejuan', sentTime=Tue Jun 30 13:42:20 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=69, text='and you need to define `result?`', sender='Dejuan', sentTime=Tue Jun 30 13:42:55 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=69, text='`(define (result? aresult) (if ??? #t #f))` ?', sender='Dejuan', sentTime=Tue Jun 30 13:43:43 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=69, text='Maybe work backwards? can you define a predicate for a single positive integer? (or is there one inbuilt?)', sender='Dejuan', sentTime=Tue Jun 30 13:47:31 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=69, text='(A function that checks something is called a predicate and traditionally ends with a ‘?’)', sender='Dejuan', sentTime=Tue Jun 30 13:48:29 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=69, text='Can you use that to define a function that will check if you have a list of positive integers ?', sender='Dejuan', sentTime=Tue Jun 30 13:49:59 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=69, text='its okay he works now', sender='Yamato', sentTime=Tue Jun 30 13:54:50 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=69, text='🙂', sender='Yamato', sentTime=Tue Jun 30 13:54:54 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=69, text='I’d say good luck but I don’t think you need it. Well done !', sender='Dejuan', sentTime=Tue Jun 30 13:55:31 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=69, text='Define a name function that takes a result as a parameter and returns the name of the participant concerned by thisresult. For example (name \'("Gaspard (72 142 27))) returns Gaspard".', sender='Yamato', sentTime=Tue Jun 30 13:55:35 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=69, text='i have another problem sorry', sender='Yamato', sentTime=Tue Jun 30 13:55:48 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=69, text='‘car’ or ‘first’ ? Inbuilt functions', sender='Dejuan', sentTime=Tue Jun 30 13:57:30 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=69, text='with car', sender='Yamato', sentTime=Tue Jun 30 13:59:00 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=69, text='non first', sender='Yamato', sentTime=Tue Jun 30 13:59:07 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=69, text='no first i try since one hours', sender='Yamato', sentTime=Tue Jun 30 13:59:24 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=69, text='https://docs.racketlang.org/htdplangs/beginner.html#%28def._htdpbeginner._%28%28lib._lang%2Fhtdpbeginner..rkt%29._first%29%29', sender='Dejuan', sentTime=Tue Jun 30 14:04:07 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=69, text='```scheme(first x) → any/c x : cons?```Selects the first item of a nonempty list.>x(list 2 hello #true)>(first x)2', sender='Dejuan', sentTime=Tue Jun 30 14:04:54 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=69, text='(define (nom resul) (if (null? R) \'() (car R)))(nom \'("Gaspard (72 142 27)))', sender='Yamato', sentTime=Tue Jun 30 14:05:41 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=69, text='R is resulat', sender='Yamato', sentTime=Tue Jun 30 14:05:50 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=69, text='result', sender='Yamato', sentTime=Tue Jun 30 14:05:55 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=69, text='nom = name', sender='Yamato', sentTime=Tue Jun 30 14:05:59 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=69, text='```schemedefine (nom resul) (if (null? resul) \'() (first resul)))(nom \'("Gaspard (72 142 27)))>"Gaspard"```', sender='Dejuan', sentTime=Tue Jun 30 14:07:18 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=69, text='None', sender='Dejuan', sentTime=Tue Jun 30 14:08:06 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=69, text='(how to format scheme in discord)', sender='Dejuan', sentTime=Tue Jun 30 14:08:24 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=69, text='(define (nom resul) (if (null? resul) \'() (car resul)))(nom \'("Gaspard (72 142 27)))', sender='Yamato', sentTime=Tue Jun 30 14:14:30 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=69, text='yes he works', sender='Yamato', sentTime=Tue Jun 30 14:14:48 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=69, text='i try to make another exercices', sender='Yamato', sentTime=Tue Jun 30 14:15:01 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=69, text='thanks', sender='Yamato', sentTime=Tue Jun 30 14:15:20 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=69, text='(nom Stephen") also works. Do you need to check (second resul) = list of integers?', sender='Dejuan', sentTime=Tue Jun 30 14:16:23 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=69, text='no', sender='Yamato', sentTime=Tue Jun 30 14:19:09 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=69, text='One result is less than another if fewer steps have been completed or if as many steps have been completedbut in a larger cumulative time. It is equivalent if so many steps have been completed at the same timeaccumulated. It is superior otherwise.Define the result <? result =? and result>? each taking parameters 2results and returning true if and only if the first result is respectively less equivalent or greater thansecond.', sender='Yamato', sentTime=Tue Jun 30 14:20:43 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=69, text='I have found this exercicse yesterday but i dont undertand how i start', sender='Yamato', sentTime=Tue Jun 30 14:21:09 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=69, text='`(result<? \'("Gaspard (72 142 27)) \'("Gaspard (80 152 27)))`is it total steps (+ 72 142 27)?', sender='Dejuan', sentTime=Tue Jun 30 14:24:16 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=70, text='oui', sender='Yamato', sentTime=Tue Jun 30 14:28:22 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=69, text='yes', sender='Yamato', sentTime=Tue Jun 30 14:28:25 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=69, text='i need three functions', sender='Yamato', sentTime=Tue Jun 30 14:30:41 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=69, text='(define (longueur l)(if (null? l) 0(+ 1 (longueur (cdr l)))))', sender='Yamato', sentTime=Tue Jun 30 14:42:37 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=69, text='i have juste this', sender='Yamato', sentTime=Tue Jun 30 14:42:41 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=69, text=';Question 3.5(define (longueur l); renvoie le nombre d’éléments de l; liste > entier >= 0(if (null? l) 0(+ 1 (longueur (cdr l)))))(define (resultat=? A B)(and ((= (longueur A) (longueur B)) (= (tempsCumule A) (tempsCumule B)))));Exemple :(resultat=? \'("Gaspard (72 142 27)) \'("Gaspard (80 152 27)))(define (resultat<? A B)(and ((< (longueur A) (longueur B)) (< (tempsCumule A) (tempsCumule B)))));Exemple :(resultat<? \'("Gaspard (72 142 27)) \'("Gaspard (80 152 27)));Exemple : (define (resultat>? A B)(and ((> (longueur A) (longueur B)) (> (tempsCumule A) (tempsCumule B)))))(resultat>? \'("Gaspard (72 142 27)) \'("Gaspard (80 152 27)))', sender='Yamato', sentTime=Tue Jun 30 15:04:26 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=69, text='?', sender='Yamato', sentTime=Tue Jun 30 15:50:17 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Bexon, Daevion]
+Messages Size: 42
+Duration of Monopolized Convo: 0 days, 2 hours, 54 minutes, 32 seconds
+Duration Until Next User Added: 0 days, 0 hours, 0 minutes, 16 seconds
+Char Length of Text Msg Before New User Added: 2
+	 1 Msg: MessageAnalysisVO{disentangledId=98, text='yeah lisps are really good for data processing', sender='Bexon', sentTime=Fri Sep 25 10:26:00 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=98, text='isn’t it one of their biggest pros even?', sender='Bexon', sentTime=Fri Sep 25 10:26:26 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=96, text='Lisp enthusiasts will tell you Lisp is good for everything', sender='Daevion', sentTime=Fri Sep 25 11:59:22 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=96, text='(That includes scheme enthusiasts )', sender='Daevion', sentTime=Fri Sep 25 12:00:38 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=98, text='I\'d say lisp (and ML family) languages are good for anything but embedded realtime very few resources type of thing', sender='Bexon', sentTime=Fri Sep 25 12:13:59 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=98, text='you might not even have a heap in this scenario', sender='Bexon', sentTime=Fri Sep 25 12:14:14 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=98, text='I dare you to ask about ‘embedded realtime lisp’ on r/lisp 🤣 (I’m joking  don’t do it  it’s just trolling and unkind.)', sender='Daevion', sentTime=Fri Sep 25 12:16:45 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=98, text='https://tenor.com/view/oldmanyellsatcloudyellingoldmannewsthesimpsonsgif17741451', sender='Daevion', sentTime=Fri Sep 25 12:17:21 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=98, text='but also the truth is most of us won't have to ever deal with such a system', sender='Bexon', sentTime=Fri Sep 25 12:18:18 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=98, text='so :^)', sender='Bexon', sentTime=Fri Sep 25 12:18:22 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=98, text='well maybe not deal as we all have cellphones  write software for"', sender='Bexon', sentTime=Fri Sep 25 12:19:05 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=98, text='I don’t know? There are so many single board computers the size of a credit card and dirt cheap  DrRacket runs fine on the raspberry pi. I think what counts as embedded is changing. i’m thinking about getting a macro pad kit that runs Linux! To drive 16 keys. I think it runs python.', sender='Daevion', sentTime=Fri Sep 25 12:23:02 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=98, text='yeah I was thinking something more constrained', sender='Bexon', sentTime=Fri Sep 25 12:33:44 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=98, text='like that chip in your phone that processes data from cell towers', sender='Bexon', sentTime=Fri Sep 25 12:34:17 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=99, text='Yeah.', sender='Daevion', sentTime=Fri Sep 25 12:36:02 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=98, text='I had a good article about this somewhere I can't find it now :(', sender='Bexon', sentTime=Fri Sep 25 12:36:20 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=98, text='The curse of the information age', sender='Daevion', sentTime=Fri Sep 25 12:36:32 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=98, text='too many good articles with poor SEO', sender='Bexon', sentTime=Fri Sep 25 12:36:50 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=98, text='You now have me wondering what the smallest device where I can run Racket.', sender='Daevion', sentTime=Fri Sep 25 12:38:44 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=98, text='(I may buy that macro pad just so I can replace python with racket to do my keyboard macros)', sender='Daevion', sentTime=Fri Sep 25 12:39:30 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=98, text='🤪', sender='Daevion', sentTime=Fri Sep 25 12:39:53 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=98, text='raspberry pi zero?', sender='Bexon', sentTime=Fri Sep 25 12:40:51 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=98, text='well it won't run on arduino but you could compile to their Clike language lol', sender='Bexon', sentTime=Fri Sep 25 12:41:14 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=98, text='Pizero yes.', sender='Daevion', sentTime=Fri Sep 25 12:41:37 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=98, text='> well it won't run on arduino but you could compile to their Clike language lol@sarna I love that ASI64 project where the guy wrote a 6502 assembler in Racket to make c64 games.', sender='Daevion', sentTime=Fri Sep 25 12:42:52 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=98, text='link please 👀', sender='Bexon', sentTime=Fri Sep 25 12:44:14 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=98, text='https://pezipink.itch.io/c64robotfindskitten', sender='Daevion', sentTime=Fri Sep 25 12:45:15 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=98, text='thanks 👀', sender='Bexon', sentTime=Fri Sep 25 12:45:30 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=98, text='I remember someone optimizing their assembly code with a racket lang', sender='Bexon', sentTime=Fri Sep 25 12:45:44 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=98, text='rosette probably?', sender='Bexon', sentTime=Fri Sep 25 12:45:50 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=98, text='Maybe @sorawee on slack? He’s the only one that I know who uses Rosette', sender='Daevion', sentTime=Fri Sep 25 12:46:48 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=98, text='I like the idea of compiling Racket to another language but to do it well I’d need to know the other language well. (And I don’t know any language well enough to do that)', sender='Daevion', sentTime=Fri Sep 25 12:48:42 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=98, text='found it  it was whitequark', sender='Bexon', sentTime=Fri Sep 25 13:04:20 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=98, text='https://lab.whitequark.org/notes/20200406/synthesizingoptimal8051code/', sender='Bexon', sentTime=Fri Sep 25 13:04:21 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=98, text='Thanks for that', sender='Daevion', sentTime=Fri Sep 25 13:08:43 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=100, text='on one hand I'm missing emotes other than :meow: here', sender='Bexon', sentTime=Fri Sep 25 13:19:01 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=98, text='on the other hand it's kinda fun when :meow: is the only feeling you experience', sender='Bexon', sentTime=Fri Sep 25 13:19:21 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=100, text='I though you could add new ones', sender='Daevion', sentTime=Fri Sep 25 13:19:45 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=98, text='oh I can!', sender='Bexon', sentTime=Fri Sep 25 13:20:08 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=98, text='hm that's a lot of power to give your members', sender='Bexon', sentTime=Fri Sep 25 13:20:17 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=98, text='(I feel like I have made a grave mistake)', sender='Daevion', sentTime=Fri Sep 25 13:20:28 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=98, text='🤣', sender='Daevion', sentTime=Fri Sep 25 13:20:32 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Olvin, Cortlin]
+Messages Size: 58
+Duration of Monopolized Convo: 0 days, 2 hours, 22 minutes, 11 seconds
+Duration Until Next User Added: 0 days, 2 hours, 7 minutes, 42 seconds
+Char Length of Text Msg Before New User Added: 209
+	 1 Msg: MessageAnalysisVO{disentangledId=137, text='The formatting makes it very difficult to read.', sender='Cortlin', sentTime=Fri Oct 02 17:13:23 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=137, text='But here are a couple semantic tips:1. You don't need to check if the condition is equal to true. You can just say `if condition`.2. You don't need to use `begin` if your code is a single line. If you're dealing with an `if` statement with multiple lines per case you might want to consider using a `cond` instead.', sender='Cortlin', sentTime=Fri Oct 02 17:15:34 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=137, text='The procedure takes a `code` argument but doesn't do anything with it.', sender='Cortlin', sentTime=Fri Oct 02 17:16:47 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=137, text='So it just loops.', sender='Cortlin', sentTime=Fri Oct 02 17:16:53 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=137, text='Well you can make it work but this isn't the idiomatic way to do loops in Racket.', sender='Cortlin', sentTime=Fri Oct 02 17:18:25 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=137, text='Destructively incrementing an index for a loop is a very imperative idiom.', sender='Cortlin', sentTime=Fri Oct 02 17:19:01 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=137, text='C style if you will.', sender='Cortlin', sentTime=Fri Oct 02 17:19:05 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=137, text='In functional programming languages you should rely on natural recursion.', sender='Cortlin', sentTime=Fri Oct 02 17:19:16 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=137, text='Don't worry I'm sure you'll get a hang of it in no time.', sender='Cortlin', sentTime=Fri Oct 02 17:19:39 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=137, text='All forms of iteration in Racket uses recursion haha', sender='Cortlin', sentTime=Fri Oct 02 17:21:28 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=137, text='(or continuations but let's not get ahead of ourselves)', sender='Cortlin', sentTime=Fri Oct 02 17:21:43 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=137, text='I could go as far as to say while and for loops are just not used in functional programming.', sender='Cortlin', sentTime=Fri Oct 02 17:22:35 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=137, text='Yes but wouldn't you rather learn natural recursion?', sender='Cortlin', sentTime=Fri Oct 02 17:24:02 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=137, text='(the problem in your code is that you need to call `code` before recursing again)', sender='Cortlin', sentTime=Fri Oct 02 17:25:21 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=137, text='Okay I see a problem with your while loop: the condition expression `(= 1 asd)` relies on the mutable variable `asd` but is only evaluated once so it will always be true. In order to fix this you would need a thunk there too', sender='Olvin', sentTime=Fri Oct 02 17:26:29 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=137, text='Turning `(= 1 asd)` into a thunk like `(thunk (= 1 asd))` means the argument is now a function with no inputs. This allows the expression `(= 1 asd)` to be evaluated multiple times to produce different results after `asd` is mutated', sender='Olvin', sentTime=Fri Oct 02 17:27:52 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=137, text='`begin` doesn't make it a thunk `thunk` does', sender='Olvin', sentTime=Fri Oct 02 17:32:25 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=137, text='also if it\'s a thunk you also need to call it whenever you want to evaluate the condition', sender='Olvin', sentTime=Fri Oct 02 17:33:02 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=137, text='Like you're already doing with `(code)`', sender='Olvin', sentTime=Fri Oct 02 17:33:21 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=137, text='You're already making `code` a thunk just do the same with `condition`', sender='Olvin', sentTime=Fri Oct 02 17:35:23 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=137, text='Oh and I think I see another problem: an extra `thunk` wrapping the thenbody of the `if`', sender='Olvin', sentTime=Fri Oct 02 17:36:51 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=137, text='`condition` is a thunk the same way `code` is so evaluating it should be `(condition)` just like you're using `(code)` in the other place', sender='Olvin', sentTime=Fri Oct 02 17:37:41 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=137, text='Since `condition` is a thunk the same way `code` is you need to use `(condition)` in the ifequal stuff the same way you already have `(code)` in the begin stuff', sender='Olvin', sentTime=Fri Oct 02 18:00:06 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=137, text='Did you fix the `condition` in the ifequal?', sender='Olvin', sentTime=Fri Oct 02 18:04:47 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=137, text='Then I would have thought it would produce `"final"` almost immediately because `asd` starts out at `1` so `(= 10 asd)` should start out `#false`', sender='Olvin', sentTime=Fri Oct 02 18:07:40 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=137, text='Can you show how you fixed the `condition` in the ifequal?', sender='Olvin', sentTime=Fri Oct 02 18:10:56 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=137, text='Oh there shouldn't be a `thunk` in the if only 2 `thunks` in the call to `recursive_while`', sender='Olvin', sentTime=Fri Oct 02 18:11:53 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=137, text='And as I said before since `condition` is already a thunk the same way `code` is you need to use`(condition)` to call it in the ifequal stuff the same way you already have `(code)` in the begin stuff', sender='Olvin', sentTime=Fri Oct 02 18:12:40 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=137, text='`(thunk expr)` creates a thunk doesn't call it', sender='Olvin', sentTime=Fri Oct 02 18:13:05 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=137, text='Wait I'm still confused why doesn't it end immediately? `(condition)` should be false on the first round', sender='Olvin', sentTime=Fri Oct 02 18:26:07 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=137, text='when I run it it returns `"final"` right away', sender='Olvin', sentTime=Fri Oct 02 18:48:15 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=137, text='which is what I would expect from a while loop with that condition and body', sender='Olvin', sentTime=Fri Oct 02 18:49:09 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=137, text='I don't know why it looks like for you it's printing `test` over and over again', sender='Olvin', sentTime=Fri Oct 02 18:49:27 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=137, text='Can you copypaste directly instead of screenshoting?', sender='Olvin', sentTime=Fri Oct 02 18:52:36 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=137, text='Oh there's an extra `'` quote that shouldn't be there', sender='Olvin', sentTime=Fri Oct 02 19:10:53 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=137, text='Wait the screenshot is different now', sender='Olvin', sentTime=Fri Oct 02 19:12:16 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=137, text='It's not this anymore', sender='Olvin', sentTime=Fri Oct 02 19:12:40 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=137, text='What happened to that did you revert?', sender='Olvin', sentTime=Fri Oct 02 19:12:55 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=137, text='What was broken about that one?', sender='Olvin', sentTime=Fri Oct 02 19:13:34 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=137, text='When I run that it finishes with `"final"`', sender='Olvin', sentTime=Fri Oct 02 19:13:45 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=137, text='No that one's different', sender='Olvin', sentTime=Fri Oct 02 19:14:45 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=137, text='There was a version that looked like the image I posted above', sender='Olvin', sentTime=Fri Oct 02 19:14:56 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=137, text='what happened to that version?', sender='Olvin', sentTime=Fri Oct 02 19:15:01 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=137, text='You posted it here what happened to it?https://discordapp.com/channels/571040468092321801/618895179343986688/761651995559723049', sender='Olvin', sentTime=Fri Oct 02 19:15:34 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=137, text='That one looks closer to right than anything else', sender='Olvin', sentTime=Fri Oct 02 19:17:01 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=137, text='It's not the same. It doesn't have the `thunk` around the `(= 10 asd)` and it doesn't have the call around the use of the condition in the ifequal', sender='Olvin', sentTime=Fri Oct 02 19:18:13 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=137, text='You keep changing it faster than I can try to help you its hard to keep up', sender='Olvin', sentTime=Fri Oct 02 19:19:18 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=137, text='When I manually write that and run it it returns `"final"` without printing any `test` things. Is that what it does for you?', sender='Olvin', sentTime=Fri Oct 02 19:20:43 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=137, text='So that's a good start. It terminates doesn't go into an infinite loop that's progress', sender='Olvin', sentTime=Fri Oct 02 19:22:02 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=137, text='And it\'s the result I would expect from a while loop like:```let asd = 1;while (10 === asd) { print("test"); asd = asd + 1;}```', sender='Olvin', sentTime=Fri Oct 02 19:23:21 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=137, text='No it's adding 1 just fine', sender='Olvin', sentTime=Fri Oct 02 19:23:50 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=137, text='The problem is that the condition is false from the start', sender='Olvin', sentTime=Fri Oct 02 19:24:06 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=137, text='`asd` starts as 1so `(= 10 asd)` starts as false', sender='Olvin', sentTime=Fri Oct 02 19:24:40 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=137, text='Usually when writing while loops where you want many iterations you want the condition to be true at the start and remain true for as many times as you want iterations', sender='Olvin', sentTime=Fri Oct 02 19:25:56 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=137, text='At this point I think the definition of `recursive_while` looks right. But the use of the while loop is wrong in the same way```let asd = 1;while (10 === asd) { print("test"); asd = asd + 1;}```is wrong', sender='Olvin', sentTime=Fri Oct 02 19:31:02 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=137, text='Well where did you learn to use while loops then?', sender='Olvin', sentTime=Fri Oct 02 19:32:11 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=137, text='You should read the Racket tutorial.', sender='Cortlin', sentTime=Fri Oct 02 19:33:01 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=137, text='Well the thing with `let asd = 1;` is in other languages". I just meant to say that your Racket program isn\'t wrong because of Racket stuff it\'s wrong for reasons that would still be wrong in other languages', sender='Olvin', sentTime=Fri Oct 02 19:35:35 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 2
+Group Users: [Miquel, Daevion]
+Messages Size: 137
+Duration of Monopolized Convo: 0 days, 1 hours, 18 minutes, 42 seconds
+Duration Until Next User Added: 0 days, 9 hours, 33 minutes, 22 seconds
+Char Length of Text Msg Before New User Added: 67
+	 1 Msg: MessageAnalysisVO{disentangledId=181, text='> There are several completion framework for Racket.> > Quickscript Extra's dynamic completion (dynamicabbrev) autocompletes words using existing words in the current file. Using it to autocomplete an identifier however means that it will suggest invalid identifiers taken from string literals.> > DrRacket itself has the completion functionality via ctrl .. It does not autocomplete identifiers defined within a module.> > Racket Mode has its own completion functionality. In addition to supporting identifiers required from other modules it supports identifiers within a module via Check Syntax (and also other things like autocompleting require). However it only considers identifiers that appear textually in the code so identifiers generated programmatically (e.g. from the struct form) are not considered. It does not autocomplete only identifiers that would be in scope.> > DrComplete enhances the completion functionality in DrRacket significantly. Similar to Racket Mode it can autocomplete variety of things including identifiers defined in a module. Additionally it can discover identifiers generated programmatically. However similar to Racket Mode it does not autocomplete only identifiers that would be in scope. https://github.com/sorawee/fishycompletion', sender='Daevion', sentTime=Tue Oct 20 20:55:50 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=181, text='(and there is fishycompletion where I got the above text from the related work section of the readme)', sender='Daevion', sentTime=Tue Oct 20 20:56:40 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=181, text='Do you use this extension?', sender='Miquel', sentTime=Tue Oct 20 20:57:54 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=181, text='> > it's annoying that it's not on by default > @notjack  I want to release an alternative build of DrRacket with sensible defaults', sender='Daevion', sentTime=Tue Oct 20 20:59:27 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=181, text='(Or what \\I think\\ are sensible defaults)', sender='Daevion', sentTime=Tue Oct 20 21:00:07 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=181, text='> Do you use this extension?@Tictac I will  to my shame I've not done any code since the quickscript competition.', sender='Daevion', sentTime=Tue Oct 20 21:01:25 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=181, text='Quickscript right? not fishy completion', sender='Miquel', sentTime=Tue Oct 20 21:01:41 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=181, text='I use quickscript.', sender='Daevion', sentTime=Tue Oct 20 21:02:00 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=181, text='But I will use fishy completion when I start coding again.', sender='Daevion', sentTime=Tue Oct 20 21:02:31 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=181, text='nvm thats not it', sender='Miquel', sentTime=Tue Oct 20 21:02:34 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=181, text='How do I install it?', sender='Miquel', sentTime=Tue Oct 20 21:02:46 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=181, text='I want it 🙏', sender='Miquel', sentTime=Tue Oct 20 21:02:55 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=181, text='comes with DrRacket by default', sender='Daevion', sentTime=Tue Oct 20 21:03:02 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=181, text='oh', sender='Miquel', sentTime=Tue Oct 20 21:03:07 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=181, text='how come I've never used it', sender='Miquel', sentTime=Tue Oct 20 21:03:12 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=181, text='but doesnt include any scripts', sender='Daevion', sentTime=Tue Oct 20 21:03:23 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=181, text='what does that mean', sender='Miquel', sentTime=Tue Oct 20 21:03:33 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=181, text='you can get a starter set with `raco pkg install quickscriptextra`', sender='Daevion', sentTime=Tue Oct 20 21:03:59 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=181, text='Where do I type this?', sender='Miquel', sentTime=Tue Oct 20 21:04:14 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Daevion', sentTime=Tue Oct 20 21:04:37 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=181, text='at the command prompt', sender='Daevion', sentTime=Tue Oct 20 21:04:49 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=181, text='yes', sender='Miquel', sentTime=Tue Oct 20 21:04:58 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=181, text='you need to set your $PATH to include racket/bin', sender='Daevion', sentTime=Tue Oct 20 21:05:08 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=181, text='How do I set my $PATH to include racket/bin', sender='Miquel', sentTime=Tue Oct 20 21:05:35 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=181, text='I'll get the link', sender='Daevion', sentTime=Tue Oct 20 21:06:03 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=181, text='give me a moment', sender='Daevion', sentTime=Tue Oct 20 21:06:05 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=181, text='okay thanks so much', sender='Miquel', sentTime=Tue Oct 20 21:06:09 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=181, text='https://github.com/racket/racket/wiki/SetyourPATHenvironmentvariable', sender='Daevion', sentTime=Tue Oct 20 21:06:46 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=181, text='https://docs.racketlang.org/quickscript/ Quickscript manual', sender='Daevion', sentTime=Tue Oct 20 21:08:18 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=181, text='hey so like I'm on this screen and I'm confused where to go', sender='Miquel', sentTime=Tue Oct 20 21:09:18 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=181, text='https://docs.racketlang.org/quickscriptextra/ Quickscriptextra collection of scripts', sender='Daevion', sentTime=Tue Oct 20 21:09:25 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Miquel', sentTime=Tue Oct 20 21:09:27 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=181, text='is racket in Path the system variables? I can't tell', sender='Daevion', sentTime=Tue Oct 20 21:10:32 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=181, text='click Path', sender='Daevion', sentTime=Tue Oct 20 21:10:37 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=181, text='then click edit', sender='Daevion', sentTime=Tue Oct 20 21:10:41 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=181, text='okay', sender='Miquel', sentTime=Tue Oct 20 21:10:43 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Miquel', sentTime=Tue Oct 20 21:10:54 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=181, text='It opens up this page', sender='Miquel', sentTime=Tue Oct 20 21:10:56 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=181, text='> On Windows 10:> > Add the location of the racket folder to your Path(%Path%) environment variable. The default location is C:\\Program Files\\Racket\\.> > The follow page does a great job of showing all the steps for editing environment variables under Windows including the Path: https://www.hows.tech/2019/03/howtosetenvironmentvariablesinwindows10.html.', sender='Daevion', sentTime=Tue Oct 20 21:11:47 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=181, text='I don't understand what thats supposed to mean lol...', sender='Miquel', sentTime=Tue Oct 20 21:12:03 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=181, text='wait I think I might have got it', sender='Miquel', sentTime=Tue Oct 20 21:13:18 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=181, text='Sorry I should explain', sender='Daevion', sentTime=Tue Oct 20 21:13:18 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=181, text='yeah', sender='Miquel', sentTime=Tue Oct 20 21:13:33 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=181, text='idk', sender='Miquel', sentTime=Tue Oct 20 21:13:36 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=181, text='if you type `raco` in the command prompt it should show you a list of options', sender='Daevion', sentTime=Tue Oct 20 21:14:03 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=181, text='ohh comand prompt', sender='Miquel', sentTime=Tue Oct 20 21:14:14 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=181, text='like cmd', sender='Miquel', sentTime=Tue Oct 20 21:14:16 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=181, text='yes I see', sender='Miquel', sentTime=Tue Oct 20 21:14:27 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Daevion', sentTime=Tue Oct 20 21:14:38 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=181, text='I was typing that into the terminal', sender='Miquel', sentTime=Tue Oct 20 21:14:42 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=181, text='of drracket', sender='Miquel', sentTime=Tue Oct 20 21:14:45 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=181, text='yes cmd is correct', sender='Daevion', sentTime=Tue Oct 20 21:14:47 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=181, text='okay', sender='Miquel', sentTime=Tue Oct 20 21:14:55 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=181, text='sorry I should have been clear', sender='Daevion', sentTime=Tue Oct 20 21:15:01 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=181, text='thats okay I'm new to this stuff', sender='Miquel', sentTime=Tue Oct 20 21:15:14 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=181, text='So do I then type `raco pkg install quickscriptextra`', sender='Miquel', sentTime=Tue Oct 20 21:15:37 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=181, text='I didn't install anything yet', sender='Miquel', sentTime=Tue Oct 20 21:15:42 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=181, text='you can also use drracket package manager', sender='Daevion', sentTime=Tue Oct 20 21:16:07 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=181, text='> So do I then type `raco pkg install quickscriptextra`@Tictac a bunch of text should scroll by ? 😦', sender='Daevion', sentTime=Tue Oct 20 21:17:01 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=181, text='yes', sender='Daevion', sentTime=Tue Oct 20 21:17:13 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=181, text='oh yeah', sender='Miquel', sentTime=Tue Oct 20 21:17:22 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=181, text='its downloading something', sender='Miquel', sentTime=Tue Oct 20 21:17:26 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=181, text='😁', sender='Daevion', sentTime=Tue Oct 20 21:17:47 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=181, text='takes a minute', sender='Daevion', sentTime=Tue Oct 20 21:17:53 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=181, text='its done', sender='Miquel', sentTime=Tue Oct 20 21:17:58 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=181, text='so now what XD', sender='Miquel', sentTime=Tue Oct 20 21:18:08 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=181, text='If DrRacket is already running click on `Scripts`|`Manage scripts`|`Compile scripts and reload` in the menu bar.', sender='Daevion', sentTime=Tue Oct 20 21:19:14 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=181, text='alright', sender='Miquel', sentTime=Tue Oct 20 21:20:16 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=181, text='I did that', sender='Miquel', sentTime=Tue Oct 20 21:20:40 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=181, text='do you see https://media.discordapp.net/attachments/618895179343986688/768218139267432468/unknown.png?width=559&height=505', sender='Daevion', sentTime=Tue Oct 20 21:20:51 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=181, text='I see a bunch of stuff', sender='Miquel', sentTime=Tue Oct 20 21:21:30 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Miquel', sentTime=Tue Oct 20 21:21:39 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=181, text='these are documented at https://docs.racketlang.org/quickscriptextra/', sender='Daevion', sentTime=Tue Oct 20 21:22:38 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=181, text='oh interesting', sender='Miquel', sentTime=Tue Oct 20 21:22:54 CDT 2020}
+	 75 Msg: MessageAnalysisVO{disentangledId=181, text='which one is to complete a constant name or something when I am writing constants?', sender='Miquel', sentTime=Tue Oct 20 21:24:29 CDT 2020}
+	 76 Msg: MessageAnalysisVO{disentangledId=181, text='> > Quickscript Extra's dynamic completion (dynamicabbrev) autocompletes words using existing words in the current file. Using it to autocomplete an identifier however means that it will suggest invalid identifiers taken from string literals.>  https://github.com/sorawee/fishycompletion', sender='Daevion', sentTime=Tue Oct 20 21:27:02 CDT 2020}
+	 77 Msg: MessageAnalysisVO{disentangledId=181, text='I see', sender='Miquel', sentTime=Tue Oct 20 21:27:50 CDT 2020}
+	 78 Msg: MessageAnalysisVO{disentangledId=181, text='I think you might want `fishycomplete` to get that you need to install `raco pkg install quickscriptcompetition2020`', sender='Daevion', sentTime=Tue Oct 20 21:28:06 CDT 2020}
+	 79 Msg: MessageAnalysisVO{disentangledId=181, text='It says that its similar to dynamic autocomplete', sender='Miquel', sentTime=Tue Oct 20 21:28:51 CDT 2020}
+	 80 Msg: MessageAnalysisVO{disentangledId=181, text='the readme has details https://github.com/sorawee/fishycompletion/blob/master/README.md', sender='Daevion', sentTime=Tue Oct 20 21:29:52 CDT 2020}
+	 81 Msg: MessageAnalysisVO{disentangledId=181, text='Sorry I've got to go now. You might like DrComplete', sender='Daevion', sentTime=Tue Oct 20 21:31:17 CDT 2020}
+	 82 Msg: MessageAnalysisVO{disentangledId=181, text='https://github.com/yjqww6/drcomplete/blob/master/README.md', sender='Daevion', sentTime=Tue Oct 20 21:31:18 CDT 2020}
+	 83 Msg: MessageAnalysisVO{disentangledId=181, text='`raco pkg install drcomplete`', sender='Daevion', sentTime=Tue Oct 20 21:31:39 CDT 2020}
+	 84 Msg: MessageAnalysisVO{disentangledId=181, text='if you don't like it you can remove with', sender='Daevion', sentTime=Tue Oct 20 21:33:16 CDT 2020}
+	 85 Msg: MessageAnalysisVO{disentangledId=181, text='`raco pkg remove drcomplete`', sender='Daevion', sentTime=Tue Oct 20 21:33:26 CDT 2020}
+	 86 Msg: MessageAnalysisVO{disentangledId=181, text='and restart drracket', sender='Daevion', sentTime=Tue Oct 20 21:33:33 CDT 2020}
+	 87 Msg: MessageAnalysisVO{disentangledId=183, text='okay', sender='Miquel', sentTime=Tue Oct 20 21:34:27 CDT 2020}
+	 88 Msg: MessageAnalysisVO{disentangledId=181, text='I reloaded DrRacket and my scripts from before aren't there anymore', sender='Miquel', sentTime=Tue Oct 20 21:34:37 CDT 2020}
+	 89 Msg: MessageAnalysisVO{disentangledId=181, text='does that mean I have to like redo the raco thing every single time?', sender='Miquel', sentTime=Tue Oct 20 21:34:54 CDT 2020}
+	 90 Msg: MessageAnalysisVO{disentangledId=181, text='no', sender='Daevion', sentTime=Tue Oct 20 21:35:04 CDT 2020}
+	 91 Msg: MessageAnalysisVO{disentangledId=181, text='If DrRacket is already running click on Scripts|Manage scripts|Compile scripts and reload in the menu bar.', sender='Daevion', sentTime=Tue Oct 20 21:35:22 CDT 2020}
+	 92 Msg: MessageAnalysisVO{disentangledId=181, text='yeah I did that', sender='Miquel', sentTime=Tue Oct 20 21:35:43 CDT 2020}
+	 93 Msg: MessageAnalysisVO{disentangledId=181, text='but I have this', sender='Miquel', sentTime=Tue Oct 20 21:35:47 CDT 2020}
+	 94 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Miquel', sentTime=Tue Oct 20 21:35:48 CDT 2020}
+	 95 Msg: MessageAnalysisVO{disentangledId=181, text='click library in that menu', sender='Daevion', sentTime=Tue Oct 20 21:36:02 CDT 2020}
+	 96 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Miquel', sentTime=Tue Oct 20 21:36:20 CDT 2020}
+	 97 Msg: MessageAnalysisVO{disentangledId=181, text='thats odd It looks like the quickscriptextra package has been removed', sender='Daevion', sentTime=Tue Oct 20 21:36:59 CDT 2020}
+	 98 Msg: MessageAnalysisVO{disentangledId=181, text='yeah', sender='Miquel', sentTime=Tue Oct 20 21:37:05 CDT 2020}
+	 99 Msg: MessageAnalysisVO{disentangledId=181, text='I should redownload it right', sender='Miquel', sentTime=Tue Oct 20 21:37:10 CDT 2020}
+	 100 Msg: MessageAnalysisVO{disentangledId=181, text='go into the drracket package manager and see if it is still installed?', sender='Daevion', sentTime=Tue Oct 20 21:37:25 CDT 2020}
+	 101 Msg: MessageAnalysisVO{disentangledId=181, text='how do I access that?', sender='Miquel', sentTime=Tue Oct 20 21:37:42 CDT 2020}
+	 102 Msg: MessageAnalysisVO{disentangledId=181, text='(check first)', sender='Daevion', sentTime=Tue Oct 20 21:37:42 CDT 2020}
+	 103 Msg: MessageAnalysisVO{disentangledId=181, text='where can I check the drracket package manager?', sender='Miquel', sentTime=Tue Oct 20 21:38:13 CDT 2020}
+	 104 Msg: MessageAnalysisVO{disentangledId=181, text='in the file menu', sender='Daevion', sentTime=Tue Oct 20 21:38:18 CDT 2020}
+	 105 Msg: MessageAnalysisVO{disentangledId=181, text='alright thanks', sender='Miquel', sentTime=Tue Oct 20 21:38:24 CDT 2020}
+	 106 Msg: MessageAnalysisVO{disentangledId=181, text='I think it says its installed', sender='Miquel', sentTime=Tue Oct 20 21:38:56 CDT 2020}
+	 107 Msg: MessageAnalysisVO{disentangledId=181, text='None', sender='Miquel', sentTime=Tue Oct 20 21:38:59 CDT 2020}
+	 108 Msg: MessageAnalysisVO{disentangledId=181, text='sorry close that', sender='Daevion', sentTime=Tue Oct 20 21:40:31 CDT 2020}
+	 109 Msg: MessageAnalysisVO{disentangledId=181, text='in the interactions do ` (require quickscriptextra/register)`', sender='Daevion', sentTime=Tue Oct 20 21:40:50 CDT 2020}
+	 110 Msg: MessageAnalysisVO{disentangledId=181, text='alright', sender='Miquel', sentTime=Tue Oct 20 21:40:59 CDT 2020}
+	 111 Msg: MessageAnalysisVO{disentangledId=181, text='Then click on Scripts|Manage scripts|Compile scripts and reload. (There is no need to restart DrRacket.)', sender='Daevion', sentTime=Tue Oct 20 21:41:10 CDT 2020}
+	 112 Msg: MessageAnalysisVO{disentangledId=181, text='okay', sender='Miquel', sentTime=Tue Oct 20 21:41:14 CDT 2020}
+	 113 Msg: MessageAnalysisVO{disentangledId=181, text='ye I got it now thanks!', sender='Miquel', sentTime=Tue Oct 20 21:41:38 CDT 2020}
+	 114 Msg: MessageAnalysisVO{disentangledId=181, text='it takes a moment or two to reload the menu but they should appear there', sender='Daevion', sentTime=Tue Oct 20 21:41:43 CDT 2020}
+	 115 Msg: MessageAnalysisVO{disentangledId=181, text='cool nice', sender='Miquel', sentTime=Tue Oct 20 21:41:55 CDT 2020}
+	 116 Msg: MessageAnalysisVO{disentangledId=181, text='instructions here: https://docs.racketlang.org/quickscript/index.html#%28part._.Quickscript_.Extra%29', sender='Daevion', sentTime=Tue Oct 20 21:42:36 CDT 2020}
+	 117 Msg: MessageAnalysisVO{disentangledId=181, text='sorry I have to go  I just got back from football and I need a shower.', sender='Daevion', sentTime=Tue Oct 20 21:42:54 CDT 2020}
+	 118 Msg: MessageAnalysisVO{disentangledId=181, text='oh yeah thank you so muchhhhh', sender='Miquel', sentTime=Tue Oct 20 21:43:15 CDT 2020}
+	 119 Msg: MessageAnalysisVO{disentangledId=181, text='are you OK? I dont want to leave you in a state were you cant code', sender='Daevion', sentTime=Tue Oct 20 21:43:15 CDT 2020}
+	 120 Msg: MessageAnalysisVO{disentangledId=181, text='?', sender='Daevion', sentTime=Tue Oct 20 21:43:17 CDT 2020}
+	 121 Msg: MessageAnalysisVO{disentangledId=181, text='I'm good', sender='Miquel', sentTime=Tue Oct 20 21:43:18 CDT 2020}
+	 122 Msg: MessageAnalysisVO{disentangledId=181, text='I'm good', sender='Miquel', sentTime=Tue Oct 20 21:43:19 CDT 2020}
+	 123 Msg: MessageAnalysisVO{disentangledId=181, text='thanks!', sender='Miquel', sentTime=Tue Oct 20 21:43:23 CDT 2020}
+	 124 Msg: MessageAnalysisVO{disentangledId=181, text='you helped a lot', sender='Miquel', sentTime=Tue Oct 20 21:43:27 CDT 2020}
+	 125 Msg: MessageAnalysisVO{disentangledId=181, text='its good you set the %Path%', sender='Daevion', sentTime=Tue Oct 20 21:43:55 CDT 2020}
+	 126 Msg: MessageAnalysisVO{disentangledId=181, text='Thanks for all your help this was a very confusing process so I'm lucky you came to help', sender='Miquel', sentTime=Tue Oct 20 21:44:01 CDT 2020}
+	 127 Msg: MessageAnalysisVO{disentangledId=181, text='now you can use `raco exe` to compile your code for more speed!', sender='Daevion', sentTime=Tue Oct 20 21:44:24 CDT 2020}
+	 128 Msg: MessageAnalysisVO{disentangledId=181, text='Compile code with raco exe?', sender='Miquel', sentTime=Tue Oct 20 21:45:01 CDT 2020}
+	 129 Msg: MessageAnalysisVO{disentangledId=181, text='its good for me to find out what new users find confusing. It helps with documentation', sender='Daevion', sentTime=Tue Oct 20 21:45:02 CDT 2020}
+	 130 Msg: MessageAnalysisVO{disentangledId=181, text='oo', sender='Miquel', sentTime=Tue Oct 20 21:45:16 CDT 2020}
+	 131 Msg: MessageAnalysisVO{disentangledId=181, text='wait are you a developer?', sender='Miquel', sentTime=Tue Oct 20 21:45:21 CDT 2020}
+	 132 Msg: MessageAnalysisVO{disentangledId=181, text='for drracket?', sender='Miquel', sentTime=Tue Oct 20 21:45:25 CDT 2020}
+	 133 Msg: MessageAnalysisVO{disentangledId=181, text='not a core one but I make small contributions sometimes.', sender='Daevion', sentTime=Tue Oct 20 21:46:27 CDT 2020}
+	 134 Msg: MessageAnalysisVO{disentangledId=181, text='https://github.com/rackettemplates/clicommand/blob/master/README.md', sender='Daevion', sentTime=Tue Oct 20 21:46:30 CDT 2020}
+	 135 Msg: MessageAnalysisVO{disentangledId=181, text='the readme and github repo has instructions to compile a small command line utility', sender='Daevion', sentTime=Tue Oct 20 21:47:09 CDT 2020}
+	 136 Msg: MessageAnalysisVO{disentangledId=181, text='try it out and let me know if you run into any problems  I can help tomorrow.', sender='Daevion', sentTime=Tue Oct 20 21:47:55 CDT 2020}
+	 137 Msg: MessageAnalysisVO{disentangledId=184, text='Alright cool I'll need to first try to get fishy completion to work', sender='Miquel', sentTime=Tue Oct 20 22:14:32 CDT 2020}
+--------------------------------------------------

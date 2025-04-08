@@ -29,7 +29,7 @@ public class XMLFileImport {
         JAXBContext context = JAXBContext.newInstance(Discord.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
         Discord loadedObject =  (Discord) unmarshaller.unmarshal(resource.getFile());
-        System.out.println(loadedObject);
+        System.out.println("Loaded file... "+fileName);
         return loadedObject;
     }
 
