@@ -9,20 +9,21 @@ Step5) Transformed Imported Java Object to "standardized" processing message typ
 Step6) Wrote calculator to figure out monopolization convo objects 
 Step7) Added details used for later analysis to monopolization convo calculator
 Step8) Wrote AnalysisProcessor to total SAME vs NEW maps to output
+Step9) output the results into Excel and summary output and logs
+Step10) Combine all datasets of discord channel into 1 processing, add select of data set
 
-Next Steps:
-1) SKIPPED: logical validation of the data
-2) output the results into Excel and summary output and logs
-2b) Enhance some AnalysisSummary outputs
-4) Run for many different data sets? Or combine into one? 
+Other Ideas for Future Work:
 
-Other Ideas:
 A) Process another dataset
+
 B) Process using disentanglement id
-C) Analyze "density" of conversation
-    if X msg in Y min
+
+C) Analyze "density" of conversation (if X msg in Y min)
+    
 D) Loop in chatgpt toxicity analysis
+
 E) Using disentanglement ids - how many "concurrent" conversations are happening/overlapping
+
 F) Users spamming the same message over and over
   SEE PYTHON GENERAL DATASET SEPT - USER SPAM "LOL JS ON TOP"
 G) Changing of "group size"
