@@ -74,7 +74,7 @@ public class TextFileExport {
             }
             counter++;
             //To save time, only capture if the conversations are over a certain size
-            if(convo.getMonopolizedConversationList().size() >= 0) {
+            if(convo.getMonopolizedConversationList().size() >= 39) {
                 output += "--------------------------------------------------" + "\n";
                 output += "Group Size: " + convo.getGroupSize() + "\n";
                 output += "Group Users: " + convo.getGroupUserList() + "\n";
