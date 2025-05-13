@@ -37,7 +37,7 @@ private static final Logger logger = LoggerFactory.getLogger(MonopolizingConvoAp
 			int userChoice = inputUtility.getUserChoice();
 
 			//Step1a - Import XML file (may have different formats if from diff sources)
-			//switch case to load the correct XML file
+			//switch case to load the correct XML files
 			Discord loadedObject = new Discord();
 			switch(userChoice){
 				case 1:
@@ -79,7 +79,8 @@ private static final Logger logger = LoggerFactory.getLogger(MonopolizingConvoAp
 			List<MonopolizedConvoVO> monoConvoList = calculator.analyzeThreadForMonopolization(messageList, groupSize);
 			summaryObject.setGroupSize(groupSize);
 
-			//Step4 - Logical Validation
+			//Step4 - Logical Validation (if needed)
+			// Check if every monopolized convo has a group size expected, etc - if needed
 
 			//Step5 - Analyze the Monopolized Conversations to break into metrics
 			AnalysisProcessor analysisProcessor = new AnalysisProcessor();
@@ -99,6 +100,7 @@ private static final Logger logger = LoggerFactory.getLogger(MonopolizingConvoAp
 			);
 
 			//Step6a - Export Conversation Breakdown To Text File
+			//NOTE: does not export every message. Function has clauses to only export some
 			System.out.println("Export Conversation Breakdown To Text File");
 			textFileExport.writeStringToFile(
 					textFileExport.prepareMonopolizedConvoOutput(monoConvoList),
@@ -108,6 +110,7 @@ private static final Logger logger = LoggerFactory.getLogger(MonopolizingConvoAp
 			);
 
 			//Step6b - Export to Excel the Final Table Results
+			//isAnalysisSummaryOutputEnabled can be enabled if you want to see the results in the console
 			System.out.println("Export to Excel the Final Table Results");
 			boolean isAnalysisSummaryOutputEnabled = false;
 			if (isAnalysisSummaryOutputEnabled){
