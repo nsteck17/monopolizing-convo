@@ -1,0 +1,4 @@
+Program Type: GoLang
+Output Folder: output/GoLang_20250516_115543
+Total Messages: 247179
+Group Size: 3

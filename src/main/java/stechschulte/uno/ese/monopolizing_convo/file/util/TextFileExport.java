@@ -69,8 +69,13 @@ public class TextFileExport {
         int total = monoConvoList.size();
 
         for(MonopolizedConvoVO convo : monoConvoList){
-            if (counter % (total / 100) == 0) {
-                System.out.println("Saving to file... " + counter + " of " + total+ " (" + (counter * 100 / total) + "% complete)");
+            try{
+                if (counter % (total / 100) == 0) {
+                    System.out.println("Saving to file... " + counter + " of " + total+ " (" + (counter * 100 / total) + "% complete)");
+                }
+            }
+            catch (ArithmeticException e){
+                 //less then 100 msg and probably having error outputing - should rewrite a bit better
             }
             counter++;
             //To save time, only capture if the conversations are over a certain size

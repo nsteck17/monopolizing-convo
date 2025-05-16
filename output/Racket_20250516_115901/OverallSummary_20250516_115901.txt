@@ -1,0 +1,4 @@
+Program Type: Racket
+Output Folder: output/Racket_20250516_115901
+Total Messages: 4975
+Group Size: 3
