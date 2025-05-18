@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.0.6">
+  <diagram name="Page-1" id="W5A87EUEoWrYZNKEzCYw">
+    <mxGraphModel dx="1653" dy="916" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=1;" edge="1" parent="1" source="oyLjMmxCmZw9rYNtcu_B-29" target="oyLjMmxCmZw9rYNtcu_B-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-29" value="&lt;font face=&quot;Times New Roman&quot;&gt;Transform to&amp;nbsp;&lt;br&gt;Standardized Input&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="365.36" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1;" edge="1" parent="1" source="oyLjMmxCmZw9rYNtcu_B-30" target="oyLjMmxCmZw9rYNtcu_B-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-30" value="&lt;font face=&quot;Times New Roman&quot;&gt;Parse into Monopolized Conversations&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="365.36" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1;" edge="1" parent="1" source="oyLjMmxCmZw9rYNtcu_B-31" target="oyLjMmxCmZw9rYNtcu_B-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-31" value="&lt;font face=&quot;Times New Roman&quot;&gt;Analyze Monopolized Conversations&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="365.36" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=1;" edge="1" parent="1" source="oyLjMmxCmZw9rYNtcu_B-32" target="oyLjMmxCmZw9rYNtcu_B-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-32" value="&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Times New Roman&quot;&gt;Dataset Choice&lt;/font&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;dashed=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="360.36" y="110" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=1;" edge="1" parent="1" source="oyLjMmxCmZw9rYNtcu_B-33" target="oyLjMmxCmZw9rYNtcu_B-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-33" value="&lt;font face=&quot;Times New Roman&quot;&gt;Overall Summary File&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Times New Roman&quot;&gt;Conversation Data File&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font face=&quot;Times New Roman&quot;&gt;Analysis Summary File&lt;/font&gt;&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;dashed=0;align=center;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="334" y="510" width="182" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=15;exitPerimeter=0;strokeWidth=1;" edge="1" parent="1" source="oyLjMmxCmZw9rYNtcu_B-34" target="oyLjMmxCmZw9rYNtcu_B-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-34" value="&lt;font face=&quot;Times New Roman&quot;&gt;App Start&lt;/font&gt;" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="385.36" y="40" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="oyLjMmxCmZw9rYNtcu_B-35" value="&lt;font face=&quot;Times New Roman&quot;&gt;App End&lt;/font&gt;" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="385.36" y="610" width="80" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
