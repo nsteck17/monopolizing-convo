@@ -1,0 +1,4 @@
+Program Type: Python
+Output Folder: output/Python_20250519_183746
+Total Messages: 1254362
+Group Size: 3

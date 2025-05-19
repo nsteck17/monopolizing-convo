@@ -1,0 +1,803 @@
+--------------------------------------------------
+Group Size: 3
+Group Users: [Abbigail, Chandru, Jaxiel]
+Messages Size: 80
+Duration of Monopolized Convo: 0 days, 22 hours, 18 minutes, 44 seconds
+Duration Until Next User Added: 0 days, 1 hours, 22 minutes, 15 seconds
+Char Length of Text Msg Before New User Added: 110
+	 1 Msg: MessageAnalysisVO{disentangledId=3, text='... Isn't that basically just a list?', sender='Jaxiel', sentTime=Sun Nov 03 21:35:02 CST 2019}
+	 2 Msg: MessageAnalysisVO{disentangledId=3, text='Wait no that's a stack. Herp', sender='Jaxiel', sentTime=Sun Nov 03 21:35:41 CST 2019}
+	 3 Msg: MessageAnalysisVO{disentangledId=3, text='What are you needing to do with it that the default days types can't handle?', sender='Jaxiel', sentTime=Sun Nov 03 21:36:22 CST 2019}
+	 4 Msg: MessageAnalysisVO{disentangledId=3, text='Implement a stack using just a heap is the task', sender='Chandru', sentTime=Sun Nov 03 21:39:29 CST 2019}
+	 5 Msg: MessageAnalysisVO{disentangledId=3, text='It's a stupid one I know', sender='Chandru', sentTime=Sun Nov 03 21:41:29 CST 2019}
+	 6 Msg: MessageAnalysisVO{disentangledId=3, text='... then use a vector and pop/push from the end?', sender='Jaxiel', sentTime=Sun Nov 03 21:54:26 CST 2019}
+	 7 Msg: MessageAnalysisVO{disentangledId=3, text='But otherwise doing it in clj is going to miss the point of the exercise', sender='Jaxiel', sentTime=Sun Nov 03 21:54:42 CST 2019}
+	 8 Msg: MessageAnalysisVO{disentangledId=3, text='So the purpose here is to do particular coding challenges', sender='Abbigail', sentTime=Sun Nov 03 21:54:45 CST 2019}
+	 9 Msg: MessageAnalysisVO{disentangledId=3, text='If I'm not mistaken', sender='Abbigail', sentTime=Sun Nov 03 21:54:52 CST 2019}
+	 10 Msg: MessageAnalysisVO{disentangledId=3, text='I mean if you _really_ want to could implement it on top of a map with keys as addresses', sender='Jaxiel', sentTime=Sun Nov 03 21:55:47 CST 2019}
+	 11 Msg: MessageAnalysisVO{disentangledId=3, text='But it still sounds far too convoluted', sender='Jaxiel', sentTime=Sun Nov 03 21:55:55 CST 2019}
+	 12 Msg: MessageAnalysisVO{disentangledId=3, text='Actually a heap is just a tree not the heap', sender='Abbigail', sentTime=Sun Nov 03 21:56:07 CST 2019}
+	 13 Msg: MessageAnalysisVO{disentangledId=3, text='The way that I'd recommend implementing this is with a record type which will represent a heap node. Something like the following:```clojure(defrecord HeapNode [value left right])```and then defining functions on the heap structure which will do basic heap operations.', sender='Abbigail', sentTime=Sun Nov 03 21:57:08 CST 2019}
+	 14 Msg: MessageAnalysisVO{disentangledId=3, text='I thought a heap was a virtually contiguous block of randomly accessible data?', sender='Jaxiel', sentTime=Sun Nov 03 21:59:17 CST 2019}
+	 15 Msg: MessageAnalysisVO{disentangledId=3, text='Going to go read. It's been a few years', sender='Jaxiel', sentTime=Sun Nov 03 21:59:31 CST 2019}
+	 16 Msg: MessageAnalysisVO{disentangledId=3, text='You'd then construct a heap like so:```clojure(def minheap (>HeapNode 10 (>HeapNode 15 (>HeapNode 40 nil nil) (>HeapNode 50 nil nil)) (>HeapNode 30 nil nil)))```', sender='Abbigail', sentTime=Sun Nov 03 21:59:42 CST 2019}
+	 17 Msg: MessageAnalysisVO{disentangledId=3, text='Also terms in programming are overloaded', sender='Abbigail', sentTime=Sun Nov 03 21:59:57 CST 2019}
+	 18 Msg: MessageAnalysisVO{disentangledId=3, text='There is the heap which is how memory is stored when it\'s allocated in places other than the stack usually in linear virtual memory and which maps to the heap in C Java Clojure etc. But there are also heap data structures which are binary trees with certain properties.', sender='Abbigail', sentTime=Sun Nov 03 22:00:44 CST 2019}
+	 19 Msg: MessageAnalysisVO{disentangledId=3, text='Ah I see. I was thinking of an OS heap rather than a heap data structure', sender='Jaxiel', sentTime=Sun Nov 03 22:00:59 CST 2019}
+	 20 Msg: MessageAnalysisVO{disentangledId=3, text='Honestly I'm not even sure I'd call that an OSlevel concept since a heap is either constructed by the standard library as a part of malloc or is nonexistant in things like assembler where you can just use the whole address space', sender='Abbigail', sentTime=Sun Nov 03 22:01:54 CST 2019}
+	 21 Msg: MessageAnalysisVO{disentangledId=3, text='More referring to the lower level memory management heap than the data structure', sender='Jaxiel', sentTime=Sun Nov 03 22:02:56 CST 2019}
+	 22 Msg: MessageAnalysisVO{disentangledId=3, text='Better? :p', sender='Jaxiel', sentTime=Sun Nov 03 22:02:57 CST 2019}
+	 23 Msg: MessageAnalysisVO{disentangledId=3, text='Yes that's the one I was talking about. :P', sender='Abbigail', sentTime=Sun Nov 03 22:03:14 CST 2019}
+	 24 Msg: MessageAnalysisVO{disentangledId=3, text='So is this stack implementation done with keyval pairs?', sender='Jaxiel', sentTime=Sun Nov 03 22:04:20 CST 2019}
+	 25 Msg: MessageAnalysisVO{disentangledId=3, text='An OS usually just handles making the translation tables which convert from the virtual address space of a particular process into the physical memory or memory mapped devices which are available at a hardware level. It doesn't have any concept of a stack or heap. Those are defined entirely in userspace but libc has a lot of stuff which is built around it.', sender='Abbigail', sentTime=Sun Nov 03 22:04:20 CST 2019}
+	 26 Msg: MessageAnalysisVO{disentangledId=3, text='This HeapNode heap is just a binary tree for which some invariants hold true', sender='Abbigail', sentTime=Sun Nov 03 22:05:05 CST 2019}
+	 27 Msg: MessageAnalysisVO{disentangledId=3, text='And I figured that records are a good way to represent that node.', sender='Abbigail', sentTime=Sun Nov 03 22:05:28 CST 2019}
+	 28 Msg: MessageAnalysisVO{disentangledId=3, text='Yeah but I'm considering the sorting given that we need to remember which order items are going to be in', sender='Jaxiel', sentTime=Sun Nov 03 22:09:17 CST 2019}
+	 29 Msg: MessageAnalysisVO{disentangledId=3, text='(I'm thinking of the stack implementation in the heap)', sender='Jaxiel', sentTime=Sun Nov 03 22:10:14 CST 2019}
+	 30 Msg: MessageAnalysisVO{disentangledId=3, text='Actually I'll just stop given that this is the actual puzzle to solve', sender='Jaxiel', sentTime=Sun Nov 03 22:10:50 CST 2019}
+	 31 Msg: MessageAnalysisVO{disentangledId=3, text='Sure yeah. But anyway you can just define some relatively simple heap operations on the record I put there.', sender='Abbigail', sentTime=Sun Nov 03 22:11:39 CST 2019}
+	 32 Msg: MessageAnalysisVO{disentangledId=3, text='It maps pretty cleanly to a java class with three fields on it so it's good for performance but it's also got the nice things from clojure like immutability the ability to have metadata and it is allowed to have additional fields assoced into it', sender='Abbigail', sentTime=Sun Nov 03 22:12:26 CST 2019}
+	 33 Msg: MessageAnalysisVO{disentangledId=3, text='If you want to get extra with the performance tuning of it you can even add type hints to the fields', sender='Abbigail', sentTime=Sun Nov 03 22:12:59 CST 2019}
+	 34 Msg: MessageAnalysisVO{disentangledId=3, text='Also notable is that with java 1.9 and beyond it's using a generational garbage collector which means that for the most part clojure's ephemeral garbage is effectively free.', sender='Abbigail', sentTime=Sun Nov 03 22:13:46 CST 2019}
+	 35 Msg: MessageAnalysisVO{disentangledId=3, text='Also in java 1.8 you can use a commandline flag when it runs to use the G1 garbage collector anyway which gives the same benefit.', sender='Abbigail', sentTime=Sun Nov 03 22:14:12 CST 2019}
+	 36 Msg: MessageAnalysisVO{disentangledId=3, text='`(defrecord HeapNode [value left right])`I started with exactly that', sender='Chandru', sentTime=Sun Nov 03 22:19:12 CST 2019}
+	 37 Msg: MessageAnalysisVO{disentangledId=3, text='But I got stuck with sorting', sender='Chandru', sentTime=Sun Nov 03 22:19:30 CST 2019}
+	 38 Msg: MessageAnalysisVO{disentangledId=3, text='since after the insertion you have to sort everything', sender='Chandru', sentTime=Sun Nov 03 22:23:50 CST 2019}
+	 39 Msg: MessageAnalysisVO{disentangledId=3, text='Well not really. The way you can do a heap is by taking a single node and adding each element one by one and then all you need to do is have the node you\'re inserting trickle down the tree to the correct place.', sender='Abbigail', sentTime=Sun Nov 03 22:24:56 CST 2019}
+	 40 Msg: MessageAnalysisVO{disentangledId=3, text='Then if you do that on repeat it'll sort itself', sender='Abbigail', sentTime=Sun Nov 03 22:25:11 CST 2019}
+	 41 Msg: MessageAnalysisVO{disentangledId=3, text='Oh wait no brain', sender='Abbigail', sentTime=Sun Nov 03 22:25:37 CST 2019}
+	 42 Msg: MessageAnalysisVO{disentangledId=3, text='that's a different type of tree', sender='Abbigail', sentTime=Sun Nov 03 22:25:40 CST 2019}
+	 43 Msg: MessageAnalysisVO{disentangledId=3, text='Riiiiight I forgot how easy it is to implement heaps as vectors', sender='Abbigail', sentTime=Sun Nov 03 22:26:16 CST 2019}
+	 44 Msg: MessageAnalysisVO{disentangledId=3, text='as far as I'm concerned you insert it (it gets put in the last position) and then you swap it with its parent as long as it's smaller/greater', sender='Chandru', sentTime=Sun Nov 03 22:26:37 CST 2019}
+	 45 Msg: MessageAnalysisVO{disentangledId=3, text='Yes exactly', sender='Abbigail', sentTime=Sun Nov 03 22:26:44 CST 2019}
+	 46 Msg: MessageAnalysisVO{disentangledId=3, text='That's what it's supposed to be', sender='Abbigail', sentTime=Sun Nov 03 22:26:50 CST 2019}
+	 47 Msg: MessageAnalysisVO{disentangledId=3, text='Now that I'm remembering it correctly', sender='Abbigail', sentTime=Sun Nov 03 22:26:58 CST 2019}
+	 48 Msg: MessageAnalysisVO{disentangledId=3, text='So actually I'd change it and implement a heap on top of a vector', sender='Abbigail', sentTime=Sun Nov 03 22:27:51 CST 2019}
+	 49 Msg: MessageAnalysisVO{disentangledId=3, text='thought so', sender='Chandru', sentTime=Sun Nov 03 22:28:03 CST 2019}
+	 50 Msg: MessageAnalysisVO{disentangledId=3, text='Actually even inserting is not that great with these nodes', sender='Chandru', sentTime=Sun Nov 03 22:28:24 CST 2019}
+	 51 Msg: MessageAnalysisVO{disentangledId=3, text='I just realised my implementation of that never worked', sender='Chandru', sentTime=Sun Nov 03 22:28:38 CST 2019}
+	 52 Msg: MessageAnalysisVO{disentangledId=3, text='```clj(defn push [heap value] (cond (not (:left heap)) (assoc heap :left (HeapNode. value)) (not (:right heap)) (assoc heap :right (HeapNode. value)) :else (recur (:left heap) value)))```', sender='Chandru', sentTime=Sun Nov 03 22:28:44 CST 2019}
+	 53 Msg: MessageAnalysisVO{disentangledId=3, text='because it never went down the right nodes', sender='Chandru', sentTime=Sun Nov 03 22:29:05 CST 2019}
+	 54 Msg: MessageAnalysisVO{disentangledId=3, text='Yeah so implementing it with an actual tree structure is a little difficult since you need a way to do a breadthfirst traversal to even do the first part of an insert and that's just frightening for performance. Just implementing it as a vector is much easier. I'm playing around with it in a repl and building it up at the moment I can guide you through it in a few moments here.', sender='Abbigail', sentTime=Sun Nov 03 22:30:13 CST 2019}
+	 55 Msg: MessageAnalysisVO{disentangledId=3, text='I already began with the implementation', sender='Chandru', sentTime=Sun Nov 03 22:40:55 CST 2019}
+	 56 Msg: MessageAnalysisVO{disentangledId=3, text='Just stack overflowing my way through this', sender='Chandru', sentTime=Sun Nov 03 22:41:21 CST 2019}
+	 57 Msg: MessageAnalysisVO{disentangledId=3, text='Usually (with a heap object) there is a pop()/extract() method which returns the root value and heapifies the rest', sender='Chandru', sentTime=Sun Nov 03 22:42:54 CST 2019}
+	 58 Msg: MessageAnalysisVO{disentangledId=3, text='Now with an object that's easy', sender='Chandru', sentTime=Sun Nov 03 22:43:10 CST 2019}
+	 59 Msg: MessageAnalysisVO{disentangledId=3, text='But i wonder how I just go about this in fp', sender='Chandru', sentTime=Sun Nov 03 22:43:23 CST 2019}
+	 60 Msg: MessageAnalysisVO{disentangledId=3, text='Because I can't return the value and the new heap at the same time', sender='Chandru', sentTime=Sun Nov 03 22:43:43 CST 2019}
+	 61 Msg: MessageAnalysisVO{disentangledId=3, text='Should I separate it into a peek function that just returns the topmost element and a pop function that returns a heap without that element?', sender='Chandru', sentTime=Sun Nov 03 22:46:22 CST 2019}
+	 62 Msg: MessageAnalysisVO{disentangledId=3, text='Actually you can return the value and the new heap at the same time. That's a pretty common pattern actually. You'd just return it as a vector of the value and the new heap', sender='Abbigail', sentTime=Sun Nov 03 22:47:15 CST 2019}
+	 63 Msg: MessageAnalysisVO{disentangledId=3, text='That's how I'd do it anyway', sender='Abbigail', sentTime=Sun Nov 03 22:47:24 CST 2019}
+	 64 Msg: MessageAnalysisVO{disentangledId=3, text='Alright sounds good', sender='Chandru', sentTime=Sun Nov 03 22:49:45 CST 2019}
+	 65 Msg: MessageAnalysisVO{disentangledId=3, text='Wouldn't a map be better?', sender='Chandru', sentTime=Sun Nov 03 22:50:12 CST 2019}
+	 66 Msg: MessageAnalysisVO{disentangledId=3, text='Because there you have labelled access', sender='Chandru', sentTime=Sun Nov 03 22:50:24 CST 2019}
+	 67 Msg: MessageAnalysisVO{disentangledId=3, text='A map would be better for labeled access but it also makes destructuring less pretty. It's a trade off and there's not really a wrong answer with just the two things being returned.', sender='Abbigail', sentTime=Sun Nov 03 22:50:55 CST 2019}
+	 68 Msg: MessageAnalysisVO{disentangledId=3, text='Aight', sender='Chandru', sentTime=Sun Nov 03 22:52:40 CST 2019}
+	 69 Msg: MessageAnalysisVO{disentangledId=3, text='Is there a better way than accessing a vector like (v index)?', sender='Chandru', sentTime=Sun Nov 03 22:53:15 CST 2019}
+	 70 Msg: MessageAnalysisVO{disentangledId=3, text='There's that and `(nth v index)`', sender='Abbigail', sentTime=Sun Nov 03 22:54:57 CST 2019}
+	 71 Msg: MessageAnalysisVO{disentangledId=3, text='they map to the same thing', sender='Abbigail', sentTime=Sun Nov 03 22:55:05 CST 2019}
+	 72 Msg: MessageAnalysisVO{disentangledId=3, text='Yeah ok i know that', sender='Chandru', sentTime=Sun Nov 03 22:55:43 CST 2019}
+	 73 Msg: MessageAnalysisVO{disentangledId=3, text='Honestly these challenges are stupid sometimes', sender='Chandru', sentTime=Sun Nov 03 22:56:00 CST 2019}
+	 74 Msg: MessageAnalysisVO{disentangledId=3, text='This one is supposed to be easy', sender='Chandru', sentTime=Sun Nov 03 22:56:07 CST 2019}
+	 75 Msg: MessageAnalysisVO{disentangledId=3, text='While the one yesterday (literally just measuring the distance between two words in a string) was hard', sender='Chandru', sentTime=Sun Nov 03 22:56:37 CST 2019}
+	 76 Msg: MessageAnalysisVO{disentangledId=3, text='It's getting late Ima log off. Thanks for the help you'll probably see more of my terrible code the next few days', sender='Chandru', sentTime=Sun Nov 03 22:58:54 CST 2019}
+	 77 Msg: MessageAnalysisVO{disentangledId=3, text='Fair enough!', sender='Abbigail', sentTime=Sun Nov 03 23:00:00 CST 2019}
+	 78 Msg: MessageAnalysisVO{disentangledId=3, text='Finally got it to work', sender='Chandru', sentTime=Mon Nov 04 19:52:45 CST 2019}
+	 79 Msg: MessageAnalysisVO{disentangledId=3, text='The implementation I was copying was erronous', sender='Chandru', sentTime=Mon Nov 04 19:52:57 CST 2019}
+	 80 Msg: MessageAnalysisVO{disentangledId=3, text='Any thoughts on the code? https://github.com/JohnnyJayJay/DailyCodingProblem/blob/master/src/november19/03.clj', sender='Chandru', sentTime=Mon Nov 04 19:53:47 CST 2019}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Brix, Abbigail, Chandru]
+Messages Size: 97
+Duration of Monopolized Convo: 0 days, 6 hours, 6 minutes, 57 seconds
+Duration Until Next User Added: 0 days, 10 hours, 36 minutes, 7 seconds
+Char Length of Text Msg Before New User Added: 130
+	 1 Msg: MessageAnalysisVO{disentangledId=25, text='I'm writing OO java at work with 15 minute build times and 10 minute deploy times. Every day I miss clojure.', sender='Abbigail', sentTime=Sun Nov 17 16:27:07 CST 2019}
+	 2 Msg: MessageAnalysisVO{disentangledId=26, text='oof...', sender='Brix', sentTime=Sun Nov 17 21:08:21 CST 2019}
+	 3 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah. I love the people I'm working with but the code kills me a little bit inside every day. And this is why I'm picking up discljord again and trying to finish this rewrite because the CSP and functional style is super refreshing by comparison.', sender='Abbigail', sentTime=Sun Nov 17 21:12:50 CST 2019}
+	 4 Msg: MessageAnalysisVO{disentangledId=24, text='I'll be happy to use it or even contribute once I've gotten more used to Clojure', sender='Chandru', sentTime=Sun Nov 17 21:17:19 CST 2019}
+	 5 Msg: MessageAnalysisVO{disentangledId=26, text='It's all still pretty new for me but I'm starting to get the hang of it.', sender='Chandru', sentTime=Sun Nov 17 21:18:09 CST 2019}
+	 6 Msg: MessageAnalysisVO{disentangledId=24, text='And honestly I feel you I'm still a student but I've always used Java since I started programming', sender='Chandru', sentTime=Sun Nov 17 21:19:45 CST 2019}
+	 7 Msg: MessageAnalysisVO{disentangledId=26, text='I read somewhere that everything in the OOP universe ever since its creation has been trying to fix it', sender='Chandru', sentTime=Sun Nov 17 21:21:35 CST 2019}
+	 8 Msg: MessageAnalysisVO{disentangledId=26, text='That pretty much hits the nail on the head', sender='Chandru', sentTime=Sun Nov 17 21:21:52 CST 2019}
+	 9 Msg: MessageAnalysisVO{disentangledId=26, text='Absolutely. I can't say that there's any particular aspect of OOP that I actually like which is unique to OOP. Even someone like Uncle Bob at this point now isn't defending the normal ideas of OOP he just says that Polymorphism=OOP in one of his more recent posts titled `FP vs OO`', sender='Abbigail', sentTime=Sun Nov 17 21:23:53 CST 2019}
+	 10 Msg: MessageAnalysisVO{disentangledId=26, text='He adds the additional restriction that for polymorphism to equal OOP there must also not be a sourcecode dependence from the caller to the callee and Clojure's multimethods fit that bill meaning that according to Robert C. Martin Clojure's protocols are basically the simplest implementation of OOP and Clojure's multimethods would also qualify along with CLOS (no surprise on that one) plenty of lisp's polymorphismbased macros Traits in Rust typeclasses in Haskell and so many other things.', sender='Abbigail', sentTime=Sun Nov 17 21:25:49 CST 2019}
+	 11 Msg: MessageAnalysisVO{disentangledId=26, text='The thing I realised is that I never even really tried to write proper OOP i.e. the way Java is designed for. Functional ideas are even considered good practice in OOP by now like immutable classes. Or all these patterns e.g. the strategy pattern and whatnot', sender='Chandru', sentTime=Sun Nov 17 21:36:23 CST 2019}
+	 12 Msg: MessageAnalysisVO{disentangledId=26, text='Which with patterns I found that probably about 8090% of the usages of patterns that I've seen fall apart as soon as functions are firstclass values.', sender='Abbigail', sentTime=Sun Nov 17 21:37:07 CST 2019}
+	 13 Msg: MessageAnalysisVO{disentangledId=26, text='In that things which clasically require hundreds of lines of boilerplate come down to a single lambda passed to something.', sender='Abbigail', sentTime=Sun Nov 17 21:37:31 CST 2019}
+	 14 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah', sender='Chandru', sentTime=Sun Nov 17 21:37:54 CST 2019}
+	 15 Msg: MessageAnalysisVO{disentangledId=26, text='This stuff is always sold as being the simplest way". But if you really think about it OOP is incredibly complex and I don\'t judge people anymore who fail at it', sender='Chandru', sentTime=Sun Nov 17 21:39:24 CST 2019}
+	 16 Msg: MessageAnalysisVO{disentangledId=26, text='I think Casey Muratori has a good perspective on it that was summed up well after one of his streams here: https://www.youtube.com/watch?v=GKYCA3UsmrU', sender='Abbigail', sentTime=Sun Nov 17 21:40:36 CST 2019}
+	 17 Msg: MessageAnalysisVO{disentangledId=26, text='If you think of things from what steps does the computer have to do then most things won\'t end up with objects in the same way. And while it\'s not malicous for objects to appear in your code it should arise naturally as a solution to your problem and not because you were trying to shoehorn your problem into the space of objects.', sender='Abbigail', sentTime=Sun Nov 17 21:41:31 CST 2019}
+	 18 Msg: MessageAnalysisVO{disentangledId=26, text='Although in the context of Clojure Haskell and other highlevel languages and it\'s not so much what steps does the computer have to do it\'s more what logical transformations need to happen to my data', sender='Abbigail', sentTime=Sun Nov 17 21:42:14 CST 2019}
+	 19 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah right', sender='Chandru', sentTime=Sun Nov 17 21:42:29 CST 2019}
+	 20 Msg: MessageAnalysisVO{disentangledId=26, text='That's why I think procedural programming is actually the best start for newcomers', sender='Chandru', sentTime=Sun Nov 17 21:42:50 CST 2019}
+	 21 Msg: MessageAnalysisVO{disentangledId=26, text='Or rather just simple scripting', sender='Chandru', sentTime=Sun Nov 17 21:43:25 CST 2019}
+	 22 Msg: MessageAnalysisVO{disentangledId=26, text='Casey has a really good style of programming that he calls compression oriented programming where the idea is to always write the stupidest solution to the problem and to only ever worry about abstracting something if you start having to write it again.', sender='Abbigail', sentTime=Sun Nov 17 21:43:35 CST 2019}
+	 23 Msg: MessageAnalysisVO{disentangledId=26, text='Which I think may be where I finally was able to figure out a way to word my general opinion on code and part of why I like lisps so much that being that if I have to write something more than a couple times then it's a deficiency of the language because I should be able to operate in the space of only specifying how things are different from the common pattern. I shouldn't have to specify the common pattern.', sender='Abbigail', sentTime=Sun Nov 17 21:44:46 CST 2019}
+	 24 Msg: MessageAnalysisVO{disentangledId=26, text='Or at least I shouldn't have to specify the common pattern more than once.', sender='Abbigail', sentTime=Sun Nov 17 21:45:16 CST 2019}
+	 25 Msg: MessageAnalysisVO{disentangledId=26, text='> Casey has a really good style of programming that he calls compression oriented programming where the idea is to always write the stupidest solution to the problem and to only ever worry about abstracting something if you start having to write it again.That\'s funny', sender='Chandru', sentTime=Sun Nov 17 21:46:44 CST 2019}
+	 26 Msg: MessageAnalysisVO{disentangledId=26, text='It depends on what stupidest means but that doesn\'t sound like something I could be friends with', sender='Chandru', sentTime=Sun Nov 17 21:47:55 CST 2019}
+	 27 Msg: MessageAnalysisVO{disentangledId=26, text='Well the idea is that you should never worry about abstracting something if you aren't using it more than once. No reason to create generic functions and code for doing something until you do it multiple times.', sender='Abbigail', sentTime=Sun Nov 17 21:48:55 CST 2019}
+	 28 Msg: MessageAnalysisVO{disentangledId=26, text='So stupidest means that it doesn\'t concern itself with abstraction it is readable and it does the job to the full extent of what\'s required of it.', sender='Abbigail', sentTime=Sun Nov 17 21:49:35 CST 2019}
+	 29 Msg: MessageAnalysisVO{disentangledId=26, text='Hmm there are often cases where the abstraction jumps right into my face', sender='Chandru', sentTime=Sun Nov 17 21:50:02 CST 2019}
+	 30 Msg: MessageAnalysisVO{disentangledId=26, text='And it doesn't feel right if I take the simple step of making it generic', sender='Chandru', sentTime=Sun Nov 17 21:50:24 CST 2019}
+	 31 Msg: MessageAnalysisVO{disentangledId=26, text='For example', sender='Chandru', sentTime=Sun Nov 17 21:50:34 CST 2019}
+	 32 Msg: MessageAnalysisVO{disentangledId=26, text='https://github.com/JohnnyJayJay/DailyCodingProblem/blob/master/src/november19/08.clj', sender='Chandru', sentTime=Sun Nov 17 21:51:45 CST 2019}
+	 33 Msg: MessageAnalysisVO{disentangledId=26, text='There my task was to find the first recurring element in a string', sender='Chandru', sentTime=Sun Nov 17 21:52:21 CST 2019}
+	 34 Msg: MessageAnalysisVO{disentangledId=26, text='why call hashset instead of just #{}?', sender='Abbigail', sentTime=Sun Nov 17 21:52:24 CST 2019}
+	 35 Msg: MessageAnalysisVO{disentangledId=26, text='It was no effort to make it applicable for any collection', sender='Chandru', sentTime=Sun Nov 17 21:52:39 CST 2019}
+	 36 Msg: MessageAnalysisVO{disentangledId=26, text='So I did it', sender='Chandru', sentTime=Sun Nov 17 21:52:44 CST 2019}
+	 37 Msg: MessageAnalysisVO{disentangledId=26, text='Sure because the default way of doing things in Clojure is in terms of the seq abstraction.', sender='Abbigail', sentTime=Sun Nov 17 21:53:09 CST 2019}
+	 38 Msg: MessageAnalysisVO{disentangledId=26, text='> why call hashset instead of just #{}?Yeah I forgot about set literals when I made this lol', sender='Chandru', sentTime=Sun Nov 17 21:53:15 CST 2019}
+	 39 Msg: MessageAnalysisVO{disentangledId=26, text='That's not against how you would do things with compression oriented programming.', sender='Abbigail', sentTime=Sun Nov 17 21:53:18 CST 2019}
+	 40 Msg: MessageAnalysisVO{disentangledId=26, text='The difference is that you didn't have to spend extra time developing an abstraction you'd never use again.', sender='Abbigail', sentTime=Sun Nov 17 21:53:38 CST 2019}
+	 41 Msg: MessageAnalysisVO{disentangledId=26, text='I would have done it in Java too', sender='Chandru', sentTime=Sun Nov 17 21:54:10 CST 2019}
+	 42 Msg: MessageAnalysisVO{disentangledId=26, text='Make a method that accepts any array', sender='Chandru', sentTime=Sun Nov 17 21:54:28 CST 2019}
+	 43 Msg: MessageAnalysisVO{disentangledId=26, text='It wouldn't have been any harder either so I'd just go for it', sender='Chandru', sentTime=Sun Nov 17 21:55:47 CST 2019}
+	 44 Msg: MessageAnalysisVO{disentangledId=26, text='That requires a tiny bit more effort on the part of the caller since you have to call getBytes but other than that it remains the same', sender='Abbigail', sentTime=Sun Nov 17 21:55:49 CST 2019}
+	 45 Msg: MessageAnalysisVO{disentangledId=26, text='The difference is that for example when I was writing a rasterizer in C++ instead of simply writing some structures to represent 3x3 matrices and some to represent 4x4 matricies I immediately saw that as an opportunity for abstraction and started writing an NxN implementation. That wasted a lot of time and wasn't necessary.', sender='Abbigail', sentTime=Sun Nov 17 21:56:40 CST 2019}
+	 46 Msg: MessageAnalysisVO{disentangledId=26, text='Or here another small example from my Clojure journeyhttps://github.com/JohnnyJayJay/DailyCodingProblem/blob/master/src/november19/10.clj', sender='Chandru', sentTime=Sun Nov 17 21:57:43 CST 2019}
+	 47 Msg: MessageAnalysisVO{disentangledId=26, text='The assignment was: make it work for 32bit binary numbers', sender='Chandru', sentTime=Sun Nov 17 21:58:07 CST 2019}
+	 48 Msg: MessageAnalysisVO{disentangledId=26, text='I made it work for any number with base n', sender='Chandru', sentTime=Sun Nov 17 21:58:20 CST 2019}
+	 49 Msg: MessageAnalysisVO{disentangledId=26, text='I don't know how I would act in your matrix example but I'd probably do the same', sender='Chandru', sentTime=Sun Nov 17 21:59:57 CST 2019}
+	 50 Msg: MessageAnalysisVO{disentangledId=26, text='Again you're using examples of trivial abstraction. Abstraction which consists of basically replacing usage of a constant with usage of a parameter. That's not what compression oriented programming is saying to avoid.', sender='Abbigail', sentTime=Sun Nov 17 22:00:11 CST 2019}
+	 51 Msg: MessageAnalysisVO{disentangledId=26, text='But yeah making the NxN matrix stuff in C++ was absolutely a mistake and if your reaction would have been to also try writing that then I'd recommend that next time you feel the itch to do a bit of abstraction like that stop and ask if it'll get used. The mistake of starting to do that wasted 6 hours of my time on an assignment where the rest took me all of 3 hours.', sender='Abbigail', sentTime=Sun Nov 17 22:01:31 CST 2019}
+	 52 Msg: MessageAnalysisVO{disentangledId=26, text='I suppose it depends on the perspective', sender='Chandru', sentTime=Sun Nov 17 22:02:36 CST 2019}
+	 53 Msg: MessageAnalysisVO{disentangledId=26, text='I almost always program for fun to try things out to learn new stuff', sender='Chandru', sentTime=Sun Nov 17 22:03:02 CST 2019}
+	 54 Msg: MessageAnalysisVO{disentangledId=26, text='Ah well that's also fair. In that case then it could easily be worth it.', sender='Abbigail', sentTime=Sun Nov 17 22:03:18 CST 2019}
+	 55 Msg: MessageAnalysisVO{disentangledId=26, text='I also program for fun but I almost always have a specific end goal and I have so many projects I want to work on that I don't feel like it's beneficial for me to puts around doing random abstraction for the sake of it.', sender='Abbigail', sentTime=Sun Nov 17 22:03:52 CST 2019}
+	 56 Msg: MessageAnalysisVO{disentangledId=26, text='I see that', sender='Chandru', sentTime=Sun Nov 17 22:04:13 CST 2019}
+	 57 Msg: MessageAnalysisVO{disentangledId=26, text='Especially since getting a job and having less free time that I have the brain power to program in. Amusingly I have way more free time now than I did for the last five years but I just don't have the brain power to program in as much of that free time.', sender='Abbigail', sentTime=Sun Nov 17 22:04:36 CST 2019}
+	 58 Msg: MessageAnalysisVO{disentangledId=26, text='Understandable', sender='Chandru', sentTime=Sun Nov 17 22:04:50 CST 2019}
+	 59 Msg: MessageAnalysisVO{disentangledId=27, text='Yet for some reason I have the brain power to learn a spoken language. But hey at least now I'm close to bilingual which has been a goal of mine forever.', sender='Abbigail', sentTime=Sun Nov 17 22:05:14 CST 2019}
+	 60 Msg: MessageAnalysisVO{disentangledId=26, text='If I think about it I\'ve definitely wasted a lot of time reasoning about general solutions but I don\'t view it as a waste of time right now because it has somewhat benefited me', sender='Chandru', sentTime=Sun Nov 17 22:06:03 CST 2019}
+	 61 Msg: MessageAnalysisVO{disentangledId=26, text='I mean I started programming 2 years ago', sender='Chandru', sentTime=Sun Nov 17 22:06:21 CST 2019}
+	 62 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah at this point I mostly consider it a waste since I've been programming for coming up on 12 years.', sender='Abbigail', sentTime=Sun Nov 17 22:06:32 CST 2019}
+	 63 Msg: MessageAnalysisVO{disentangledId=26, text='So I don't feel like I can get anything big done anyway lol', sender='Chandru', sentTime=Sun Nov 17 22:06:42 CST 2019}
+	 64 Msg: MessageAnalysisVO{disentangledId=26, text='And doing abstractions has been in my brain for over half of my life so I'm just trying to get some things done.', sender='Abbigail', sentTime=Sun Nov 17 22:06:59 CST 2019}
+	 65 Msg: MessageAnalysisVO{disentangledId=26, text='I reckon I'll get there eventually', sender='Chandru', sentTime=Sun Nov 17 22:07:25 CST 2019}
+	 66 Msg: MessageAnalysisVO{disentangledId=26, text='Abstraction is good but good abstraction is hard to make and bad abstraction is often worse than no abstraction. That's the biggest lesson I've learned from that over the years.', sender='Abbigail', sentTime=Sun Nov 17 22:07:28 CST 2019}
+	 67 Msg: MessageAnalysisVO{disentangledId=26, text=':BrillianceThumbsUp:', sender='Chandru', sentTime=Sun Nov 17 22:08:01 CST 2019}
+	 68 Msg: MessageAnalysisVO{disentangledId=26, text='What language do you learn?', sender='Chandru', sentTime=Sun Nov 17 22:08:09 CST 2019}
+	 69 Msg: MessageAnalysisVO{disentangledId=26, text='Last I counted I'd programmed in over 30 languages.', sender='Abbigail', sentTime=Sun Nov 17 22:08:25 CST 2019}
+	 70 Msg: MessageAnalysisVO{disentangledId=26, text='I'm comfortable sitting down and writing around 14 right now.', sender='Abbigail', sentTime=Sun Nov 17 22:08:38 CST 2019}
+	 71 Msg: MessageAnalysisVO{disentangledId=26, text='I mean the spoken one you mentioned', sender='Chandru', sentTime=Sun Nov 17 22:08:50 CST 2019}
+	 72 Msg: MessageAnalysisVO{disentangledId=26, text='Oh lol', sender='Abbigail', sentTime=Sun Nov 17 22:08:55 CST 2019}
+	 73 Msg: MessageAnalysisVO{disentangledId=26, text='lojban. It's the fifth language I've studied besides my native one (english) and it's the only one I've actually gotten conversational with.', sender='Abbigail', sentTime=Sun Nov 17 22:09:22 CST 2019}
+	 74 Msg: MessageAnalysisVO{disentangledId=26, text='I've studied in order spanish latin hebrew german and lojban. Studied the first four for about 2 years each never got anywhere with them. I've studied lojban for just over a year and I'm pretty good with it I just need to increase my vocabulary a bit more for some of the use cases which are common in everyday life but not common with the people I speak to in it.', sender='Abbigail', sentTime=Sun Nov 17 22:10:39 CST 2019}
+	 75 Msg: MessageAnalysisVO{disentangledId=26, text='Holy cow', sender='Chandru', sentTime=Sun Nov 17 22:10:56 CST 2019}
+	 76 Msg: MessageAnalysisVO{disentangledId=26, text='I didn't even know such languages existed', sender='Chandru', sentTime=Sun Nov 17 22:11:06 CST 2019}
+	 77 Msg: MessageAnalysisVO{disentangledId=26, text='(Lojban not the others)', sender='Chandru', sentTime=Sun Nov 17 22:11:20 CST 2019}
+	 78 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah it's definitely pretty interesting.', sender='Abbigail', sentTime=Sun Nov 17 22:11:33 CST 2019}
+	 79 Msg: MessageAnalysisVO{disentangledId=26, text='I'm currently trying to write a mini novel in lojban.', sender='Abbigail', sentTime=Sun Nov 17 22:11:50 CST 2019}
+	 80 Msg: MessageAnalysisVO{disentangledId=26, text='Good luck with that', sender='Chandru', sentTime=Sun Nov 17 22:15:40 CST 2019}
+	 81 Msg: MessageAnalysisVO{disentangledId=26, text='Thanks! I'm about 3.5k words in out of 50k', sender='Abbigail', sentTime=Sun Nov 17 22:16:03 CST 2019}
+	 82 Msg: MessageAnalysisVO{disentangledId=26, text='I'm just trying to further improve my English at this point', sender='Chandru', sentTime=Sun Nov 17 22:16:06 CST 2019}
+	 83 Msg: MessageAnalysisVO{disentangledId=26, text='My seven years attempt at french was a mistake', sender='Chandru', sentTime=Sun Nov 17 22:16:21 CST 2019}
+	 84 Msg: MessageAnalysisVO{disentangledId=26, text='Fair enough. I always wanted to be bilingual. Languages have always facinated me.', sender='Abbigail', sentTime=Sun Nov 17 22:16:24 CST 2019}
+	 85 Msg: MessageAnalysisVO{disentangledId=26, text='I rather see them as tools to communicate', sender='Chandru', sentTime=Sun Nov 17 22:17:22 CST 2019}
+	 86 Msg: MessageAnalysisVO{disentangledId=26, text='And beyond that they don't interest me too much', sender='Chandru', sentTime=Sun Nov 17 22:17:31 CST 2019}
+	 87 Msg: MessageAnalysisVO{disentangledId=26, text='I agree actually which makes me amused when some people take linguistics further into philosophy. I really like the way that lojban makes it easier to express emotions and can clear up some common miscommunications. That's part of why I started learning it.', sender='Abbigail', sentTime=Sun Nov 17 22:18:33 CST 2019}
+	 88 Msg: MessageAnalysisVO{disentangledId=26, text='I guess most artificial languages are objectively better to communicate', sender='Chandru', sentTime=Sun Nov 17 22:19:51 CST 2019}
+	 89 Msg: MessageAnalysisVO{disentangledId=26, text='I wouldn't agree with that at all', sender='Abbigail', sentTime=Sun Nov 17 22:20:04 CST 2019}
+	 90 Msg: MessageAnalysisVO{disentangledId=26, text='It's just a guess', sender='Chandru', sentTime=Sun Nov 17 22:20:16 CST 2019}
+	 91 Msg: MessageAnalysisVO{disentangledId=26, text='Or at least I'd guess so if the designers knew what they were doing and successfully identified problems of other languages', sender='Chandru', sentTime=Sun Nov 17 22:20:58 CST 2019}
+	 92 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah it's that there's a lot that goes into making a language usable. There's things like toki pona which only has 123 words which means that to communicate you have to simplify things to an extreme that makes complex communication effectively impossible. On the other side you have ithkuil which is set up to condense information into as tight a space as possible both in writing and in speaking and as a result it's impossible to synthesize it at a reasonable speaking rate because it is far faster than our brains and then there's things like esperanto which are very successful but have problems that they're very eurocentric which is somewhat counter to the goal of being a language to bring the world together under a common tongue.', sender='Abbigail', sentTime=Sun Nov 17 22:22:31 CST 2019}
+	 93 Msg: MessageAnalysisVO{disentangledId=26, text='Very interesting', sender='Chandru', sentTime=Sun Nov 17 22:26:11 CST 2019}
+	 94 Msg: MessageAnalysisVO{disentangledId=26, text='I think everybody once had this idea of one common language but I feel like many people don't know about these attempts', sender='Chandru', sentTime=Sun Nov 17 22:27:06 CST 2019}
+	 95 Msg: MessageAnalysisVO{disentangledId=26, text='Including me lol', sender='Chandru', sentTime=Sun Nov 17 22:27:10 CST 2019}
+	 96 Msg: MessageAnalysisVO{disentangledId=26, text='At least I've never heard about them', sender='Chandru', sentTime=Sun Nov 17 22:27:32 CST 2019}
+	 97 Msg: MessageAnalysisVO{disentangledId=26, text='Yeah they don't get a lot of publicity even though esperanto has millions of speakers and hundreds or thousands of native speakers', sender='Abbigail', sentTime=Sun Nov 17 22:34:04 CST 2019}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Bettina, Rezki, Tannen]
+Messages Size: 156
+Duration of Monopolized Convo: 0 days, 5 hours, 53 minutes, 52 seconds
+Duration Until Next User Added: 0 days, 0 hours, 3 minutes, 6 seconds
+Char Length of Text Msg Before New User Added: 296
+	 1 Msg: MessageAnalysisVO{disentangledId=12, text='Downsides?', sender='Tannen', sentTime=Thu Mar 19 20:48:18 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=12, text='Okay', sender='Tannen', sentTime=Thu Mar 19 20:48:19 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=12, text='So one it's hard for a lot of people to learn', sender='Tannen', sentTime=Thu Mar 19 20:48:29 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=12, text='Clojure is very opinionated and breaking years of programming habits are hard', sender='Tannen', sentTime=Thu Mar 19 20:48:45 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=12, text='Two lisp syntax scares people', sender='Tannen', sentTime=Thu Mar 19 20:48:51 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=12, text='Three tooling is excellent but takes some time to get used to', sender='Tannen', sentTime=Thu Mar 19 20:49:14 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=12, text='Repl driven development is fucking weird compared to the norm', sender='Tannen', sentTime=Thu Mar 19 20:49:27 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=12, text='Four it really needs spec 2 to get finished so people can start properly building tooling for it', sender='Tannen', sentTime=Thu Mar 19 20:49:50 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=12, text='The lack of saying it has a stable type system is a hard sell for a lot of people', sender='Tannen', sentTime=Thu Mar 19 20:50:26 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=12, text='(Yes spec isn\'t a static type system but it needs to be stable so we can say hey look this is how you use the official thing and why it doesn\'t need to be static")', sender='Tannen', sentTime=Thu Mar 19 20:51:07 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=12, text='Five it's pretty fast but you can't really use it for anything needing blistering performance', sender='Tannen', sentTime=Thu Mar 19 20:51:44 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=12, text='So it's never going to be championed by the googles of the world where a 1% performance improvement is millions in yearly savings', sender='Tannen', sentTime=Thu Mar 19 20:52:13 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=12, text='Six lisp syntax scares people (seriously this is one of the biggest factors)', sender='Tannen', sentTime=Thu Mar 19 20:52:40 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=12, text='That's off the top of my head', sender='Tannen', sentTime=Thu Mar 19 20:53:14 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=12, text='Also while there's very little syntax there's a surprising number of reader macros that confuse readers', sender='Tannen', sentTime=Thu Mar 19 20:53:28 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=12, text='Especially when dealing with cljc files', sender='Tannen', sentTime=Thu Mar 19 20:55:04 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=12, text='Every time someone sees `#?@` it scares them a lot', sender='Tannen', sentTime=Thu Mar 19 20:55:24 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=12, text='thanks for elaborating on this @lsenjov  i really need to dig in more and check out what #?@ means. syntax is just the simplest i have ever encountered compared to other languages i think it is just a bit bewildering in the beginning.', sender='Rezki', sentTime=Thu Mar 19 21:01:09 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=12, text='👍', sender='Tannen', sentTime=Thu Mar 19 21:01:27 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=12, text='`#?` and `#?@` are used in .cljc files', sender='Tannen', sentTime=Thu Mar 19 21:01:48 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=12, text='.cljc files compile to both clojure and clojurescript', sender='Tannen', sentTime=Thu Mar 19 21:02:05 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=12, text='And those reader conditionals are for doing platform specific code', sender='Tannen', sentTime=Thu Mar 19 21:02:28 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=12, text='Especially interop', sender='Tannen', sentTime=Thu Mar 19 21:02:33 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=12, text='Your `Integer/parseInt` won't work on the javascript side for instance', sender='Tannen', sentTime=Thu Mar 19 21:02:52 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=9, text='why cant you say that it is a stable system?', sender='Rezki', sentTime=Thu Mar 19 21:06:55 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=12, text='Because `Integer/parseInt` is specifically a Java call', sender='Tannen', sentTime=Thu Mar 19 21:07:38 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=12, text='The js side is `js/parseInt`', sender='Tannen', sentTime=Thu Mar 19 21:07:58 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=12, text='But `#?` allows you to specify how to parse an int on both platforms and use it interchangeably', sender='Tannen', sentTime=Thu Mar 19 21:08:32 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=12, text='Well there's a little more to it but that's why the reader conditional exists', sender='Tannen', sentTime=Thu Mar 19 21:08:46 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=12, text='and that makes the system not stable". i dont understand', sender='Rezki', sentTime=Thu Mar 19 21:09:14 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=12, text='Wait what?', sender='Tannen', sentTime=Thu Mar 19 21:09:36 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=12, text='What do you mean not stable"?', sender='Tannen', sentTime=Thu Mar 19 21:09:43 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=12, text='you said \'The lack of saying it has a stable type system is a hard sell for a lot of people\', sender='Rezki', sentTime=Thu Mar 19 21:10:02 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=12, text='Oh right type system', sender='Tannen', sentTime=Thu Mar 19 21:10:05 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=12, text='Okay', sender='Tannen', sentTime=Thu Mar 19 21:10:06 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=12, text='type system', sender='Rezki', sentTime=Thu Mar 19 21:10:17 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=12, text='So one thing that's been hard to sell to people is the dynamic nature', sender='Tannen', sentTime=Thu Mar 19 21:10:19 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=12, text='oh sorry', sender='Rezki', sentTime=Thu Mar 19 21:10:19 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=12, text='And spec/spec2 are still in alpha', sender='Tannen', sentTime=Thu Mar 19 21:10:30 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=12, text='yes got it 🙂', sender='Rezki', sentTime=Thu Mar 19 21:10:36 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=12, text='will look into spec', sender='Rezki', sentTime=Thu Mar 19 21:10:51 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=12, text='So while I'm using spec at the moment I can't say it's fully ready', sender='Tannen', sentTime=Thu Mar 19 21:10:53 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=12, text='spec is the static type checker for clojure?', sender='Rezki', sentTime=Thu Mar 19 21:14:32 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=12, text='No it's not static', sender='Tannen', sentTime=Thu Mar 19 21:19:22 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=12, text='There's core.typed which is static but I don't know how much it's used', sender='Tannen', sentTime=Thu Mar 19 21:19:38 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=12, text='It's more that spec is the officially condoned way of checking data and it's not stable', sender='Tannen', sentTime=Thu Mar 19 21:20:15 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=12, text='It raises eyebrows when my requires have `clojure.spec.alpha` in them', sender='Tannen', sentTime=Thu Mar 19 21:20:26 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=13, text='i see i need to look into it', sender='Rezki', sentTime=Thu Mar 19 21:48:21 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=14, text='> So one it's hard for a lot of people to learn@lsenjov I don't agree with this. I would say the functional mindset is difficult for some to grasp but the language itself is one of the easiest languages to learn', sender='Bettina', sentTime=Fri Mar 20 01:54:14 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=14, text='> Five it's pretty fast but you can't really use it for anything needing blistering performance@lsenjov Don't agree with this either', sender='Bettina', sentTime=Fri Mar 20 01:55:43 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=14, text='Poor performance in Clojure is a design or implementation failure not a failure of the language', sender='Bettina', sentTime=Fri Mar 20 01:56:26 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=14, text='Android uses Java', sender='Bettina', sentTime=Fri Mar 20 01:56:37 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=14, text='In fact I don't consider any of those things you said as downsides of the language but downsides of the people trying to learn it', sender='Bettina', sentTime=Fri Mar 20 01:57:51 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=14, text='Regarding spec sure it could be a bit more fleshed out toolwise but I haven't seen glaring issues regarding itself. Again I think you're just highlighting the many flaws in the ways many programmers do things that are in a completely different mindset and thus seem foreign to them. To me this is obvious and logical. When you're learning a foreign language do you not have the same struggles?', sender='Bettina', sentTime=Fri Mar 20 02:01:16 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=14, text='blistering meaning things like high end game Dev and other things where you need to squeeze out performance', sender='Tannen', sentTime=Fri Mar 20 02:01:56 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=14, text='There's also a lot of programmers who can't unlearn previous things which is why it's hard for them to learn', sender='Tannen', sentTime=Fri Mar 20 02:02:26 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=14, text='That's a failure of the person not the language', sender='Bettina', sentTime=Fri Mar 20 02:02:36 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=14, text='And to your first statement well yeah. You don't use any general purpose language for a specific task like that', sender='Bettina', sentTime=Fri Mar 20 02:03:03 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=14, text='I know but these _are_ drawbacks when trying to use it commercially', sender='Tannen', sentTime=Fri Mar 20 02:03:06 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=14, text='So it's not really in scope', sender='Bettina', sentTime=Fri Mar 20 02:03:07 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=14, text='that depends on your hiring practices', sender='Bettina', sentTime=Fri Mar 20 02:03:29 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=14, text='Trying to actually find/hire clojure devs is painful', sender='Tannen', sentTime=Fri Mar 20 02:03:32 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=14, text='Says whom?', sender='Bettina', sentTime=Fri Mar 20 02:03:46 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=14, text='Because they don't exactly fall from trees', sender='Tannen', sentTime=Fri Mar 20 02:03:50 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=14, text='Us trying to find Aus based clojure devs', sender='Tannen', sentTime=Fri Mar 20 02:04:02 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=14, text='Of course not. Highly skilled people of any trade are difficult to find', sender='Bettina', sentTime=Fri Mar 20 02:04:17 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=14, text='I could have a dozen bites for a Ruby or Java dev in a week', sender='Tannen', sentTime=Fri Mar 20 02:04:53 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=14, text='Yeah and you get what you pay for too', sender='Bettina', sentTime=Fri Mar 20 02:05:05 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=14, text='Highly skilled programmers aren't looking for low ball offers', sender='Bettina', sentTime=Fri Mar 20 02:05:24 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=14, text='Look I agree with you on all these points', sender='Tannen', sentTime=Fri Mar 20 02:05:25 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=14, text='But these are still drawbacks to adoption', sender='Tannen', sentTime=Fri Mar 20 02:05:36 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=14, text='Well to be fair he asked what are the drawbacks of the language itself not specifically to commercial adoption', sender='Bettina', sentTime=Fri Mar 20 02:05:57 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=14, text='I understood his question to mean from a general learning pov', sender='Bettina', sentTime=Fri Mar 20 02:06:15 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=14, text='@david_node Is that accurate?', sender='Bettina', sentTime=Fri Mar 20 02:06:31 CDT 2020}
+	 75 Msg: MessageAnalysisVO{disentangledId=14, text='These are pain points I've been hitting recently so they're fresh in mind', sender='Tannen', sentTime=Fri Mar 20 02:06:41 CDT 2020}
+	 76 Msg: MessageAnalysisVO{disentangledId=14, text='@WhoNeedszZz exactly', sender='Rezki', sentTime=Fri Mar 20 02:06:52 CDT 2020}
+	 77 Msg: MessageAnalysisVO{disentangledId=14, text='Ok thought so', sender='Bettina', sentTime=Fri Mar 20 02:07:08 CDT 2020}
+	 78 Msg: MessageAnalysisVO{disentangledId=14, text='So yeah I totally understand your frustration @lsenjov. That's why I can't find work here in the US and had to start my own company. All I got were low ball offers that never work out', sender='Bettina', sentTime=Fri Mar 20 02:07:44 CDT 2020}
+	 79 Msg: MessageAnalysisVO{disentangledId=14, text='what does low ball mean?', sender='Rezki', sentTime=Fri Mar 20 02:08:20 CDT 2020}
+	 80 Msg: MessageAnalysisVO{disentangledId=14, text='Low pay', sender='Tannen', sentTime=Fri Mar 20 02:08:32 CDT 2020}
+	 81 Msg: MessageAnalysisVO{disentangledId=14, text='Low salary to your skill level', sender='Bettina', sentTime=Fri Mar 20 02:08:35 CDT 2020}
+	 82 Msg: MessageAnalysisVO{disentangledId=14, text='Like offering you $40k when you're worth 6 figures', sender='Bettina', sentTime=Fri Mar 20 02:08:59 CDT 2020}
+	 83 Msg: MessageAnalysisVO{disentangledId=14, text='but also the commercial side is an interesting point as well', sender='Rezki', sentTime=Fri Mar 20 02:09:31 CDT 2020}
+	 84 Msg: MessageAnalysisVO{disentangledId=14, text='It is', sender='Bettina', sentTime=Fri Mar 20 02:09:37 CDT 2020}
+	 85 Msg: MessageAnalysisVO{disentangledId=14, text='And it sucks', sender='Bettina', sentTime=Fri Mar 20 02:09:39 CDT 2020}
+	 86 Msg: MessageAnalysisVO{disentangledId=14, text='I can't speak to hiring practices in Australia but I know very well how it is in the US. They want to give you low pay give them !20% do multiple roles but not be too good to where you outshine your peers.', sender='Bettina', sentTime=Fri Mar 20 02:11:22 CDT 2020}
+	 87 Msg: MessageAnalysisVO{disentangledId=14, text='It's totally insane', sender='Bettina', sentTime=Fri Mar 20 02:11:38 CDT 2020}
+	 88 Msg: MessageAnalysisVO{disentangledId=14, text='But if you give them 90100% to avoid the last bit they complain and say they know you can do better', sender='Bettina', sentTime=Fri Mar 20 02:12:28 CDT 2020}
+	 89 Msg: MessageAnalysisVO{disentangledId=14, text='Catch22 all of the way', sender='Bettina', sentTime=Fri Mar 20 02:12:32 CDT 2020}
+	 90 Msg: MessageAnalysisVO{disentangledId=14, text='sounds a bit contradicting. interesting you say language is easy to learn as well but that functional programming part is hard.', sender='Rezki', sentTime=Fri Mar 20 02:14:22 CDT 2020}
+	 91 Msg: MessageAnalysisVO{disentangledId=14, text='that is exactly how i experience it', sender='Rezki', sentTime=Fri Mar 20 02:14:49 CDT 2020}
+	 92 Msg: MessageAnalysisVO{disentangledId=14, text='i have started writing a program and started mutating data with def just because my mind is so used to do so', sender='Rezki', sentTime=Fri Mar 20 02:15:51 CDT 2020}
+	 93 Msg: MessageAnalysisVO{disentangledId=14, text='it just a complete different way of thinking but with exercise i think the coin will toss', sender='Rezki', sentTime=Fri Mar 20 02:17:06 CDT 2020}
+	 94 Msg: MessageAnalysisVO{disentangledId=14, text='It sounds contradicting but it depends on your previous exposure. If you've never learned a functional language then any functional language will give you doubletakes. But if you've been exposed to the functional paradigm before it is trivial to learn Clojure', sender='Bettina', sentTime=Fri Mar 20 02:17:30 CDT 2020}
+	 95 Msg: MessageAnalysisVO{disentangledId=14, text='I had the luxury of being exposed to it previously in my personal and Comp Sci studies', sender='Bettina', sentTime=Fri Mar 20 02:17:53 CDT 2020}
+	 96 Msg: MessageAnalysisVO{disentangledId=14, text='I also had a professor that prefers the functional paradigm and taught Java using closures', sender='Bettina', sentTime=Fri Mar 20 02:18:11 CDT 2020}
+	 97 Msg: MessageAnalysisVO{disentangledId=14, text='It made it much easier to grasp', sender='Bettina', sentTime=Fri Mar 20 02:18:21 CDT 2020}
+	 98 Msg: MessageAnalysisVO{disentangledId=14, text='And our code had very few errors in it to boot', sender='Bettina', sentTime=Fri Mar 20 02:18:34 CDT 2020}
+	 99 Msg: MessageAnalysisVO{disentangledId=14, text='And this was before Java officially supported closures', sender='Bettina', sentTime=Fri Mar 20 02:19:12 CDT 2020}
+	 100 Msg: MessageAnalysisVO{disentangledId=14, text='nice seems like your professor was on a good path', sender='Rezki', sentTime=Fri Mar 20 02:19:15 CDT 2020}
+	 101 Msg: MessageAnalysisVO{disentangledId=14, text='Definitely', sender='Bettina', sentTime=Fri Mar 20 02:19:26 CDT 2020}
+	 102 Msg: MessageAnalysisVO{disentangledId=14, text='He's a Haskell guy', sender='Bettina', sentTime=Fri Mar 20 02:19:33 CDT 2020}
+	 103 Msg: MessageAnalysisVO{disentangledId=14, text='oh okay yeah makes sense then 😄', sender='Rezki', sentTime=Fri Mar 20 02:19:59 CDT 2020}
+	 104 Msg: MessageAnalysisVO{disentangledId=14, text='You want hard language to learn? That's the one', sender='Bettina', sentTime=Fri Mar 20 02:20:18 CDT 2020}
+	 105 Msg: MessageAnalysisVO{disentangledId=14, text='Australia's a mixed bag like most places but there's definitely a culture of avoiding burnout in most places I hear of', sender='Tannen', sentTime=Fri Mar 20 02:20:38 CDT 2020}
+	 106 Msg: MessageAnalysisVO{disentangledId=14, text='😄', sender='Rezki', sentTime=Fri Mar 20 02:20:39 CDT 2020}
+	 107 Msg: MessageAnalysisVO{disentangledId=14, text='But I have to say I actually enjoyed it being written as math', sender='Bettina', sentTime=Fri Mar 20 02:20:46 CDT 2020}
+	 108 Msg: MessageAnalysisVO{disentangledId=14, text='Mainly because good programmers are in short supply and hiring is expensive so they do their best to not lose people', sender='Tannen', sentTime=Fri Mar 20 02:21:12 CDT 2020}
+	 109 Msg: MessageAnalysisVO{disentangledId=14, text='The opposite in the US', sender='Bettina', sentTime=Fri Mar 20 02:21:25 CDT 2020}
+	 110 Msg: MessageAnalysisVO{disentangledId=14, text='Burnout all day every day', sender='Bettina', sentTime=Fri Mar 20 02:21:30 CDT 2020}
+	 111 Msg: MessageAnalysisVO{disentangledId=14, text='Massive turnover rates', sender='Bettina', sentTime=Fri Mar 20 02:21:41 CDT 2020}
+	 112 Msg: MessageAnalysisVO{disentangledId=14, text='I often find a large part of it being some idiot director that knows nothing about programming calling the shots', sender='Bettina', sentTime=Fri Mar 20 02:22:21 CDT 2020}
+	 113 Msg: MessageAnalysisVO{disentangledId=14, text='And leads that haven\'t programmed in 20 years', sender='Bettina', sentTime=Fri Mar 20 02:22:49 CDT 2020}
+	 114 Msg: MessageAnalysisVO{disentangledId=14, text='True story', sender='Bettina', sentTime=Fri Mar 20 02:23:04 CDT 2020}
+	 115 Msg: MessageAnalysisVO{disentangledId=14, text='i think it's worth trying to learn the functional paradigm. even if i will not work with clojure i can adapt it in other languages', sender='Rezki', sentTime=Fri Mar 20 02:24:50 CDT 2020}
+	 116 Msg: MessageAnalysisVO{disentangledId=14, text='In one of my positions we had discussed at length why we shouldn't use Redux unless the task absolutely demanded it. Whole team agreed including the lead that hadn't programmed in 20 years. Few weeks in to the project  we're using Redux now. What changed? Nothing. So why are we using it given everything we talked about? Because I said so.', sender='Bettina', sentTime=Fri Mar 20 02:25:41 CDT 2020}
+	 117 Msg: MessageAnalysisVO{disentangledId=14, text='And not a single person on the team had used it before', sender='Bettina', sentTime=Fri Mar 20 02:25:58 CDT 2020}
+	 118 Msg: MessageAnalysisVO{disentangledId=14, text='Do you think the project got finished?', sender='Bettina', sentTime=Fri Mar 20 02:26:49 CDT 2020}
+	 119 Msg: MessageAnalysisVO{disentangledId=14, text='i guess not', sender='Rezki', sentTime=Fri Mar 20 02:27:53 CDT 2020}
+	 120 Msg: MessageAnalysisVO{disentangledId=14, text='> i think it's worth trying to learn the functional paradigm. even if i will not work with clojure i can adapt it in other languages@david_node You can absolutely use it in imperative languages. I would argue you write much more efficient and less errorprone code that way', sender='Bettina', sentTime=Fri Mar 20 02:28:15 CDT 2020}
+	 121 Msg: MessageAnalysisVO{disentangledId=14, text='Java with closures perfect example', sender='Bettina', sentTime=Fri Mar 20 02:28:36 CDT 2020}
+	 122 Msg: MessageAnalysisVO{disentangledId=14, text='But I think if you just stick with it you'll be successful', sender='Bettina', sentTime=Fri Mar 20 02:29:00 CDT 2020}
+	 123 Msg: MessageAnalysisVO{disentangledId=14, text='Most people that shit on functional languages gave up', sender='Bettina', sentTime=Fri Mar 20 02:29:16 CDT 2020}
+	 124 Msg: MessageAnalysisVO{disentangledId=14, text='i am thinking of python using immutable data', sender='Rezki', sentTime=Fri Mar 20 02:29:23 CDT 2020}
+	 125 Msg: MessageAnalysisVO{disentangledId=14, text='That would work. Python is a hybrid language anyway', sender='Bettina', sentTime=Fri Mar 20 02:29:38 CDT 2020}
+	 126 Msg: MessageAnalysisVO{disentangledId=14, text='You don't have to use classes at all', sender='Bettina', sentTime=Fri Mar 20 02:29:44 CDT 2020}
+	 127 Msg: MessageAnalysisVO{disentangledId=14, text='When I used Python I did exactly that', sender='Bettina', sentTime=Fri Mar 20 02:30:02 CDT 2020}
+	 128 Msg: MessageAnalysisVO{disentangledId=14, text='nice nice but sticking to clojure first is to get some discipline', sender='Rezki', sentTime=Fri Mar 20 02:31:01 CDT 2020}
+	 129 Msg: MessageAnalysisVO{disentangledId=14, text='What did you think of the OOP fallacy presented in Are We There Yet?', sender='Bettina', sentTime=Fri Mar 20 02:31:02 CDT 2020}
+	 130 Msg: MessageAnalysisVO{disentangledId=14, text='just loved it', sender='Rezki', sentTime=Fri Mar 20 02:31:13 CDT 2020}
+	 131 Msg: MessageAnalysisVO{disentangledId=14, text='I show that to anyone that praises OOP', sender='Bettina', sentTime=Fri Mar 20 02:31:27 CDT 2020}
+	 132 Msg: MessageAnalysisVO{disentangledId=14, text='And laugh', sender='Bettina', sentTime=Fri Mar 20 02:31:30 CDT 2020}
+	 133 Msg: MessageAnalysisVO{disentangledId=14, text='😄', sender='Rezki', sentTime=Fri Mar 20 02:31:32 CDT 2020}
+	 134 Msg: MessageAnalysisVO{disentangledId=14, text='Entire class of errors gone by using functional mindset', sender='Bettina', sentTime=Fri Mar 20 02:31:58 CDT 2020}
+	 135 Msg: MessageAnalysisVO{disentangledId=14, text='i just love that we got the modeling of our world wrong', sender='Rezki', sentTime=Fri Mar 20 02:32:02 CDT 2020}
+	 136 Msg: MessageAnalysisVO{disentangledId=14, text='ikr', sender='Bettina', sentTime=Fri Mar 20 02:32:07 CDT 2020}
+	 137 Msg: MessageAnalysisVO{disentangledId=14, text='I thought this did a great job of explaining the pitfalls of Microservices: https://www.youtube.com/watch?v=BThkk5zv0DE', sender='Bettina', sentTime=Fri Mar 20 02:32:47 CDT 2020}
+	 138 Msg: MessageAnalysisVO{disentangledId=14, text='I would love to work for Derek', sender='Bettina', sentTime=Fri Mar 20 02:32:56 CDT 2020}
+	 139 Msg: MessageAnalysisVO{disentangledId=14, text='in a way rich hickey really went back to a very abstract level in order figure where the his problems were caused by and that is sooo damn genius', sender='Rezki', sentTime=Fri Mar 20 02:35:05 CDT 2020}
+	 140 Msg: MessageAnalysisVO{disentangledId=14, text='That's how to do it', sender='Bettina', sentTime=Fri Mar 20 02:35:20 CDT 2020}
+	 141 Msg: MessageAnalysisVO{disentangledId=14, text='If your tool doesn't allow you to do what you need use another tool', sender='Bettina', sentTime=Fri Mar 20 02:35:37 CDT 2020}
+	 142 Msg: MessageAnalysisVO{disentangledId=14, text='Tool doesn't exist? Make it', sender='Bettina', sentTime=Fri Mar 20 02:35:42 CDT 2020}
+	 143 Msg: MessageAnalysisVO{disentangledId=14, text='😄', sender='Rezki', sentTime=Fri Mar 20 02:35:50 CDT 2020}
+	 144 Msg: MessageAnalysisVO{disentangledId=14, text='true', sender='Rezki', sentTime=Fri Mar 20 02:35:59 CDT 2020}
+	 145 Msg: MessageAnalysisVO{disentangledId=14, text='We have too many programmers that wait for other people to make the change', sender='Bettina', sentTime=Fri Mar 20 02:36:06 CDT 2020}
+	 146 Msg: MessageAnalysisVO{disentangledId=14, text='Sheep mentality', sender='Bettina', sentTime=Fri Mar 20 02:36:19 CDT 2020}
+	 147 Msg: MessageAnalysisVO{disentangledId=14, text='i have seen that LISP is used in quantum computer programming', sender='Rezki', sentTime=Fri Mar 20 02:37:10 CDT 2020}
+	 148 Msg: MessageAnalysisVO{disentangledId=14, text='clojure could as well take that spot probably', sender='Rezki', sentTime=Fri Mar 20 02:37:39 CDT 2020}
+	 149 Msg: MessageAnalysisVO{disentangledId=14, text='I believe so', sender='Bettina', sentTime=Fri Mar 20 02:37:46 CDT 2020}
+	 150 Msg: MessageAnalysisVO{disentangledId=14, text='I think Clojure has much more potential than what people are using it for', sender='Bettina', sentTime=Fri Mar 20 02:37:58 CDT 2020}
+	 151 Msg: MessageAnalysisVO{disentangledId=14, text='I used ClojureScript + reframe (+ reagent) and made a React site that performs better than a JS React site done the same way', sender='Bettina', sentTime=Fri Mar 20 02:38:48 CDT 2020}
+	 152 Msg: MessageAnalysisVO{disentangledId=14, text='Yet ClojureScript turns into vanilla JS', sender='Bettina', sentTime=Fri Mar 20 02:39:22 CDT 2020}
+	 153 Msg: MessageAnalysisVO{disentangledId=14, text='wow that is awesome. for me clojurescript is just another nice language feature.', sender='Rezki', sentTime=Fri Mar 20 02:40:21 CDT 2020}
+	 154 Msg: MessageAnalysisVO{disentangledId=14, text='since it is there it could open many doors', sender='Rezki', sentTime=Fri Mar 20 02:41:02 CDT 2020}
+	 155 Msg: MessageAnalysisVO{disentangledId=14, text='i wonder if clojure will be the python of ten years before', sender='Rezki', sentTime=Fri Mar 20 02:41:35 CDT 2020}
+	 156 Msg: MessageAnalysisVO{disentangledId=14, text='That's the beauty of it. Clojure results in plain Java ClojureScript results in plain JS. That's why I don't really understand the feet dragging for commercial adoption. You don't have to redo your whole codebase. You can just write new things in it and go back and migrate when you have the time', sender='Bettina', sentTime=Fri Mar 20 02:42:10 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Bettina, Rezki, Osmundo]
+Messages Size: 40
+Duration of Monopolized Convo: 1 days, 20 hours, 28 minutes, 52 seconds
+Duration Until Next User Added: 0 days, 0 hours, 29 minutes, 28 seconds
+Char Length of Text Msg Before New User Added: 10
+	 1 Msg: MessageAnalysisVO{disentangledId=15, text='Well there are still some integration issues just adding clojure into an existing java codebase.', sender='Osmundo', sentTime=Fri Mar 20 02:45:16 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=14, text='But there are a lot of cases where you can do that yea.', sender='Osmundo', sentTime=Fri Mar 20 02:45:38 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=14, text='way is practically laid out for people to go but they won't because it seems too risky probably and you dont want to be dependent on a bunch of clojure developers. where will you get them from?', sender='Rezki', sentTime=Fri Mar 20 02:45:44 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=14, text='🤷\u200d♂️ slow and steady expansion', sender='Osmundo', sentTime=Fri Mar 20 02:45:57 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=14, text='People are afraid of risk', sender='Bettina', sentTime=Fri Mar 20 02:46:10 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=14, text='Even though they do risky things on a daily basis', sender='Bettina', sentTime=Fri Mar 20 02:46:21 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=14, text='A few people screaming at the top of their lungs that it's awesome a lot more being reasonable and friendly.', sender='Osmundo', sentTime=Fri Mar 20 02:46:23 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=14, text='Huh?', sender='Bettina', sentTime=Fri Mar 20 02:46:56 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=15, text='Me?', sender='Osmundo', sentTime=Fri Mar 20 02:47:26 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=14, text='Yes', sender='Bettina', sentTime=Fri Mar 20 02:47:30 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=14, text='Not sure what you meant there', sender='Bettina', sentTime=Fri Mar 20 02:47:34 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=14, text='Why is being vocal about it being great unreasonable?', sender='Bettina', sentTime=Fri Mar 20 02:47:51 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=14, text='Was explaining how we get the developer base to actually change the industry.', sender='Osmundo', sentTime=Fri Mar 20 02:47:52 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=14, text='Oh.', sender='Osmundo', sentTime=Fri Mar 20 02:47:56 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=14, text='Developers have very little ability to influence the higher ups', sender='Bettina', sentTime=Fri Mar 20 02:48:30 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=14, text='I said screaming for a reason.', sender='Osmundo', sentTime=Fri Mar 20 02:48:33 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=14, text='And I'm not saying having those people in the community is a bad thing.', sender='Osmundo', sentTime=Fri Mar 20 02:48:46 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=14, text='They get the word out.', sender='Osmundo', sentTime=Fri Mar 20 02:48:55 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=14, text='Who is screaming though?', sender='Bettina', sentTime=Fri Mar 20 02:49:01 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=14, text='But people that are that loud have a tendancy to also be uncompromising.', sender='Osmundo', sentTime=Fri Mar 20 02:49:06 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=14, text='I haven't seen these people', sender='Bettina', sentTime=Fri Mar 20 02:49:06 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=14, text='I've run into a few. Heck I've been one of them from time to time.', sender='Osmundo', sentTime=Fri Mar 20 02:49:29 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=14, text='Where though?', sender='Bettina', sentTime=Fri Mar 20 02:49:42 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=14, text='Online mostly.', sender='Osmundo', sentTime=Fri Mar 20 02:49:52 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=14, text='Certainly not here', sender='Bettina', sentTime=Fri Mar 20 02:50:01 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=14, text='Oh no not on this discord.', sender='Osmundo', sentTime=Fri Mar 20 02:50:08 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=14, text='Maybe in the Slack but I couldn't keep up with it to really notice', sender='Bettina', sentTime=Fri Mar 20 02:50:22 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=14, text='And I ignore Reddit', sender='Bettina', sentTime=Fri Mar 20 02:50:40 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=14, text='It's not the sort of thing you'd see in an actual clojure community no point preaching to the choir.', sender='Osmundo', sentTime=Fri Mar 20 02:50:44 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=14, text='True', sender='Bettina', sentTime=Fri Mar 20 02:50:50 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=14, text='Except on Reddit', sender='Bettina', sentTime=Fri Mar 20 02:50:58 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=14, text='True lol', sender='Osmundo', sentTime=Fri Mar 20 02:51:02 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=14, text='Reddit is a cesspool', sender='Bettina', sentTime=Fri Mar 20 02:51:03 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=14, text='You want to get downvoted for saying something easily verifiable? Post on Reddit', sender='Bettina', sentTime=Fri Mar 20 02:51:23 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=14, text='😄', sender='Rezki', sentTime=Fri Mar 20 03:01:20 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=16, text='i thought filter and map were important but now i think it reduce is really key', sender='Rezki', sentTime=Fri Mar 20 04:27:45 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=14, text='for composition', sender='Rezki', sentTime=Fri Mar 20 04:28:05 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=14, text='They are all useful', sender='Bettina', sentTime=Fri Mar 20 04:28:08 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=16, text='i just realized that i am actually executing function after function after function.', sender='Rezki', sentTime=Sat Mar 21 23:13:49 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=14, text='so strange', sender='Rezki', sentTime=Sat Mar 21 23:14:08 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Babou, Osmundo, Alistair]
+Messages Size: 53
+Duration of Monopolized Convo: 1 days, 4 hours, 4 minutes, 29 seconds
+Duration Until Next User Added: 2 days, 6 hours, 29 minutes, 21 seconds
+Char Length of Text Msg Before New User Added: 19
+	 1 Msg: MessageAnalysisVO{disentangledId=31, text='I wish there were a good parking and in core.async by default yeah. As it is the simplest way to do it is like so:```clojure(let [chans ...] (a/<! (a/thread (map a/<!! chans))))```', sender='Alistair', sentTime=Mon Apr 20 17:44:06 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=31, text='This spawns a new thread that blocks on taking off each channel and the return value of map is put onto a channel. That channel is parked on by the outer execution context.', sender='Alistair', sentTime=Mon Apr 20 17:44:51 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=31, text='what if you're working in cljs', sender='Osmundo', sentTime=Mon Apr 20 17:45:12 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=31, text='Wrong channel I suppose', sender='Osmundo', sentTime=Mon Apr 20 17:45:31 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=31, text='good question. I'm not 100% sure.', sender='Alistair', sentTime=Mon Apr 20 17:45:33 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=31, text='Short answer is you need some fairly arcane loop trickery.', sender='Osmundo', sentTime=Mon Apr 20 17:45:50 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=31, text='And `alts!`', sender='Osmundo', sentTime=Mon Apr 20 17:46:00 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=31, text='You loop on `alts!` each iteration removing the channel you just took from and passing the rest back in.', sender='Osmundo', sentTime=Mon Apr 20 17:46:51 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=31, text='Yeah I dislike that because it's complex and requires more thread overhead. However it doesn't require an additional thread so that can be a bonus.', sender='Alistair', sentTime=Mon Apr 20 17:47:31 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=31, text='```clj(defn asyncall [chans] (goloop [chanset (set chans) res {}] (if (seq chanset) (let [[val chan] (alts! chanset)] (recur (disj chanset chan) (assoc res chan val))) (into [] (map res chans)))```Or something like that.', sender='Osmundo', sentTime=Mon Apr 20 17:52:18 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=31, text='My original version was inline and collected the results slightly differently plus I don't have it on hand rn 😅', sender='Osmundo', sentTime=Mon Apr 20 17:53:14 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=33, text='> You loop on `alts!` each iteration removing the channel you just took from and passing the rest back in.@djeis that's what I'd do too', sender='Babou', sentTime=Mon Apr 20 21:48:49 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=33, text='It just becomes very complex especially if you add more channels', sender='Babou', sentTime=Mon Apr 20 21:49:32 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=33, text='My little code snippet there should solve it for any number of channels.', sender='Osmundo', sentTime=Mon Apr 20 21:50:09 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=33, text='Oh I see', sender='Babou', sentTime=Mon Apr 20 21:50:18 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=33, text='should', sender='Osmundo', sentTime=Mon Apr 20 21:50:25 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=33, text='I have not tested it I just did something similar on another project recently.', sender='Osmundo', sentTime=Mon Apr 20 21:50:36 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=33, text='Does one take off each channel and returns a vector of the results in the same order as the channels.', sender='Osmundo', sentTime=Mon Apr 20 21:50:58 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=33, text='I didn't know you could pass a set to alts', sender='Babou', sentTime=Mon Apr 20 21:51:07 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=33, text='Ought to take any sequence.', sender='Osmundo', sentTime=Mon Apr 20 21:51:20 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=33, text='If not I'll have to coerce to vector.', sender='Osmundo', sentTime=Mon Apr 20 21:51:30 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=33, text='But it ought to take anything seqable.', sender='Osmundo', sentTime=Mon Apr 20 21:51:37 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=33, text='Nice', sender='Babou', sentTime=Mon Apr 20 21:51:45 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=33, text='I know I've passed it seqs before.', sender='Osmundo', sentTime=Mon Apr 20 21:51:49 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=33, text='Also til goloop is a thing', sender='Babou', sentTime=Mon Apr 20 21:52:03 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=33, text='Yea just a bit shorter.', sender='Osmundo', sentTime=Mon Apr 20 21:52:20 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=33, text='I am perhaps unreasonably pleased with `(map res chans)` in there.', sender='Osmundo', sentTime=Mon Apr 20 21:53:14 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=33, text='But the order isn't preserved is it?', sender='Babou', sentTime=Mon Apr 20 21:54:23 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=33, text='`chans` is the passed in collection 😁', sender='Osmundo', sentTime=Mon Apr 20 21:54:38 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=33, text='Oh yeah you're right', sender='Babou', sentTime=Mon Apr 20 21:54:51 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=33, text='Thanks a bunch', sender='Babou', sentTime=Mon Apr 20 21:55:55 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=33, text='Sure 🙂', sender='Osmundo', sentTime=Mon Apr 20 21:55:59 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=33, text='Do test it 😅', sender='Osmundo', sentTime=Mon Apr 20 21:56:09 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=33, text='I'm pretty sure it works but I don't have anything handy to test it on atm.', sender='Osmundo', sentTime=Mon Apr 20 21:56:31 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=33, text='Will do tomorrow 👍', sender='Babou', sentTime=Mon Apr 20 21:57:02 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=34, text='I'm not sure if it'll be anything seqable since the api for vectors (nth) works on sequences but doesn't call seq on its argument.', sender='Alistair', sentTime=Tue Apr 21 01:53:26 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=34, text='at least that I recall.', sender='Alistair', sentTime=Tue Apr 21 01:53:36 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=35, text='@djeis doesn't seem to work unfortunately', sender='Babou', sentTime=Tue Apr 21 21:20:01 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=35, text='Ah wonder why...', sender='Osmundo', sentTime=Tue Apr 21 21:20:24 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=35, text='Can't really debug atm.', sender='Osmundo', sentTime=Tue Apr 21 21:20:29 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=35, text='I modified it slightly because alts! doesn't take a set', sender='Babou', sentTime=Tue Apr 21 21:20:37 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=35, text='```clj(defn asyncall [chans] (goloop [chanset (set chans) res {}] (iflet [chanseq (seq chanset)] (let [[val chan] (alts! chanseq)] (recur (disj chanset chan) (assoc res chan val))) (into [] (map res chans)))))```', sender='Babou', sentTime=Tue Apr 21 21:20:46 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=35, text='But it never seems to receive the values you put on the input channels', sender='Babou', sentTime=Tue Apr 21 21:21:17 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=35, text='Well that's... weird...', sender='Osmundo', sentTime=Tue Apr 21 21:21:31 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=35, text='```clj(def chans (repeatedly 5 chan))(def result (asyncall chans))(go (doseq [val (range 5)  c chans] (>! c val)))(<!! result)```maybe you can spot a mistake', sender='Babou', sentTime=Tue Apr 21 21:22:30 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=35, text='so it basically parks in the doseq', sender='Babou', sentTime=Tue Apr 21 21:23:22 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=35, text='🤔', sender='Osmundo', sentTime=Tue Apr 21 21:29:27 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=35, text='```cljuser=> (defn asyncall [chans] (a/goloop [chanset (set chans) res {}] (iflet [chanseq (seq chanset)] (let [[val chan] (a/alts! chanseq)] (recur (disj chanset chan) (assoc res chan val))) (into [] (map res chans)))))user=> (def chans (into [] (repeatedly 5 a/chan)))user=> (def res (asyncall chans))user=> (a/go (doseq [[i c] (map list (range) chans)] (a/>! c i)))user=> (a/<!! res)[0 1 2 3 4]```', sender='Osmundo', sentTime=Tue Apr 21 21:30:41 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=35, text='All I did was add `a/` prefixes make `chans` a vector and make sure the `doseq` goes through the index/chans in parallel.', sender='Osmundo', sentTime=Tue Apr 21 21:32:14 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=36, text='OH', sender='Babou', sentTime=Tue Apr 21 21:46:32 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=36, text='doseq in my case runs chan1 1 chan1 2 chan1 3 and so on right?', sender='Babou', sentTime=Tue Apr 21 21:47:10 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=36, text='I forgot it behaves like `for` and not like `map` in that regard', sender='Babou', sentTime=Tue Apr 21 21:48:13 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=36, text='I'm actually stupid', sender='Babou', sentTime=Tue Apr 21 21:48:35 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Madigan, Maddison, Janita]
+Messages Size: 74
+Duration of Monopolized Convo: 8 days, 21 hours, 31 minutes, 26 seconds
+Duration Until Next User Added: 0 days, 14 hours, 5 minutes, 3 seconds
+Char Length of Text Msg Before New User Added: 8
+	 1 Msg: MessageAnalysisVO{disentangledId=11, text='transit question: is there a standard dataset used for verifying and/or benchmarking? I'm writing an implementation in Haskell and would like to be able to compare it against other implementations', sender='Janita', sentTime=Fri May 22 16:29:43 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=11, text='actually https://github.com/cognitect/transitformat/tree/master/examples/0.8/simple looks sufficient for the verification part', sender='Janita', sentTime=Fri May 22 16:36:39 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=11, text='and then I can write benchmarks comparable to https://github.com/cognitect/transitcljs/blob/master/bench/transit/bench.cljs', sender='Janita', sentTime=Fri May 22 16:36:53 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=13, text='why is my message getting deleted automatically from here', sender='Madigan', sentTime=Sun May 31 09:06:18 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=13, text='I am trying to post a code and looking for validation but its gets deleted', sender='Madigan', sentTime=Sun May 31 09:06:40 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=13, text='that is odd', sender='Maddison', sentTime=Sun May 31 09:06:47 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=13, text='Can you try again?', sender='Maddison', sentTime=Sun May 31 09:06:54 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=13, text='I did it goes to botlog', sender='Madigan', sentTime=Sun May 31 09:07:12 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=13, text='Weird. Post it on https://hasteb.in', sender='Maddison', sentTime=Sun May 31 09:07:19 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=13, text='Done', sender='Madigan', sentTime=Sun May 31 09:07:46 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=13, text='you need to save and post the link', sender='Maddison', sentTime=Sun May 31 09:07:57 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=13, text='https://hasteb.in/uvulekuh.sql', sender='Madigan', sentTime=Sun May 31 09:08:13 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=13, text='Please give feedbacks on the implementation of Sieve_of_Eratosthenes for generating primes', sender='Madigan', sentTime=Sun May 31 09:08:41 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=13, text='what exactly is your question?', sender='Maddison', sentTime=Sun May 31 09:08:41 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=13, text='ah', sender='Maddison', sentTime=Sun May 31 09:08:44 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=13, text='Just seeking validations if this is good enough', sender='Madigan', sentTime=Sun May 31 09:09:02 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=13, text='First thing to improve imo would be to make the function a top level declaration', sender='Maddison', sentTime=Sun May 31 09:10:03 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=13, text='so `(defn primenumbers? ...)`', sender='Maddison', sentTime=Sun May 31 09:10:21 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=13, text='Ok', sender='Madigan', sentTime=Sun May 31 09:10:29 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=13, text='Anything else? @Johnny', sender='Madigan', sentTime=Sun May 31 09:24:41 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=13, text='yeah I'm currently thinking about how I would implement this', sender='Maddison', sentTime=Sun May 31 09:25:03 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=13, text='Ok Ok sure Sorry for the probe', sender='Madigan', sentTime=Sun May 31 09:27:47 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=13, text='Ok I would do this rather differently', sender='Maddison', sentTime=Sun May 31 09:38:16 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=13, text='Is it ok if I show you my implementation directly and explain it?', sender='Maddison', sentTime=Sun May 31 09:38:28 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=13, text='There are a few things about yours that are a bit problematic for example it uses .indexOf and last on sequences all of which are O(n)', sender='Maddison', sentTime=Sun May 31 09:39:23 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=13, text='( @Kanishkkumar188nrt )', sender='Maddison', sentTime=Sun May 31 09:44:38 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=13, text='Yes pleaze', sender='Madigan', sentTime=Sun May 31 09:45:48 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=13, text='Please show your implementation', sender='Madigan', sentTime=Sun May 31 09:46:05 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=13, text='```clj(defn sieve [[& [nextprime :as remaining]]] (remove #(zero? (rem % nextprime)) remaining))(defn primes [to] (>> (range 2 to) (iterate sieve) (takewhile seq) (map first)))```', sender='Maddison', sentTime=Sun May 31 09:48:08 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=13, text='`sieve` is a helper function that takes a sequence of numbers ignores the first element treats the second element as the next prime and the rest as the remaining numbers. It then uses `rem` (remainder) to remove all multiples of the next prime from the remaining', sender='Maddison', sentTime=Sun May 31 09:50:15 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=13, text='This is nice for `iterate`. `iterate` takes the initial numbers and produces a sequence of `numbers` `(sieve numbers)` `(sieve (sieve numbers))` and so on', sender='Maddison', sentTime=Sun May 31 09:51:51 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=13, text='This results in a sequence consisting of sequences that each represent one step in the algorithm', sender='Maddison', sentTime=Sun May 31 09:52:25 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=13, text='The end is reached when this produces an empty sequence hence why `(takewhile seq)`', sender='Maddison', sentTime=Sun May 31 09:53:01 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=13, text='The first element of each sequence is a prime.', sender='Maddison', sentTime=Sun May 31 09:53:14 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=13, text='This is reasonably more efficient too. Your initial solution took 292 ms for 9927 mine took 0.02 ms', sender='Maddison', sentTime=Sun May 31 09:56:39 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=13, text='If you have trouble understanding anything feel free to ask', sender='Maddison', sentTime=Sun May 31 09:58:03 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=14, text='Oh and also this is lazy which can be useful', sender='Maddison', sentTime=Sun May 31 10:05:02 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=15, text='I am new to clojure and functional programming have been infected by OOPS from a long time. This implementation is more readable. Although I need to understand your thought pattern desingning it. Why can't I think in the same fashion. That's my major problem. I registered myself here to change my thought pattern. Please guide if you can.', sender='Madigan', sentTime=Sun May 31 12:19:43 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=13, text='Well that is something that comes with enough practice. Don't worry if you think you wouldn't have figured this out yourself  I know that feeling. Coding in an imperative language is somewhat of an advantage in this regard because most popular algorithms are often defined or explained imperatively. The sieve of Eratosthenes is a good example for this because it is an inherently imperative algorithm (a set of instructions that you can repeat by hand).', sender='Maddison', sentTime=Sun May 31 12:33:38 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=13, text='And I mean it took me about half an hour to come up with this.', sender='Maddison', sentTime=Sun May 31 12:34:43 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=13, text='What I did is the following: I went to wikipedia and looked at the definition of the algorithm there which is tagging indices in a boolean array essentially. I realised that this can also be described as a series of states. In the beginning all numbers are untagged. After the next step all multiples of 2 are tagged. After the next step all multiples of 3 are tagged... and so on and so forth. This is already a functional description. Now the remaining questions are: what does the \'step\ function look like that marks the next multiples? and how do I get the relevant prime in each state (2 in the first 3 in the second 5 in the third etc.)?', sender='Maddison', sentTime=Sun May 31 12:39:14 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=13, text='Now the knowledge about `iterate` comes in handy because it gives me a sequence of all states when repeatedly applying a step function. So what I did was I wrote the step function (`sieve`) in a way that does not care about what was relevant in the previous step by skipping the first element in the sequence. That way the first element in each state is the number I care about.', sender='Maddison', sentTime=Sun May 31 12:41:54 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=13, text='And I think the rest of the implementation of `sieve` is pretty clear.', sender='Maddison', sentTime=Sun May 31 12:42:54 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=13, text='Yes it is', sender='Madigan', sentTime=Sun May 31 12:43:01 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=13, text='The code is so clear in itself that i doesnt need any explanation the explanation to write such code was needed I am reading your explanation again n again to understand better. Thanks @Johnny and Clojurians As helping community only enables the propagation of knowledge.', sender='Madigan', sentTime=Sun May 31 12:46:06 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=13, text='You're welcome. Thanks for bringing it up here it's an interesting thing to think about and I really like the result here', sender='Maddison', sentTime=Sun May 31 12:47:08 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=13, text='I have worked with multiple languages and never ever found anyone as welcoming and helping community as Clojure's', sender='Madigan', sentTime=Sun May 31 12:47:37 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=13, text='Same here haha', sender='Maddison', sentTime=Sun May 31 12:47:59 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=13, text='Clojure's community is so helping and uplifting and through out all the mediums be it reddit discord slack or stack overflow', sender='Madigan', sentTime=Sun May 31 12:48:18 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=16, text='@Johnny [& [nextprime :as remaining]] what is this doing?', sender='Madigan', sentTime=Sun May 31 13:03:17 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=13, text='When i printed next prime and remaining i got this > remainaing (19 23 29 31 37)>nextprime 23', sender='Madigan', sentTime=Sun May 31 13:04:03 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=13, text='I understood this but how could you do this is there any documentation for it', sender='Madigan', sentTime=Sun May 31 13:04:30 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=13, text='Youre doing some very WHAAAAT the hell kinda things', sender='Madigan', sentTime=Sun May 31 13:04:59 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=13, text='hahah', sender='Madigan', sentTime=Sun May 31 13:05:06 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=13, text='This is called destructuring. It's very powerful. This would be the equivalent without it:```clj(defn sieve [input] (let [remaining (rest input) nextprime (first remaining)] (remove #(zero? (rem % nextprime)) remaining)))```', sender='Maddison', sentTime=Sun May 31 13:05:14 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=13, text='https://clojure.org/guides/destructuring', sender='Maddison', sentTime=Sun May 31 13:05:32 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=13, text='hahahahahah', sender='Madigan', sentTime=Sun May 31 13:05:41 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=13, text='M blown away', sender='Madigan', sentTime=Sun May 31 13:06:00 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=13, text='For a long time I didn't know it existed. Now I find myself using it at every corner', sender='Maddison', sentTime=Sun May 31 13:06:34 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=13, text='I understand destrcuture as i used in javascript but you did something really clever here by using & you made it for consuming multiple arguments and with using :as you selected the first item from that multiple aruments', sender='Madigan', sentTime=Sun May 31 13:08:30 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=13, text='Correct?', sender='Madigan', sentTime=Sun May 31 13:08:50 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=13, text='It's all described thoroughly in the guide I just linked and I recommend reading it but the gist of it: `[& foo]` means that `foo` will be the `rest` of the input  `[foo]` means that `foo` will be the `first` of the input  and `[foo :as bar]` means that `foo` will be the `first` of the input and `bar` will be the original input', sender='Maddison', sentTime=Sun May 31 13:11:39 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=13, text='And this can all be nested as I did here', sender='Maddison', sentTime=Sun May 31 13:11:50 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=13, text='Sure thanks', sender='Madigan', sentTime=Sun May 31 13:16:24 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=13, text='I will go through it', sender='Madigan', sentTime=Sun May 31 13:16:30 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=17, text='oh I just realised I was wrong there', sender='Maddison', sentTime=Sun May 31 13:50:55 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=17, text='The destructuring could be simplified to `[nextprime & remaining]`', sender='Maddison', sentTime=Sun May 31 13:51:40 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=17, text='@Kanishkkumar188nrt', sender='Maddison', sentTime=Sun May 31 13:53:29 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=17, text='I thought the `&` behaved differently', sender='Maddison', sentTime=Sun May 31 13:53:46 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=17, text='which means that the algorithm is slightly different actually', sender='Maddison', sentTime=Sun May 31 13:55:05 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=17, text='it's not the `nextprime` but rather the `previousprime`', sender='Maddison', sentTime=Sun May 31 13:55:28 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=17, text='(defn sieve [nextprime & remaining] (remove #(zero? (rem % nextprime)) remaining))Changing to this doesnt return anything', sender='Madigan', sentTime=Sun May 31 13:59:59 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=17, text='Yes because this is not destructuring but regular arguments. ```clj(defn sieve [[previousprime & remaining]] (remove #(zero? (rem % previousprime)) remaining))```', sender='Maddison', sentTime=Sun May 31 14:00:47 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=17, text='Oh right', sender='Madigan', sentTime=Sun May 31 14:01:10 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Maddison, Dianne, Hampton]
+Messages Size: 130
+Duration of Monopolized Convo: 2 days, 7 hours, 29 minutes, 17 seconds
+Duration Until Next User Added: 0 days, 17 hours, 31 minutes, 51 seconds
+Char Length of Text Msg Before New User Added: 3
+	 1 Msg: MessageAnalysisVO{disentangledId=21, text='Personally I like the mutuallyrecursive approach like so:```clojure(declare prime?)(def primes (filter prime? (map #(+ 2 %) (range)))) ;; range 2+(defn prime? [n] (or (= n 2) (and (> n 2) (not (some #(zero? (rem n %)) (takewhile #(<= % (/ n 2)) primes))))))```', sender='Hampton', sentTime=Mon Jun 01 15:35:36 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=22, text='You can't just `assoc!` into a transient vector and assume the update will happen inplace 😅', sender='Dianne', sentTime=Mon Jun 01 16:17:50 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=22, text='Transient updates are destructive but not guaranteed to be inplace mutating.', sender='Dianne', sentTime=Mon Jun 01 16:20:58 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=22, text='Still have to capture the return value.', sender='Dianne', sentTime=Mon Jun 01 16:21:39 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=22, text='If you really want imperative update code like that wrap the transient in a volatile and use `vswap!`.', sender='Dianne', sentTime=Mon Jun 01 16:22:05 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=22, text='Oh didn't know that', sender='Maddison', sentTime=Mon Jun 01 16:22:18 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=22, text='Had no issues with this', sender='Maddison', sentTime=Mon Jun 01 16:22:22 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=22, text='I suspect vectors in particular have inplace mutation semantics for transients in whatever version of clojure you're using.', sender='Dianne', sentTime=Mon Jun 01 16:22:49 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=22, text='But that's not guaranteed by the transient API.', sender='Dianne', sentTime=Mon Jun 01 16:23:04 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=22, text='@srasu Unless transient vectors have extra guarantees that I'm forgetting? ^', sender='Dianne', sentTime=Mon Jun 01 16:25:04 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=22, text='transients require you capture their return value.', sender='Hampton', sentTime=Mon Jun 01 16:25:48 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=22, text='Reason being adding a new thing to the end of a transient vector necessarily allocs a new node which points to the old nodes and the new ones since vectors are trees. Now it doesn't always do that alloc but it can and you don't know when it will.', sender='Hampton', sentTime=Mon Jun 01 16:26:26 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=22, text='If you rely on it not then you're relying on an implementation detail.', sender='Hampton', sentTime=Mon Jun 01 16:26:47 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=22, text='I believe the most likely problem is that the 33rd node will always require you to capture the return value.', sender='Hampton', sentTime=Mon Jun 01 16:27:39 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=22, text='But the whole tree is still wrapped by an extra root node at the top isn't it? So it might actually still just work... 🤔', sender='Dianne', sentTime=Mon Jun 01 16:28:50 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=22, text='I always assumed the issue with transients had more to do with maps where the type of map might have to change because you added an element.', sender='Dianne', sentTime=Mon Jun 01 16:29:39 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=22, text='I don't know if it is but I don't think so.', sender='Hampton', sentTime=Mon Jun 01 16:29:45 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=22, text='also I don't believe transient maps have multiple types although I could be wrong on that.', sender='Hampton', sentTime=Mon Jun 01 16:30:09 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=22, text='Persistent maps do IIRC.', sender='Dianne', sentTime=Mon Jun 01 16:30:17 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=22, text='they do', sender='Hampton', sentTime=Mon Jun 01 16:30:26 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=22, text='array maps sorted maps and hash maps', sender='Hampton', sentTime=Mon Jun 01 16:30:33 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=22, text='I don't know if you call transient on a sorted map if it would remain sorted though.', sender='Hampton', sentTime=Mon Jun 01 16:30:55 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=22, text='Wouldn't it have to?', sender='Dianne', sentTime=Mon Jun 01 16:31:03 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=22, text='Like you can provide the sorting order and the internal implementations are very different.', sender='Dianne', sentTime=Mon Jun 01 16:31:27 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=22, text='If making a transient changed the internal representation then it couldn't be constant time.', sender='Dianne', sentTime=Mon Jun 01 16:31:39 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=22, text='Internal implementations of sorted vs hash vs array that is.', sender='Dianne', sentTime=Mon Jun 01 16:32:00 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=22, text='Like sorted maps are binary search trees while hash maps are hash arraymapped prefix tries.', sender='Dianne', sentTime=Mon Jun 01 16:32:23 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=22, text='The sorting of a sorted map is integral to you being able to efficiently perform lookups.', sender='Dianne', sentTime=Mon Jun 01 16:32:46 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=22, text='My point though is more that once you put enough elements into an array map it probably turns into a hash map.', sender='Dianne', sentTime=Mon Jun 01 16:33:34 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=22, text='That's a change of type at the root level so the root node has to change.', sender='Dianne', sentTime=Mon Jun 01 16:33:53 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=22, text='I could be wrong tho.', sender='Dianne', sentTime=Mon Jun 01 16:34:19 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=22, text='As for vectors I'm 90% sure that the actual internal tree nodes are made of an inner class to the actual persistent vector class.', sender='Dianne', sentTime=Mon Jun 01 16:34:59 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=22, text='It's been a few months since I read that code tho.', sender='Dianne', sentTime=Mon Jun 01 16:35:21 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=22, text='> Personally I like the mutuallyrecursive approach like so:@srasu That looks nice but isn't it a little inefficient? because for each check it needs to go over the collection', sender='Maddison', sentTime=Mon Jun 01 16:38:26 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=22, text='It\'s a little inefficient and if you check against sufficiently large numbers without warming the cache so to speak it\'ll blow the stack too. It\'s elegant but not particularly good unless you just need simple checks for lowvalue numbers. Moreover it does cache all the primes which means you aren\'t recomputing if a number is prime at any point ever you\'re just running over your cache. Probably the single easiest optimization though would be to exchange the takewhile from taking until it\'s less or equal to the number divided by two with the same thing but with the square root of the number.', sender='Hampton', sentTime=Mon Jun 01 16:40:48 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=22, text='@djeis yeah the transient would just be a wrapper around the sorted thing but calling persistent! on it after making an addition or two and who knows what order things will be sorted in?', sender='Hampton', sentTime=Mon Jun 01 16:42:01 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=22, text='Should be sorted by whatever sorting order the map was created with.', sender='Dianne', sentTime=Mon Jun 01 16:42:21 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=22, text='Or rather if there is no sorted map implementation. I genuinely don't know if there are.', sender='Hampton', sentTime=Mon Jun 01 16:42:35 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=22, text='Insertion into a sorted map still requires you respect the sorting order.', sender='Dianne', sentTime=Mon Jun 01 16:42:36 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=22, text='yeah if you continue using it as a sorted map', sender='Hampton', sentTime=Mon Jun 01 16:42:56 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=22, text='If you try to `assoc!` something into a transient sorted map that can't be sorted by the sorting order of that map then it should error.', sender='Dianne', sentTime=Mon Jun 01 16:43:37 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=22, text='Unless... If you `into` into a sorted map something that can't be sorted by that map does clojure just make a hash map out of it? That is an alternative it just seems like... a problematic one.', sender='Dianne', sentTime=Mon Jun 01 16:44:28 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=22, text='I haven't really used sorted maps so I can't say.', sender='Hampton', sentTime=Mon Jun 01 16:45:24 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=22, text='I\'m right about the type change btw:```cljuser=> (class {:x 5})clojure.lang.PersistentArrayMapuser=> (transient {:x 5})#object[clojure.lang.PersistentArrayMap$TransientArrayMap 0x470a696f clojure.lang.PersistentArrayMap$TransientArrayMap@470a696f"]user=> (reduce (fn [m k] (assoc! m k 5)) 1 (range 31))#object[clojure.lang.PersistentHashMap$TransientHashMap 0x5ddabb18 clojure.lang.PersistentHashMap$TransientHashMap@5ddabb18"]user=> (persistent! 1){0 5 7 5 20 5 27 5 1 5 24 5 4 5 15 5 21 5 13 5 22 5 29 5 6 5 28 5 25 5 17 5 3 5 12 5 2 5 23 5 19 5 11 5 9 5 5 5 14 5 :x 5 26 5 16 5 30 5 10 5 18 5 8 5}```', sender='Dianne', sentTime=Mon Jun 01 16:45:30 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=22, text='cool', sender='Hampton', sentTime=Mon Jun 01 16:45:54 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=22, text='that tells me how they implement the transients so yeah there's gonna be the same for all the kinds.', sender='Hampton', sentTime=Mon Jun 01 16:46:11 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=22, text='But there's no similar type change I know of that happens with vectors tho and I know there is an extra root node at the top of a vector.', sender='Dianne', sentTime=Mon Jun 01 16:46:30 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=22, text='So I suspect that as an implementation detail you should not rely on it will happen to just work for vectors.', sender='Dianne', sentTime=Mon Jun 01 16:46:52 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=22, text='huh', sender='Hampton', sentTime=Mon Jun 01 16:46:58 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=22, text='My implementation of transients in CL has a similar property there's always an extra root node at the top because there kinda has to be to make the transient stuff work out and to hold metadata that you really only need one reference to for the whole data structure (like the comparison function of a sorted map).', sender='Dianne', sentTime=Mon Jun 01 16:48:08 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=22, text='So as long as transient ops don't have to change the actual type/implementation they all happen to be inplace mutations.', sender='Dianne', sentTime=Mon Jun 01 16:48:30 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=22, text='fair', sender='Hampton', sentTime=Mon Jun 01 16:48:59 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=23, text='I realised that this also blows up the stack at a sufficiently high number. But how? https://discordapp.com/channels/313110246643990528/315388260987830272/716588820132266065', sender='Maddison', sentTime=Mon Jun 01 16:50:05 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=22, text='Is it because the `remove`s all stack somehow?', sender='Maddison', sentTime=Mon Jun 01 16:50:26 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=22, text='Probably yea.', sender='Dianne', sentTime=Mon Jun 01 16:50:39 CDT 2020}
+	 56 Msg: MessageAnalysisVO{disentangledId=22, text='Huh. I'm surprised honestly.', sender='Hampton', sentTime=Mon Jun 01 16:58:20 CDT 2020}
+	 57 Msg: MessageAnalysisVO{disentangledId=22, text='I've been fiddling around with my implementation in a repl and even sending it to compute 10k primes at a time doesn't blow the stack', sender='Hampton', sentTime=Mon Jun 01 16:58:49 CDT 2020}
+	 58 Msg: MessageAnalysisVO{disentangledId=22, text='it takes a while sure', sender='Hampton', sentTime=Mon Jun 01 16:59:02 CDT 2020}
+	 59 Msg: MessageAnalysisVO{disentangledId=22, text='but it doesn't blow the stack', sender='Hampton', sentTime=Mon Jun 01 16:59:06 CDT 2020}
+	 60 Msg: MessageAnalysisVO{disentangledId=22, text='I wonder how much faster it'd be if I change it to sqrt', sender='Hampton', sentTime=Mon Jun 01 16:59:15 CDT 2020}
+	 61 Msg: MessageAnalysisVO{disentangledId=23, text='Mine gave me a StackOverflow for the primes up to a million I think', sender='Maddison', sentTime=Mon Jun 01 16:59:24 CDT 2020}
+	 62 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah the last prime I computed was 224743 and I'm currently computing the 40001st prime', sender='Hampton', sentTime=Mon Jun 01 16:59:54 CDT 2020}
+	 63 Msg: MessageAnalysisVO{disentangledId=22, text='op just popped out', sender='Hampton', sentTime=Mon Jun 01 16:59:59 CDT 2020}
+	 64 Msg: MessageAnalysisVO{disentangledId=22, text='479939', sender='Hampton', sentTime=Mon Jun 01 17:00:04 CDT 2020}
+	 65 Msg: MessageAnalysisVO{disentangledId=22, text='ok yours is a lot better then', sender='Maddison', sentTime=Mon Jun 01 17:00:21 CDT 2020}
+	 66 Msg: MessageAnalysisVO{disentangledId=22, text='because my stack already explodes at 50k', sender='Maddison', sentTime=Mon Jun 01 17:00:48 CDT 2020}
+	 67 Msg: MessageAnalysisVO{disentangledId=22, text='I thought it wouldn't be possible honestly', sender='Maddison', sentTime=Mon Jun 01 17:01:29 CDT 2020}
+	 68 Msg: MessageAnalysisVO{disentangledId=22, text='But it must be because of all the `remove` closures', sender='Maddison', sentTime=Mon Jun 01 17:01:54 CDT 2020}
+	 69 Msg: MessageAnalysisVO{disentangledId=22, text='well that's a little disappointing lol', sender='Maddison', sentTime=Mon Jun 01 17:04:21 CDT 2020}
+	 70 Msg: MessageAnalysisVO{disentangledId=22, text='holy crap the sqrt optimization helped', sender='Hampton', sentTime=Mon Jun 01 17:10:47 CDT 2020}
+	 71 Msg: MessageAnalysisVO{disentangledId=22, text='```clojure(declare primes)(defn prime? [n] (or (= n 2) (not (some #(zero? (rem n %)) (let [sqrt (inc (Math/sqrt n))] (takewhile #(<= % sqrt) primes))))))(def primes (filter prime? (cons 2 (map (comp inc #( 2 %) inc) (range)))))```', sender='Hampton', sentTime=Mon Jun 01 17:12:13 CDT 2020}
+	 72 Msg: MessageAnalysisVO{disentangledId=22, text='Only took ~2s to compute the 100kth prime', sender='Hampton', sentTime=Mon Jun 01 17:12:45 CDT 2020}
+	 73 Msg: MessageAnalysisVO{disentangledId=22, text='has clojure gotten better at lazy seqs?', sender='Hampton', sentTime=Mon Jun 01 17:13:21 CDT 2020}
+	 74 Msg: MessageAnalysisVO{disentangledId=22, text='because from a completely fresh `primes` list I get this:```clojure(time (first (drop 1000000 primes)))"Elapsed time: 64829.32917 msecs"15485867```', sender='Hampton', sentTime=Mon Jun 01 17:15:26 CDT 2020}
+	 75 Msg: MessageAnalysisVO{disentangledId=22, text='didn't blow the stack computing the ~1 millionth prime', sender='Hampton', sentTime=Mon Jun 01 17:15:45 CDT 2020}
+	 76 Msg: MessageAnalysisVO{disentangledId=22, text='that's pretty damn good', sender='Maddison', sentTime=Mon Jun 01 17:15:52 CDT 2020}
+	 77 Msg: MessageAnalysisVO{disentangledId=22, text='yeah', sender='Hampton', sentTime=Mon Jun 01 17:15:55 CDT 2020}
+	 78 Msg: MessageAnalysisVO{disentangledId=22, text='especially for such an elegant solution imo.', sender='Hampton', sentTime=Mon Jun 01 17:16:06 CDT 2020}
+	 79 Msg: MessageAnalysisVO{disentangledId=22, text='guess this solution isn't as bad as I thought lol', sender='Hampton', sentTime=Mon Jun 01 17:16:15 CDT 2020}
+	 80 Msg: MessageAnalysisVO{disentangledId=22, text='But yeah it helps a lot with other functionality that people might want too since it gives a full sequence of primes not just checks if a particular number is prime', sender='Hampton', sentTime=Mon Jun 01 17:16:53 CDT 2020}
+	 81 Msg: MessageAnalysisVO{disentangledId=22, text='computing it the second time was 40 ms but that's less reliable since `time` isn't good at lower values.', sender='Hampton', sentTime=Mon Jun 01 17:17:20 CDT 2020}
+	 82 Msg: MessageAnalysisVO{disentangledId=22, text='What's more accurate than `System.nanoTime()` that comes out of the box?', sender='Maddison', sentTime=Mon Jun 01 17:18:21 CDT 2020}
+	 83 Msg: MessageAnalysisVO{disentangledId=22, text='more accurate (similar amount of precision) is anything that criterium produces', sender='Hampton', sentTime=Mon Jun 01 17:19:40 CDT 2020}
+	 84 Msg: MessageAnalysisVO{disentangledId=22, text='since it does sampling', sender='Hampton', sentTime=Mon Jun 01 17:19:43 CDT 2020}
+	 85 Msg: MessageAnalysisVO{disentangledId=22, text='plus also the jvm and how the jit works makes profiling this sort of thing a little weird.', sender='Hampton', sentTime=Mon Jun 01 17:20:01 CDT 2020}
+	 86 Msg: MessageAnalysisVO{disentangledId=22, text='that's true', sender='Maddison', sentTime=Mon Jun 01 17:20:15 CDT 2020}
+	 87 Msg: MessageAnalysisVO{disentangledId=22, text='alright well now to sit down and wait for the 10 millionth prime and see if that stack overflows.', sender='Hampton', sentTime=Mon Jun 01 17:20:22 CDT 2020}
+	 88 Msg: MessageAnalysisVO{disentangledId=22, text='lmfao', sender='Maddison', sentTime=Mon Jun 01 17:20:39 CDT 2020}
+	 89 Msg: MessageAnalysisVO{disentangledId=22, text='I doubt it if 1 million didn't but still. :P', sender='Hampton', sentTime=Mon Jun 01 17:20:44 CDT 2020}
+	 90 Msg: MessageAnalysisVO{disentangledId=22, text='like I already calculated the 2millionth prime and it's 32452867', sender='Hampton', sentTime=Mon Jun 01 17:21:15 CDT 2020}
+	 91 Msg: MessageAnalysisVO{disentangledId=22, text='you may run into different issues because of Math/sqrt maybe', sender='Maddison', sentTime=Mon Jun 01 17:23:12 CDT 2020}
+	 92 Msg: MessageAnalysisVO{disentangledId=22, text='Oh?', sender='Hampton', sentTime=Mon Jun 01 17:23:21 CDT 2020}
+	 93 Msg: MessageAnalysisVO{disentangledId=22, text='Since it takes a double (i think?)', sender='Maddison', sentTime=Mon Jun 01 17:23:37 CDT 2020}
+	 94 Msg: MessageAnalysisVO{disentangledId=22, text='couldn't that lead to a loss of precision', sender='Maddison', sentTime=Mon Jun 01 17:23:51 CDT 2020}
+	 95 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah it takes a double.', sender='Hampton', sentTime=Mon Jun 01 17:24:12 CDT 2020}
+	 96 Msg: MessageAnalysisVO{disentangledId=22, text='I should see if there's a clojure sqrt in numerictower', sender='Hampton', sentTime=Mon Jun 01 17:24:21 CDT 2020}
+	 97 Msg: MessageAnalysisVO{disentangledId=22, text='Ah exactintegersqrt', sender='Hampton', sentTime=Mon Jun 01 17:24:48 CDT 2020}
+	 98 Msg: MessageAnalysisVO{disentangledId=22, text='But really I just need the sqrt to be accurate to within the distance of primes between each other at the scale that it's at so within the nearest 2 or so.', sender='Hampton', sentTime=Mon Jun 01 17:25:29 CDT 2020}
+	 99 Msg: MessageAnalysisVO{disentangledId=22, text='at a minimum', sender='Hampton', sentTime=Mon Jun 01 17:25:38 CDT 2020}
+	 100 Msg: MessageAnalysisVO{disentangledId=22, text='Which I'll know if it's accurate as soon as it produces a result and at this point it seems like it will', sender='Hampton', sentTime=Mon Jun 01 17:28:34 CDT 2020}
+	 101 Msg: MessageAnalysisVO{disentangledId=22, text='because I have the 1million and 1th prime right here', sender='Hampton', sentTime=Mon Jun 01 17:28:45 CDT 2020}
+	 102 Msg: MessageAnalysisVO{disentangledId=22, text='Lol well I knew it'd get slower as it computed larger primes but this is getting silly', sender='Hampton', sentTime=Mon Jun 01 17:40:03 CDT 2020}
+	 103 Msg: MessageAnalysisVO{disentangledId=24, text='still not done?', sender='Maddison', sentTime=Mon Jun 01 17:43:04 CDT 2020}
+	 104 Msg: MessageAnalysisVO{disentangledId=22, text='still not', sender='Hampton', sentTime=Mon Jun 01 17:44:19 CDT 2020}
+	 105 Msg: MessageAnalysisVO{disentangledId=22, text='but it also hasn't overflowed', sender='Hampton', sentTime=Mon Jun 01 17:44:27 CDT 2020}
+	 106 Msg: MessageAnalysisVO{disentangledId=22, text='got it!', sender='Hampton', sentTime=Mon Jun 01 17:48:55 CDT 2020}
+	 107 Msg: MessageAnalysisVO{disentangledId=22, text='and it got it right', sender='Hampton', sentTime=Mon Jun 01 17:49:21 CDT 2020}
+	 108 Msg: MessageAnalysisVO{disentangledId=22, text='179424691', sender='Hampton', sentTime=Mon Jun 01 17:49:23 CDT 2020}
+	 109 Msg: MessageAnalysisVO{disentangledId=22, text='What's interesting here as well is that it's faster to compute the sqrt and the divisions than it is to walk to that point in the sequence', sender='Hampton', sentTime=Mon Jun 01 17:51:05 CDT 2020}
+	 110 Msg: MessageAnalysisVO{disentangledId=22, text='`(nth primes 10000001)` takes almost 200 ms while `(prime? 179424697)` only takes 0.25 ms', sender='Hampton', sentTime=Mon Jun 01 17:51:45 CDT 2020}
+	 111 Msg: MessageAnalysisVO{disentangledId=25, text='Too many rams involved.', sender='Dianne', sentTime=Mon Jun 01 18:14:42 CDT 2020}
+	 112 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah those cache misses hit real hard', sender='Hampton', sentTime=Mon Jun 01 18:17:57 CDT 2020}
+	 113 Msg: MessageAnalysisVO{disentangledId=22, text='Also notable and amusing is that it means that to compute if a given number is prime the cache need only be warmed with numbers up to the sqrt of its value meaning you can check quite large primes on a relatively small list size.', sender='Hampton', sentTime=Mon Jun 01 18:18:50 CDT 2020}
+	 114 Msg: MessageAnalysisVO{disentangledId=22, text='Yup', sender='Dianne', sentTime=Mon Jun 01 18:19:17 CDT 2020}
+	 115 Msg: MessageAnalysisVO{disentangledId=22, text='I'm actually not sure if I've seen any other algorithm which scales with sqrt(n)', sender='Hampton', sentTime=Mon Jun 01 18:19:37 CDT 2020}
+	 116 Msg: MessageAnalysisVO{disentangledId=22, text='I think I've seen a few but I can't remember them off hand.', sender='Dianne', sentTime=Mon Jun 01 18:20:07 CDT 2020}
+	 117 Msg: MessageAnalysisVO{disentangledId=22, text='As a result the cleaned up version of this code looks like this:```clojure(ns sandbox.primes (:require [clojure.math.numerictower :as math]))(declare primes)(def flooredsqrt Returns the floor of the square root of the input." (comp math/floor math/sqrt))(defn prime? Returns the passed number if it is prime and nil otherwise." [n] (and (when (> n 1) true) (not (some #(zero? (rem n %)) (let [sqrt (flooredsqrt n)] (takewhile #(<= % sqrt) primes))))))(def primes Lazy sequence of all prime numbers." (cons 2 ;; Filters a list of all odd numbers greater than 1 by if they are prime (filter prime? (map (comp inc #( 2 %) inc) (range)))))```', sender='Hampton', sentTime=Mon Jun 01 18:37:23 CDT 2020}
+	 118 Msg: MessageAnalysisVO{disentangledId=26, text='Is clojure.math.numerictower an external dependency?', sender='Maddison', sentTime=Mon Jun 01 18:41:49 CDT 2020}
+	 119 Msg: MessageAnalysisVO{disentangledId=22, text='Yes but it's part of clojure contrib', sender='Hampton', sentTime=Mon Jun 01 18:43:01 CDT 2020}
+	 120 Msg: MessageAnalysisVO{disentangledId=22, text='https://github.com/clojure/math.numerictower', sender='Hampton', sentTime=Mon Jun 01 18:43:13 CDT 2020}
+	 121 Msg: MessageAnalysisVO{disentangledId=22, text='Which means it's published under org.clojure', sender='Hampton', sentTime=Mon Jun 01 18:43:25 CDT 2020}
+	 122 Msg: MessageAnalysisVO{disentangledId=22, text='Ah alright', sender='Maddison', sentTime=Mon Jun 01 18:44:51 CDT 2020}
+	 123 Msg: MessageAnalysisVO{disentangledId=22, text='Useful stuff', sender='Maddison', sentTime=Mon Jun 01 18:44:58 CDT 2020}
+	 124 Msg: MessageAnalysisVO{disentangledId=22, text='Regarding primes again and in particular your implementation @srasu :https://phillippe.siclait.com/blog/primeslazysequence', sender='Maddison', sentTime=Wed Jun 03 22:43:52 CDT 2020}
+	 125 Msg: MessageAnalysisVO{disentangledId=22, text='This is something I hadn't even thought about and it's rather difficult to get into my head but it's certainly interesting', sender='Maddison', sentTime=Wed Jun 03 22:44:28 CDT 2020}
+	 126 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah that\'s more or less the same idea as I had I just wanted an is prime predicate', sender='Hampton', sentTime=Wed Jun 03 22:47:10 CDT 2020}
+	 127 Msg: MessageAnalysisVO{disentangledId=22, text='Also my way of doing it does enable you to have a cache and then do prime tests against numbers up to the square of the largest prime you've fetched from the list without computing any additional primes', sender='Hampton', sentTime=Wed Jun 03 22:48:05 CDT 2020}
+	 128 Msg: MessageAnalysisVO{disentangledId=22, text='I do like the article though', sender='Hampton', sentTime=Wed Jun 03 22:48:33 CDT 2020}
+	 129 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah I don't mean the specifics just the general similarity that you also filter the sequence using the sequence itself', sender='Maddison', sentTime=Wed Jun 03 23:02:00 CDT 2020}
+	 130 Msg: MessageAnalysisVO{disentangledId=22, text='Yup', sender='Hampton', sentTime=Wed Jun 03 23:04:53 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Fallynn, Oxford, Kailor]
+Messages Size: 46
+Duration of Monopolized Convo: 1 days, 4 hours, 32 minutes, 55 seconds
+Duration Until Next User Added: 1 days, 22 hours, 44 minutes, 52 seconds
+Char Length of Text Msg Before New User Added: 75
+	 1 Msg: MessageAnalysisVO{disentangledId=22, text='@nixin72 what happends if you pass :parameters in your reitit post route Look here https://github.com/metosin/reitit/blob/master/examples/ringswagger/src/example/server.clj#L62', sender='Fallynn', sentTime=Wed Sep 23 18:12:06 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=22, text='or scratch that this might be swagger related only. Yeah I usually use compojure myself haven't tried reitit yet. compojure + wrapparams middleware should do the trick.', sender='Fallynn', sentTime=Wed Sep 23 18:25:02 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=22, text='I got Clojure to run on Dalvik and I\'m pretty sure other people have too(and there\'s even a fork). I also forgot that Clojure compiles to JVM lol', sender='Kailor', sentTime=Thu Sep 24 07:10:24 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=22, text='The fact that `dx` seems to work on a random jar is actually pretty cool.', sender='Kailor', sentTime=Thu Sep 24 07:11:14 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=22, text='If Clojure were just an interpreter then I'm pretty sure it would have worked.', sender='Kailor', sentTime=Thu Sep 24 07:11:44 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=22, text='Okay', sender='Kailor', sentTime=Thu Sep 24 07:32:49 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=22, text='Sudden realization.', sender='Kailor', sentTime=Thu Sep 24 07:32:51 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=22, text='``` :dependencies [[org.clojureandroid/clojure 1.7.0r4"]```', sender='Kailor', sentTime=Thu Sep 24 07:33:25 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=22, text='My REPL also works', sender='Kailor', sentTime=Thu Sep 24 07:33:40 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=22, text='TL;DR I think if I `dx` this instead it will work.', sender='Kailor', sentTime=Thu Sep 24 07:34:23 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=22, text='None', sender='Kailor', sentTime=Thu Sep 24 07:47:48 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=22, text='Getting closer', sender='Kailor', sentTime=Thu Sep 24 07:47:53 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=22, text='Perfect. :)', sender='Kailor', sentTime=Thu Sep 24 08:36:39 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=22, text='None', sender='Kailor', sentTime=Thu Sep 24 08:38:25 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=22, text='Any idea why it won't resolve though?', sender='Kailor', sentTime=Thu Sep 24 08:38:37 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=22, text='Why is `clojure.core` not part of my `require`?', sender='Kailor', sentTime=Thu Sep 24 08:39:00 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=22, text='None', sender='Kailor', sentTime=Thu Sep 24 08:40:00 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=22, text='I have a feeling this is probably something on the fork.', sender='Kailor', sentTime=Thu Sep 24 08:40:46 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=22, text='```java if(VM_TYPE.deref() == JAVA_VM) { Var.pushThreadBindings( RT.mapUniqueKeys(CURRENT_NS CURRENT_NS.deref(), WARN_ON_REFLECTION WARN_ON_REFLECTION.deref() RT.UNCHECKED_MATH RT.UNCHECKED_MATH.deref())); try { Symbol USER = Symbol.intern("user"); Symbol CLOJURE = Symbol.intern("clojure.core");  Var in_ns = var("clojure.core inns"); Var refer = var("clojure.core refer"); in_ns.invoke(USER); refer.invoke(CLOJURE); maybeLoadResourceScript("user.clj"); } finally { Var.popThreadBindings(); } }```', sender='Kailor', sentTime=Thu Sep 24 09:23:10 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=22, text='Found it', sender='Kailor', sentTime=Thu Sep 24 09:23:11 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=22, text='But why', sender='Kailor', sentTime=Thu Sep 24 09:23:13 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=22, text='Hm maybe that's not it actually.', sender='Kailor', sentTime=Thu Sep 24 09:25:25 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=22, text='Eh who knows maybe it will work.', sender='Kailor', sentTime=Thu Sep 24 09:26:03 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=22, text='Oh wait', sender='Kailor', sentTime=Thu Sep 24 09:26:06 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=22, text='ding ding ding', sender='Kailor', sentTime=Thu Sep 24 09:26:14 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=22, text='`refer.invoke(CLOJURE);`', sender='Kailor', sentTime=Thu Sep 24 09:26:33 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=22, text='Yay', sender='Kailor', sentTime=Thu Sep 24 09:28:24 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=22, text='I don't need to use my `proot` anymore.', sender='Kailor', sentTime=Thu Sep 24 09:28:29 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=22, text='Ish', sender='Kailor', sentTime=Thu Sep 24 09:29:05 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=22, text='I'm pretty sure maven and the like won't work', sender='Kailor', sentTime=Thu Sep 24 09:29:48 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=22, text='This is going to be very interesting. The way I'm understanding this is that with this patch Clojure will work with both jar and dalvik files', sender='Kailor', sentTime=Thu Sep 24 09:31:49 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=22, text='Where jars are converted to dalvik on runtime', sender='Kailor', sentTime=Thu Sep 24 09:32:04 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=22, text='```  Dalvikspecific method for dynamically loading a class from JVM byte  codes. As there is no easy way to translate a class from the JVM to```', sender='Kailor', sentTime=Thu Sep 24 09:32:49 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=22, text='Oh boi', sender='Kailor', sentTime=Thu Sep 24 09:32:51 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=22, text='```(require \'[clojure.java.io :as io])(defn streambytes [is] (let [baos (java.io.ByteArrayOutputStream.)] (io/copy is baos) (.toByteArray baos)))(let [cp (.getContextClassLoader (Thread/currentThread)) bytes (streambytes (.getResourceAsStream cp com/coveros/demo/helloworld/HelloWorld.class"))] (.defineClass cp com.coveros.demo.helloworld.HelloWorld bytes))(com.coveros.demo.helloworld.HelloWorld/main (intoarray String []))Hello World! The current time is 12:34:54 PM on September 24 2020.```', sender='Kailor', sentTime=Thu Sep 24 12:35:25 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=22, text=':9_Yay:', sender='Kailor', sentTime=Thu Sep 24 12:35:30 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=22, text='Loaded a jar file transparently', sender='Kailor', sentTime=Thu Sep 24 12:35:37 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=22, text='You know', sender='Kailor', sentTime=Thu Sep 24 12:38:08 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=22, text='I think we can just extract this class loader and use it globally for Termux', sender='Kailor', sentTime=Thu Sep 24 12:38:20 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=22, text='There we go.', sender='Kailor', sentTime=Thu Sep 24 14:05:50 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=22, text='```$ dalvikvm cp classes:helloworld1.1.jar:clojure.dex.jar clojure.mainClojure 1.7.0user=> (+ 1 2)3user=> (com.coveros.demo.helloworld.HelloWorld/main (intoarray String []))Hello World! The current time is 2:05:42 PM on September 24 2020.nil```', sender='Kailor', sentTime=Thu Sep 24 14:06:03 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=22, text='Transparent JVM translation. :9_Yay:', sender='Kailor', sentTime=Thu Sep 24 14:06:13 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=25, text='Sweet', sender='Oxford', sentTime=Thu Sep 24 14:29:36 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=22, text='```$ dalvikvm cp classes:helloworld1.1.jar:clojure.dex.jar D java.system.class.loader=clojure.lang.DalvikDynamicClassLoader com.coveros.demo.helloworld.HelloWorldAborted```', sender='Kailor', sentTime=Thu Sep 24 22:08:37 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=22, text='Well that one didn't seem to work though.', sender='Kailor', sentTime=Thu Sep 24 22:08:42 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=22, text='I should stop thinking too much about this I don't want to use Java anyway.', sender='Kailor', sentTime=Thu Sep 24 22:45:02 CDT 2020}
+--------------------------------------------------
+--------------------------------------------------
+Group Size: 3
+Group Users: [Emersen, Aleck, Kailor]
+Messages Size: 55
+Duration of Monopolized Convo: 1 days, 4 hours, 21 minutes, 56 seconds
+Duration Until Next User Added: 1 days, 11 hours, 1 minutes, 3 seconds
+Char Length of Text Msg Before New User Added: 5
+	 1 Msg: MessageAnalysisVO{disentangledId=22, text='for is pretty readable for people who come from a programming background rather than a math one.', sender='Emersen', sentTime=Sat Sep 26 22:06:26 CDT 2020}
+	 2 Msg: MessageAnalysisVO{disentangledId=22, text='I became quite care free about things that are so isomorphic', sender='Aleck', sentTime=Sat Sep 26 22:06:29 CDT 2020}
+	 3 Msg: MessageAnalysisVO{disentangledId=22, text='thanks @srasu btw', sender='Aleck', sentTime=Sat Sep 26 22:06:32 CDT 2020}
+	 4 Msg: MessageAnalysisVO{disentangledId=22, text='np', sender='Emersen', sentTime=Sat Sep 26 22:06:38 CDT 2020}
+	 5 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah if anything syntax"(how to express) is what makes me choose languages nowadays.', sender='Kailor', sentTime=Sat Sep 26 22:06:58 CDT 2020}
+	 6 Msg: MessageAnalysisVO{disentangledId=22, text='fair point about migrating newcomers', sender='Aleck', sentTime=Sat Sep 26 22:06:58 CDT 2020}
+	 7 Msg: MessageAnalysisVO{disentangledId=22, text='heh', sender='Aleck', sentTime=Sat Sep 26 22:07:04 CDT 2020}
+	 8 Msg: MessageAnalysisVO{disentangledId=22, text='There's obviously a few other things', sender='Kailor', sentTime=Sat Sep 26 22:07:06 CDT 2020}
+	 9 Msg: MessageAnalysisVO{disentangledId=22, text='For example better mental models', sender='Kailor', sentTime=Sat Sep 26 22:07:12 CDT 2020}
+	 10 Msg: MessageAnalysisVO{disentangledId=22, text='Elixir hits both points on this for the server side.', sender='Kailor', sentTime=Sat Sep 26 22:07:25 CDT 2020}
+	 11 Msg: MessageAnalysisVO{disentangledId=22, text='i used to be all about semantics and types I despise syntax pretty much because it's hard to decompose/compose', sender='Aleck', sentTime=Sat Sep 26 22:07:37 CDT 2020}
+	 12 Msg: MessageAnalysisVO{disentangledId=22, text='that's why fp clicked with me (f a) is the syntax.. now roll your own solutions', sender='Aleck', sentTime=Sat Sep 26 22:08:04 CDT 2020}
+	 13 Msg: MessageAnalysisVO{disentangledId=22, text='@Lonely ᜋᜒᜌᜓ/Myrl but they/them do you like perl / raku ?', sender='Aleck', sentTime=Sat Sep 26 22:08:26 CDT 2020}
+	 14 Msg: MessageAnalysisVO{disentangledId=22, text='I find larry wall approach to syntax in general pretty interesting', sender='Aleck', sentTime=Sat Sep 26 22:08:48 CDT 2020}
+	 15 Msg: MessageAnalysisVO{disentangledId=22, text='Also for expressions allow you to easily find parallels between for loops and list comprehensions.', sender='Kailor', sentTime=Sat Sep 26 22:08:59 CDT 2020}
+	 16 Msg: MessageAnalysisVO{disentangledId=22, text='Also nope. I don't use Perl at all.', sender='Kailor', sentTime=Sat Sep 26 22:09:05 CDT 2020}
+	 17 Msg: MessageAnalysisVO{disentangledId=22, text='ok', sender='Aleck', sentTime=Sat Sep 26 22:09:13 CDT 2020}
+	 18 Msg: MessageAnalysisVO{disentangledId=22, text='isn't perl stringlytyped?', sender='Emersen', sentTime=Sat Sep 26 22:09:27 CDT 2020}
+	 19 Msg: MessageAnalysisVO{disentangledId=22, text='I... can't answer that', sender='Aleck', sentTime=Sat Sep 26 22:09:41 CDT 2020}
+	 20 Msg: MessageAnalysisVO{disentangledId=22, text='i just like the contextual interpretation of objects', sender='Aleck', sentTime=Sat Sep 26 22:09:58 CDT 2020}
+	 21 Msg: MessageAnalysisVO{disentangledId=22, text='I mean it's not 100% a bad thing if it is it just means that it's not my cup of tea.', sender='Emersen', sentTime=Sat Sep 26 22:10:11 CDT 2020}
+	 22 Msg: MessageAnalysisVO{disentangledId=22, text='every object comes with scalar map vector bool projection IIUC', sender='Aleck', sentTime=Sat Sep 26 22:10:16 CDT 2020}
+	 23 Msg: MessageAnalysisVO{disentangledId=22, text='and the language will see the data with a different lens depending on that context', sender='Aleck', sentTime=Sat Sep 26 22:10:50 CDT 2020}
+	 24 Msg: MessageAnalysisVO{disentangledId=22, text='it's like a slightly implicit overloading', sender='Aleck', sentTime=Sat Sep 26 22:11:05 CDT 2020}
+	 25 Msg: MessageAnalysisVO{disentangledId=22, text='or a shortsighted variant of the expression problem', sender='Aleck', sentTime=Sat Sep 26 22:11:32 CDT 2020}
+	 26 Msg: MessageAnalysisVO{disentangledId=22, text='Also what I said applies to languages which make a distinction between expression and statement', sender='Kailor', sentTime=Sat Sep 26 22:13:58 CDT 2020}
+	 27 Msg: MessageAnalysisVO{disentangledId=22, text='When you want to do something stateful while collecting the results you instead have to do```out = []for x in xs out += f(x)```', sender='Kailor', sentTime=Sat Sep 26 22:15:05 CDT 2020}
+	 28 Msg: MessageAnalysisVO{disentangledId=22, text='You technically can write `out = [f(x) for x in xs]`', sender='Kailor', sentTime=Sat Sep 26 22:15:25 CDT 2020}
+	 29 Msg: MessageAnalysisVO{disentangledId=22, text='But you'll probably get howled at.', sender='Kailor', sentTime=Sat Sep 26 22:15:42 CDT 2020}
+	 30 Msg: MessageAnalysisVO{disentangledId=22, text='Or what if you have to write something complicated with local variables?', sender='Kailor', sentTime=Sat Sep 26 22:15:54 CDT 2020}
+	 31 Msg: MessageAnalysisVO{disentangledId=22, text='this is the lexical nature of lisp/fp at play', sender='Aleck', sentTime=Sat Sep 26 22:17:40 CDT 2020}
+	 32 Msg: MessageAnalysisVO{disentangledId=22, text='I always struggled with expr/statement split languages', sender='Aleck', sentTime=Sat Sep 26 22:17:59 CDT 2020}
+	 33 Msg: MessageAnalysisVO{disentangledId=22, text='i like when my world is closed over itself and coherent', sender='Aleck', sentTime=Sat Sep 26 22:18:11 CDT 2020}
+	 34 Msg: MessageAnalysisVO{disentangledId=22, text='(kinda like an algebra)', sender='Aleck', sentTime=Sat Sep 26 22:18:19 CDT 2020}
+	 35 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah I was going to mention that too. Take juxtaposition as an operator if you break a piece of code somewhere do its constituent parts still make sense?', sender='Kailor', sentTime=Sat Sep 26 22:19:27 CDT 2020}
+	 36 Msg: MessageAnalysisVO{disentangledId=22, text='Not with list comprehension because your working variables are further.', sender='Kailor', sentTime=Sat Sep 26 22:20:16 CDT 2020}
+	 37 Msg: MessageAnalysisVO{disentangledId=22, text='that's exactly why syntax was always an issue', sender='Aleck', sentTime=Sat Sep 26 22:20:17 CDT 2020}
+	 38 Msg: MessageAnalysisVO{disentangledId=22, text='you have near zero control over what pieces and how they fit', sender='Aleck', sentTime=Sat Sep 26 22:20:29 CDT 2020}
+	 39 Msg: MessageAnalysisVO{disentangledId=22, text='it's crazy how to most people this is fine', sender='Aleck', sentTime=Sat Sep 26 22:20:48 CDT 2020}
+	 40 Msg: MessageAnalysisVO{disentangledId=22, text='they love C Java ...', sender='Aleck', sentTime=Sat Sep 26 22:20:54 CDT 2020}
+	 41 Msg: MessageAnalysisVO{disentangledId=22, text='to me it was just pain', sender='Aleck', sentTime=Sat Sep 26 22:21:03 CDT 2020}
+	 42 Msg: MessageAnalysisVO{disentangledId=22, text='i naturally align with lisp / forth', sender='Aleck', sentTime=Sat Sep 26 22:21:14 CDT 2020}
+	 43 Msg: MessageAnalysisVO{disentangledId=22, text='I was going to mention Forth too lmao. Because like it wasn't always this way.', sender='Kailor', sentTime=Sat Sep 26 22:21:30 CDT 2020}
+	 44 Msg: MessageAnalysisVO{disentangledId=22, text='We started with these types of languages', sender='Kailor', sentTime=Sat Sep 26 22:21:41 CDT 2020}
+	 45 Msg: MessageAnalysisVO{disentangledId=22, text='we ?', sender='Aleck', sentTime=Sat Sep 26 22:22:37 CDT 2020}
+	 46 Msg: MessageAnalysisVO{disentangledId=22, text='are you an old gray beard ?', sender='Aleck', sentTime=Sat Sep 26 22:22:49 CDT 2020}
+	 47 Msg: MessageAnalysisVO{disentangledId=22, text='We in the sense of CompSci as a field.', sender='Kailor', sentTime=Sat Sep 26 22:22:50 CDT 2020}
+	 48 Msg: MessageAnalysisVO{disentangledId=22, text='oh ok', sender='Aleck', sentTime=Sat Sep 26 22:22:53 CDT 2020}
+	 49 Msg: MessageAnalysisVO{disentangledId=22, text='I saw lisp / forth as systems that gave you more freedom over the different dimension of the language while asking for less efforts', sender='Aleck', sentTime=Sat Sep 26 22:24:11 CDT 2020}
+	 50 Msg: MessageAnalysisVO{disentangledId=22, text='I think we digressed way too far from #clojure 🙂', sender='Aleck', sentTime=Sat Sep 26 22:24:40 CDT 2020}
+	 51 Msg: MessageAnalysisVO{disentangledId=22, text='Yeah fair. :)', sender='Kailor', sentTime=Sat Sep 26 22:24:51 CDT 2020}
+	 52 Msg: MessageAnalysisVO{disentangledId=27, text='I wish transducers were more zipesque operations friendly.', sender='Kailor', sentTime=Mon Sep 28 02:27:33 CDT 2020}
+	 53 Msg: MessageAnalysisVO{disentangledId=27, text='And like', sender='Kailor', sentTime=Mon Sep 28 02:28:15 CDT 2020}
+	 54 Msg: MessageAnalysisVO{disentangledId=27, text='I guess I understand why it's not?', sender='Kailor', sentTime=Mon Sep 28 02:28:19 CDT 2020}
+	 55 Msg: MessageAnalysisVO{disentangledId=27, text='So :(', sender='Kailor', sentTime=Mon Sep 28 02:28:22 CDT 2020}
+--------------------------------------------------
