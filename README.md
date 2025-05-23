@@ -1,4 +1,4 @@
-# CSCI 8920 Research Paper - "Monopolizing Conversations: Examining Developer Conversation Participation in Chat Applications"
+# "Monopolizing Conversations: Examining Developer Conversation Participation in Chat Applications"
 ## monopolizing-convo Tool:
 1. Asked chatgpt to generate an XSD based on example dataset
 2. Generated bindings from XSD (schema) to map XML to Java Objects
@@ -20,6 +20,3 @@
 - Users spamming the same message over and over
   SEE PYTHON GENERAL DATASET SEPT - USER SPAM "LOL JS ON TOP"
 - Changing of "group size"
-
-## Overleaf Paper Draft
-https://www.overleaf.com/read/pfrfjjqybcwk#0b7e84
