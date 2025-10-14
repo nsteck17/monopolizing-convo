@@ -75,7 +75,7 @@ private static final Logger logger = LoggerFactory.getLogger(MonopolizingConvoAp
 
 			//Step3 - Break the thread into monopolized conversations
 			MonopolizingCalculator calculator = new MonopolizingCalculator();
-			int groupSize = 3;
+			int groupSize = 2;
 			List<MonopolizedConvoVO> monoConvoList = calculator.analyzeThreadForMonopolization(messageList, groupSize);
 			summaryObject.setGroupSize(groupSize);
 
